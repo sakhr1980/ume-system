@@ -30,7 +30,6 @@
     </head>
 
     <body>
-
         <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <div class="container-fluid">
                 <div class="navbar-header">
@@ -84,38 +83,21 @@
                 </div>
             </div>
         </div>
-        
-        <div class="container-fluid">
-            <div class="row toolbar">
-                <div class="col-sm-3 col-md-2 sidebar-head">
-                    <h1>User Manager</h1>
-                </div>
-                <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-                    <a href="#" class="btn btn-sm btn-default"><i class="glyphicon glyphicon-cog"></i> Create</a>
-                    <a href="#" class="btn btn-sm btn-primary">Create</a>
-                    <a href="#" class="btn btn-sm btn-success">Create</a>
-                    <a href="#" class="btn btn-sm btn-warning">Create</a>
-                    <a href="#" class="btn btn-sm btn-danger">Create <span class="caret"></span></a>
-                </div>
-            </div>
-        </div>
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-3 col-md-2 sidebar">
+                    <div class="sidebar-head">
+                        <h1>Navigation</h1>
+                    </div>
                     <ul class="nav nav-sidebar">
-                        <li class=""><a href="<?php echo site_url(); ?>/#"><i class="glyphicon glyphicon-home"></i> Left Menu</a></li>
-                        <li class=""><a href="<?php echo site_url(); ?>/#"><i class="glyphicon glyphicon-log-in"></i> Left Menu</a></li>
-                        <li class=""><a href="<?php echo site_url(); ?>/#"><i class="glyphicon glyphicon-user"></i> Left Menu</a></li>
-                        <li class=""><a href="<?php echo site_url(); ?>/#"><i class="glyphicon glyphicon-cog"></i> Left Menu</a></li>
+                        <li class=""><a href="<?php echo site_url(); ?>users/permission"><i class="glyphicon glyphicon-lock"></i> Manage Permissions</a></li>
+                        <li class=""><a href="<?php echo site_url(); ?>users/groups"><i class="glyphicon glyphicon-log-in"></i> Manage Groups</a></li>
+                        <li class=""><a href="<?php echo site_url(); ?>users/accounts"><i class="glyphicon glyphicon-user"></i> Manage Users</a></li>
                     </ul>
                 </div>
                 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main content">
-                    <h1>Header 1</h1>
-                    <h2>Header 2</h2>
-                    <h3>Header 3</h3>
-                    <h4>Header 4</h4>
-                    <h5>Header 5</h5>
-                    <h6>Header 6</h6>
+                    <?php echo $this->session->flashdata('message'); ?>
+                    <?php $this->load->view($view); ?>
                 </div>
             </div>
         </div>

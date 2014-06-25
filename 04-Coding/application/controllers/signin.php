@@ -7,23 +7,17 @@
  */
 
 /**
- * Description of users
+ * Description of auth
  *
  * @author sochy.choeun
  */
-class users extends CI_Controller{
+class Signin extends CI_Controller{
     //put your code here
     var $data = null;
     
-    function index(){
-        $this->data['title'] = 'Welcome to SNSMS';
-        $this->load->view('layout',  $this->data);
-    }
     
-    function ajax(){
-        echo json_encode(array(
-            array(1,2,3),
-            array('Sochy','Vongkol'),
-        ));
+    function index(){
+        $this->data['title'] = "Sign In";
+        $this->load->view('signin',  $this->data);
     }
 }
