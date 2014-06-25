@@ -94,13 +94,24 @@ a{
 
 .toolbar{
     border-bottom: 1px solid rgb(233, 233, 233);
+    padding-bottom: 5px;
+    padding-top: 5px;
+    position: fixed;
+    /*width: 100%;*/
+    margin-left: -10px;
+    padding-left: 10px;
+    z-index: 1000;
+    background: #fff;
 }
 .sidebar{
-    top: 91px
+    top: 50px;
+    padding-top: 5px;
 }
 .sidebar-head{
-    position: absolute;
-    padding-top: 5px;
+    position: relative;
+    padding-top: 0px;
+    padding-bottom: 5px;
+    margin-left: -5px;
 }
 .toolbar .main{
     padding-left: 0px;
@@ -142,6 +153,7 @@ a{
 
 .main {
     padding: 5px 10px;
+    padding-top: 0px;
 }
 /*@media (min-width: 768px) {
     .main {
@@ -218,7 +230,45 @@ h4{
 .nav>li.menu-left{display: none;}
 
 
+.main .content{
+    position: relative;
+    top: 50px;
+}
+
+/*================ Table =================*/
+.table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td {
+    padding: 2px;
+    line-height: 20px;
+    vertical-align: middle;
+    text-align: left;
+    border-top: 1px solid #ddd;
+}
+/*================= End Teable ==============*/
+.right{
+    float: right;
+}
+.left{float: left;}
+.filter{padding-bottom: 10px;}
+dt, dd {
+    line-height: 30px;
+}
+
+/*============= Message ==================*/
+.alert{
+    padding: 5px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    padding-right: 30px;
+}
+
 /*=========== Coloer ============*/
+h1, h2, h3, h4, h5{
+    color: #E6A437;
+    font-size: 20px;
+    padding: 0px;
+    margin: 0px;
+    padding-top: 4px;
+}
 
 /*Background color*/
 
