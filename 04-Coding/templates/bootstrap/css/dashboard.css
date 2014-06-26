@@ -5,6 +5,7 @@
 /* Move down content because we have a fixed navbar that is 50px tall */
 body {
     padding-top: 50px;
+    font-size: 12px;
 }
 a{
     color: #333;
@@ -235,6 +236,7 @@ h4{
     top: 50px;
 }
 
+
 /*================ Table =================*/
 .table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td {
     padding: 2px;
@@ -244,6 +246,24 @@ h4{
     border-top: 1px solid #ddd;
 }
 /*================= End Teable ==============*/
+
+/*============== Sidebar ====================*/
+.divider{
+    height: 1px;
+    margin: 9px 0;
+    overflow: hidden;
+    background-color: #e5e5e5;
+}
+.sidebar-header{
+    display: block;
+    padding: 3px 20px;
+    font-size: 12px;
+    line-height: 1.42857143;
+    color: #999;
+}
+
+/*=============== End sidebar ===============*/
+
 .right{
     float: right;
 }

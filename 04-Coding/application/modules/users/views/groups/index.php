@@ -19,12 +19,12 @@
                 <label class="sr-only" for="gro_status">Status</label>
                 <?php echo form_dropdown('gro_status', array(''=>'-- All Status --','1'=>'Enabled', '0'=>'Desabled'), set_value('gro_status', $this->session->userdata('gro_status')), 'class="form-control input-sm"') ?>
             </div>
-            <button type="submit" class="btn btn-primary btn-sm" value="submit" name="submit">Filter</button>
+            <button type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"><i class="glyphicon glyphicon-filter"></i> Filter</button>
         </form>
     </div>
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h3 class="panel-title"><?php echo $title; ?></h3>
+            <h3 class="panel-title">Group List</h3>
         </div>
         <div class="panel-body">
             <table class="table table-hover">

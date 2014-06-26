@@ -85,16 +85,7 @@
         </div>
         <div class="container-fluid">
             <div class="row">
-                <div class="col-sm-3 col-md-2 sidebar">
-                    <div class="sidebar-head">
-                        <h1>Navigation</h1>
-                    </div>
-                    <ul class="nav nav-sidebar">
-                        <li class=""><a href="<?php echo site_url(); ?>users/permission"><i class="glyphicon glyphicon-lock"></i> Manage Permissions</a></li>
-                        <li class=""><a href="<?php echo site_url(); ?>users/groups"><i class="glyphicon glyphicon-log-in"></i> Manage Groups</a></li>
-                        <li class=""><a href="<?php echo site_url(); ?>users/accounts"><i class="glyphicon glyphicon-user"></i> Manage Users</a></li>
-                    </ul>
-                </div>
+                <?php $this->load->view('sidebar'); ?>
                 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main content">
                     <?php echo $this->session->flashdata('message'); ?>
                     <?php $this->load->view($view); ?>
