@@ -16,7 +16,7 @@ $data = $data->result_array[0];
 <div class="content">
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h3 class="panel-title">User Group</h3>
+            <h3 class="panel-title">View Group</h3>
         </div>
         <div class="panel-body">
             <dl class="dl-horizontal">
