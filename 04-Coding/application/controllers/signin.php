@@ -20,4 +20,8 @@ class Signin extends CI_Controller{
         $this->data['title'] = "Sign In";
         $this->load->view('signin',  $this->data);
     }
+    
+    function access(){
+        redirect('users/groups');
+    }
 }
