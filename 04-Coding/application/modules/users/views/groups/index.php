@@ -46,7 +46,7 @@
                             <td><?php echo ($row['gro_status'] == 1) ? "Enabled" : "Disabled"; ?></td>
                             <td><?php echo date('M d, Y', strtotime($row['gro_created'])); ?></td>
                             <td><?php echo date('M d, Y', strtotime($row['gro_modified'])); ?></td>
-                            <td><?php echo substr(strip_tags($row['gro_description']), 0, 50).'...'; ?></td>
+                            <td><?php echo get_content_teaser($row['gro_description']); ?></td>
                             <td>
                                 <a class="btn btn-default btn-xs" href="<?php echo base_url(); ?>users/groups/view/<?php echo $row['gro_id'];
                 echo '/' . $this->uri->segment(4); ?>" title="View"><i class="glyphicon glyphicon-eye-open"></i> View</a>

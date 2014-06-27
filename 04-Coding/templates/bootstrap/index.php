@@ -88,7 +88,7 @@
                 <?php $this->load->view('sidebar'); ?>
                 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main content">
                     <?php echo $this->session->flashdata('message'); ?>
-                    <?php $this->load->view($view); ?>
+                    <?php $this->load->view($content); ?>
                 </div>
             </div>
         </div>

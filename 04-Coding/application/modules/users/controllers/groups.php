@@ -16,7 +16,7 @@ if (!defined('BASEPATH'))
 class Groups extends CI_Controller {
 
     //put your code here
-    var $data = array('title' => null, 'view' => 'missing_view');
+    var $data = array('title' => null, 'content' => 'missing_view');
 
     function __construct() {
         parent::__construct();
@@ -28,7 +28,7 @@ class Groups extends CI_Controller {
      */
     function index() {
         $this->data['title'] = 'Manage Groups';
-        $this->data['view'] = 'users/groups/index';
+        $this->data['content'] = 'users/groups/index';
 
         $this->form_validation->set_rules('gro_name','','trim');
         $this->form_validation->set_rules('gro_status','','trim');
@@ -45,7 +45,7 @@ class Groups extends CI_Controller {
      */
     function add() {
         $this->data['title'] = 'Add new user group';
-        $this->data['view'] = 'users/groups/add';
+        $this->data['content'] = 'users/groups/add';
 
 //        $this->form_validation->set_error_delimiters('<div class="alert alert-error">', '</div>');
         $this->form_validation->set_rules('gro_name', 'Group Name', 'required|max_length[50]|min_length[2]|is_unique[tbl_groups.gro_name]');
@@ -66,7 +66,7 @@ class Groups extends CI_Controller {
     function edit() {
 
         $this->data['title'] = 'Edit Group';
-        $this->data['view'] = 'users/groups/edit';
+        $this->data['content'] = 'users/groups/edit';
         $this->data['data'] = $this->m_groups->getGroupById($this->uri->segment(4));
 
 //        $this->form_validation->set_error_delimiters('<div class="alert alert-error">', '</div>');
@@ -101,7 +101,7 @@ class Groups extends CI_Controller {
     function view($id=null){
         
         $this->data['title'] = 'View User Group';
-        $this->data['view'] = 'users/groups/view';
+        $this->data['content'] = 'users/groups/view';
         
         $this->data['data'] = $this->m_groups->getGroupById($id);
         $this->load->view(LAYOUT,  $this->data);
