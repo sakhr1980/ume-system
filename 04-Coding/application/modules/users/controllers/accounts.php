@@ -56,12 +56,6 @@ class Accounts extends CI_Controller {
         $this->form_validation->set_rules('use_passc', 'Confirm Password', 'matches[use_pass]');
         $this->form_validation->set_rules('use_email', 'Email', 'required|valid_email|is_unique[tbl_users.use_name]');
         $this->form_validation->set_rules('groups[]', 'Group', 'trim');
-//        if ($this->input->post('groups')) {
-//            $groups = $this->input->post('groups');
-//            foreach ($groups as $key => $value) {
-//                $this->form_validation->set_rules('groups['.$value.']', 'Group', 'trim');
-//            }
-//        }
         if ($this->form_validation->run() == FALSE) {
             $this->data['groups'] = $this->m_global->getDataArray(TABLE_PREFIX . 'groups', 'gro_id', 'gro_name', 'gro_status');
             $this->load->view(LAYOUT, $this->data);
@@ -77,11 +71,12 @@ class Accounts extends CI_Controller {
         }
     }
 
-    function edit() {
+    // $id = segment(4)
+    function edit($id=0) {
 
         $this->data['title'] = 'Edit Group';
         $this->data['content'] = 'users/accounts/edit';
-        $this->data['data'] = $this->m_accounts->getGroupById($this->uri->segment(4));
+        $this->data['data'] = $this->m_accounts->getGroupById($id);
 
 //        $this->form_validation->set_error_delimiters('<div class="alert alert-error">', '</div>');
         $this->form_validation->set_rules('use_name', 'Group Name', 'required|max_length[50]|min_length[2]|callback_uniqueExcept[' . TABLE_PREFIX . 'accounts.use_name,use_id]');
