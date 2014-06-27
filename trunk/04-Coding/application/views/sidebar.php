@@ -10,7 +10,7 @@
         <li class="divider"></li>
         <li class="sidebar-header">User Management</li>
         <li class=""><a href="<?php echo site_url(); ?>users/permission"><i class="glyphicon glyphicon-lock"></i> Manage Permissions</a></li>
-        <li class=""><a href="<?php echo site_url(); ?>users/groups"><i class="glyphicon glyphicon-log-in"></i> Manage Groups</a></li>
+        <li class=""><a href="<?php echo site_url(); ?>users/groups"><i class="glyphicon glyphicon-th-large"></i> Manage Groups</a></li>
         <li class=""><a href="<?php echo site_url(); ?>users/accounts"><i class="glyphicon glyphicon-user"></i> Manage Users</a></li>
     </ul>
 </div>
