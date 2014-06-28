@@ -1,5 +1,11 @@
 
-INSERT INTO `tbl_majors` (`maj_id`, `maj_kh_name`, `maj_name`, `maj_status`, `tbl_faculty_fac_id`) VALUES
+INSERT INTO `tbl_faculties` (`fac_id`, `fac_name`, `fac_status`, `fac_description`, `fac_kh_name`) VALUES
+	(1, 'Faculty of Business Administration & Tourism', 1, NULL, NULL),
+	(2, 'Faculty of Art, Human and Foreign Languages', 1, NULL, NULL),
+	(3, 'Faculty of Science and Technology', 1, NULL, NULL),
+	(4, 'Faculty of Laws and Economics', 1, NULL, NULL),
+	(5, 'Faculty of Agriculture and Rural Development', 1, NULL, NULL);
+INSERT INTO `tbl_majors` (`maj_id`, `maj_kh_name`, `maj_name`, `maj_status`, `tbl_faculties_fac_id`) VALUES
 	(3, '', ' Human Resource Management',1, 1),
 	(4, '', 'Marketing Management', 1, 1),
 	(5, '', 'International Business Management', '', 1),
@@ -17,9 +23,4 @@ INSERT INTO `tbl_majors` (`maj_id`, `maj_kh_name`, `maj_name`, `maj_status`, `tb
 	(18, '', 'Agronomy', 1, 5),
 	(19, '', 'Rural Development',1, 5);
 	
-INSERT INTO `tbl_faculty` (`fac_id`, `fac_name`, `fac_status`, `fac_description`, `fac_kh_name`) VALUES
-	(1, 'Faculty of Business Administration & Tourism', 1, NULL, NULL),
-	(2, 'Faculty of Art, Human and Foreign Languages', 1, NULL, NULL),
-	(3, 'Faculty of Science and Technology', 1, NULL, NULL),
-	(4, 'Faculty of Laws and Economics', 1, NULL, NULL),
-	(5, 'Faculty of Agriculture and Rural Development', 1, NULL, NULL);
+
