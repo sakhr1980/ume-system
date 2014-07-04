@@ -16,16 +16,20 @@
 				<input type="text" class="form-control input-sm" id="sta_card_id" name="sta_card_id" value="<?php echo set_value('sta_card_id'); ?>" placeholder="Card ID">
 			</div>
 			<div class="form-group">
-				<label class="sr-only" for="sta_name">Name</label>
-				<input type="text" class="form-control input-sm" id="sta_name" name="sta_name" value="<?php echo set_value('sta_name'); ?>" placeholder="Name">
+				<label class="sr-only" for="sta_name">Name in Latin</label>
+				<input type="text" class="form-control input-sm" id="sta_name" name="sta_name" value="<?php echo set_value('sta_name'); ?>" placeholder="Name in latin">
+			</div>
+			<div class="form-group">
+				<label class="sr-only" for="sta_name_kh">Name in Khmer</label>
+				<input type="text" class="form-control input-sm" id="sta_name_kh" name="sta_name_kh" value="<?php echo set_value('sta_name_kh'); ?>" placeholder="Name in khmer">
 			</div>
 			<div class="form-group">
 				<label class="sr-only" for="sta_email">Email</label>
 				<input type="text" class="form-control input-sm" id="sta_email" name="sta_email" value="<?php echo set_value('sta_email'); ?>" placeholder="E-Mail">
 			</div>
 			<div class="form-group">
-				<label class="sr-only" for="tbl_groups_gro_id">Group</label>
-				<?php echo form_dropdown('tbl_groups_gro_id', array('' => '--All Groups--') + $groups, set_value('tbl_groups_gro_id', $this->session->userdata('tbl_groups_gro_id')), 'class="form-control input-sm"') ?>
+				<label class="sr-only" for="sta_sex">Sex</label>
+				<?php echo form_dropdown('sta_sex', array('' => '-- All Sex --', 'm' => 'Male', 'f' => 'Female'), set_value('sta_sex', $this->session->userdata('sta_sex')), 'class="form-control input-sm"') ?>
 			</div>
 			<div class="form-group">
 				<label class="sr-only" for="sta_status">Status</label>
@@ -44,9 +48,11 @@
 					<tr>
 						<th><input type="checkbox" class="checkall" /></th>
 						<th>Card ID</th>
-						<th>Name</th>
+						<th>Name in Latin</th>
+						<th>Name in Khmer</th>
+						<th>Position</th>
 						<th>Email</th>
-						<th>Address</th>
+						<th>Sex</th>
 						<th>Status</th>
 						<th>Created</th>
 						<th>Modified</th>
@@ -61,8 +67,10 @@
 								<td><input type="checkbox" name="id[]" value="<?php $row['sta_id'] ?>" class="checkid" /></td>
 								<td><?php echo $row['sta_card_id']; ?></td>
 								<td><?php echo $row['sta_name']; ?></td>
+								<td><?php echo $row['sta_name_kh']; ?></td>
+								<td><?php echo $row['sta_position']; ?></td>
 								<td><?php echo $row['sta_email']; ?></td>
-								<td><?php echo $row['sta_address']; ?></td>
+								<td><?php echo strtoupper($row['sta_sex']); ?></td>
 								<td><?php echo status_string($row['sta_status']); ?></td>
 								<td><?php echo get_date_string($row['sta_created']); ?></td>
 								<td><?php echo get_date_string($row['sta_modified']); ?></td>

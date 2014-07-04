@@ -36,12 +36,13 @@ class Lectures extends CI_Controller {
 
 		$this->form_validation->set_rules('sta_card_id', '', 'trim');
 		$this->form_validation->set_rules('sta_name', '', 'trim');
+		$this->form_validation->set_rules('sta_name_kh', '', 'trim');
+		$this->form_validation->set_rules('sta_sex', '', 'trim');
 		$this->form_validation->set_rules('sta_status', '', 'trim');
 		$this->form_validation->set_rules('sta_email', '', 'trim|valid_email');
 
 		$this->form_validation->run();
 		$this->data['data'] = $this->m_lectures->findAllLectures(PAGINGATION_PERPAGE, $this->uri->segment(4));
-		$this->data['groups'] = $this->m_global->getDataArray(TABLE_PREFIX . 'groups', 'gro_id', 'gro_name', 'gro_status');
 		pagination_config(base_url() . 'staffs/lectures/index', $this->m_lectures->countAllLectures(), PAGINGATION_PERPAGE);
 		$this->load->view(LAYOUT, $this->data);
 	}
@@ -58,13 +59,15 @@ class Lectures extends CI_Controller {
 		$this->data['content'] = 'staffs/lectures/add';
 
 		$this->form_validation->set_rules('sta_card_id', 'Card ID', 'required|exact_length[5]|is_unique[tbl_staffs.sta_card_id]');
-		$this->form_validation->set_rules('sta_name', 'Name', 'required|max_length[50]|min_length[3]');
-		$this->form_validation->set_rules('sta_email', 'Email', 'required|valid_email|is_unique[tbl_staffs.sta_email]');
+		$this->form_validation->set_rules('sta_name', 'Name in latin', 'required|max_length[50]|min_length[3]');
+		$this->form_validation->set_rules('sta_name_kh', 'Name in khmer', 'required|max_length[50]|min_length[3]');
+		$this->form_validation->set_rules('sta_email', 'Email', 'valid_email|is_unique[tbl_staffs.sta_email]');
+		$this->form_validation->set_rules('sta_position', '', 'trim|max_length[50]|min_length[3]');
+		$this->form_validation->set_rules('sta_sex', '', 'trim');
 		$this->form_validation->set_rules('sta_address', '', 'trim');
 		$this->form_validation->set_rules('sta_status', '', 'trim');
-		$this->form_validation->set_rules('groups[]', 'Group', 'trim');
+		$this->form_validation->set_select('sta_sex');
 		if ($this->form_validation->run() == FALSE) {
-			$this->data['groups'] = $this->m_global->getDataArray(TABLE_PREFIX . 'groups', 'gro_id', 'gro_name', 'gro_status');
 			$this->load->view(LAYOUT, $this->data);
 		} else {
 			if ($this->m_lectures->add()) {
@@ -91,7 +94,8 @@ class Lectures extends CI_Controller {
 		$this->data['data'] = $this->m_lectures->getLectureById($id);
 
 		$this->form_validation->set_rules('sta_card_id', 'Card ID', 'required|exact_length[5]|callback_uniqueExcept[' . TABLE_PREFIX . 'staffs.sta_card_id,sta_id]');
-		$this->form_validation->set_rules('sta_name', 'Name', 'required|max_length[50]|min_length[2]');
+		$this->form_validation->set_rules('sta_name', 'Name in latin', 'required|max_length[50]|min_length[3]');
+		$this->form_validation->set_rules('sta_name_kh', 'Name in khmer', 'required|max_length[50]|min_length[3]');
 		$this->form_validation->set_rules('sta_email', 'Email', 'required|valid_email|callback_uniqueExcept[' . TABLE_PREFIX . 'staffs.sta_email,sta_id]');
 		if ($this->form_validation->run() == FALSE) {
 			$this->load->view(LAYOUT, $this->data);

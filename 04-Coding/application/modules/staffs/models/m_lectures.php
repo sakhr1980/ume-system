@@ -21,8 +21,14 @@ class M_Lectures extends CI_Model {
 		if ($this->input->post('sta_name') != '') {
 			$this->db->like('sta_name', $this->input->post('sta_name'));
 		}
+		if ($this->input->post('sta_name_kh') != '') {
+			$this->db->like('sta_name_kh', $this->input->post('sta_name_kh'));
+		}
 		if ($this->input->post('sta_email') != '') {
 			$this->db->like('sta_email', $this->input->post('sta_email'));
+		}
+		if ($this->input->post('sta_sex') != '') {
+			$this->db->like('sta_sex', $this->input->post('sta_sex'));
 		}
 
 		// Keep pagination for filter status
@@ -35,20 +41,9 @@ class M_Lectures extends CI_Model {
 		if ($this->session->userdata('sta_status') != '') {
 			$this->db->where('sta_status', $this->session->userdata('sta_status'));
 		}
-		// Keep pagination for filter group
-		if ($this->input->post('tbl_groups_gro_id') && $this->input->post('tbl_groups_gro_id') != '') {
-			$this->session->set_userdata('tbl_groups_gro_id', $this->input->post('tbl_groups_gro_id'));
-		}
-		if ($this->input->post('submit') && $this->input->post('tbl_groups_gro_id') == '') {
-			$this->session->set_userdata('tbl_groups_gro_id', '');
-		}
-		if ($this->session->userdata('tbl_groups_gro_id') && $this->session->userdata('tbl_groups_gro_id') != '') {
-			$this->db->where('tbl_groups_gro_id', $this->session->userdata('tbl_groups_gro_id'));
-		}
 
 		$this->db->limit($num_row, $from_row);
 		$this->db->from(TABLE_PREFIX . 'staffs');
-		$this->db->join(TABLE_PREFIX . 'user_group', 'sta_id=tbl_staffs.sta_id', 'left');
 		$this->db->group_by('sta_id');
 		return $this->db->get();
 	}
@@ -72,19 +67,8 @@ class M_Lectures extends CI_Model {
 		if ($this->session->userdata('sta_status') != '') {
 			$this->db->where('sta_status', $this->session->userdata('sta_status'));
 		}
-		// Keep pagination for filter group
-		if ($this->input->post('tbl_groups_gro_id') && $this->input->post('tbl_groups_gro_id') != '') {
-			$this->session->set_userdata('tbl_groups_gro_id', $this->input->post('tbl_groups_gro_id'));
-		}
-		if ($this->input->post('submit') && $this->input->post('tbl_groups_gro_id') == '') {
-			$this->session->set_userdata('tbl_groups_gro_id', '');
-		}
-		if ($this->session->userdata('tbl_groups_gro_id') && $this->session->userdata('tbl_groups_gro_id') != '') {
-			$this->db->where('tbl_groups_gro_id', $this->session->userdata('tbl_groups_gro_id'));
-		}
 
 		$this->db->from(TABLE_PREFIX . 'staffs');
-		$this->db->join(TABLE_PREFIX . 'user_group', 'sta_id=tbl_staffs.sta_id', 'left');
 		$this->db->group_by('sta_id');
 		$data = $this->db->get();
 		return $data->num_rows();
@@ -99,19 +83,8 @@ class M_Lectures extends CI_Model {
 	 */
 	function add() {
 		$data = $this->input->post();
-		$groups = isset($data['groups']) ? $data['groups'] : NULL;
-		unset($data['groups']);
 		$this->db->set('sta_created', 'NOW()', false);
 		$result = $this->db->insert(TABLE_PREFIX . 'staffs', $data);
-
-		$sta_id = $this->db->insert_id();
-		if (count($groups) > 0) {
-			foreach ($groups as $gro_id) {
-				$this->db->set('tbl_users_use_id', $sta_id);
-				$this->db->set('tbl_groups_gro_id', $gro_id);
-				$this->db->insert(TABLE_PREFIX . 'user_group');
-			}
-		}
 		return $result;
 	}
 
