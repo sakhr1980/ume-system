@@ -22,10 +22,16 @@ $data = $data->result_array[0];
 			<dl class="dl-horizontal">
 				<dt>Card ID</dt>
 				<dd><?php echo $data['sta_card_id']; ?></dd>
-				<dt>Lecture Name</dt>
+				<dt>Name in Latin</dt>
 				<dd><?php echo $data['sta_name']; ?></dd>
+				<dt>Name in Khmer</dt>
+				<dd><?php echo $data['sta_name_kh']; ?></dd>
 				<dt>Email</dt>
 				<dd><?php echo $data['sta_email']; ?></dd>
+				<dt>Sex</dt>
+				<dd><?php echo strtoupper($data['sta_sex']); ?></dd>
+				<dt>Position</dt>
+				<dd><?php echo $data['sta_position']; ?></dd>
 				<dt>Address</dt>
 				<dd><?php echo $data['sta_address']; ?></dd>
 				<dt>Status</dt>
