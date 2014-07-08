@@ -26,8 +26,7 @@ echo '/' . $this->uri->segment(5); // segment(5) for pagination
 				<div class="form-group">
 					<label for="sta_card_id" class="col-sm-2 control-label">Card ID</label>
 					<div class="col-sm-10">
-						<input type="text" class="form-control" id="sta_card_id" placeholder="Card ID" name="sta_card_id" value="<?php echo set_value('sta_card_id', $data['sta_card_id']); ?>"  pattern=".{5}" required title="Allow enter fixed 5 characters" readonly="readonly">
-						<?php echo form_error('sta_name'); ?>
+						<input type="text" class="form-control" id="sta_card_id" placeholder="Card ID" name="sta_card_id" value="<?php echo $data['sta_card_id']; ?>" readonly="readonly">
 					</div>
 				</div>
 				<div class="form-group">
@@ -62,8 +61,7 @@ echo '/' . $this->uri->segment(5); // segment(5) for pagination
 				<div class="form-group">
 					<label for="sta_position" class="col-sm-2 control-label">Position</label>
 					<div class="col-sm-10">
-						<input type="text" class="form-control" id="sta_position" placeholder="Position" name="sta_position" value="<?php echo set_value('sta_position', $data['sta_position']); ?>"  pattern=".{3,150}" required title="Allow enter from 3 to 150 characters">
-						<?php echo form_error('sta_position'); ?>
+						<input type="text" class="form-control" id="sta_position" placeholder="Position" name="sta_position" value="<?php echo $data['sta_position']; ?>" readonly="readonly">
 					</div>
 				</div>
 				<div class="form-group">

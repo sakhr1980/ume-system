@@ -24,10 +24,6 @@
 				<input type="text" class="form-control input-sm" id="sta_name_kh" name="sta_name_kh" value="<?php echo set_value('sta_name_kh'); ?>" placeholder="Name in khmer">
 			</div>
 			<div class="form-group">
-				<label class="sr-only" for="sta_email">Email</label>
-				<input type="text" class="form-control input-sm" id="sta_email" name="sta_email" value="<?php echo set_value('sta_email'); ?>" placeholder="E-Mail">
-			</div>
-			<div class="form-group">
 				<label class="sr-only" for="sta_sex">Sex</label>
 				<?php echo form_dropdown('sta_sex', array('' => '-- All Sex --', 'm' => 'Male', 'f' => 'Female'), set_value('sta_sex', $this->session->userdata('sta_sex')), 'class="form-control input-sm"') ?>
 			</div>
@@ -40,7 +36,7 @@
 	</div>
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			<h3 class="panel-title">Staff List</h3>
+			<h3 class="panel-title">Teacher List</h3>
 		</div>
 		<div class="panel-body">
 			<table class="table table-hover">

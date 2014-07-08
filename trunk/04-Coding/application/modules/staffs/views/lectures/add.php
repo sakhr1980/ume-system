@@ -55,13 +55,6 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="sta_position" class="col-sm-2 control-label">Position</label>
-							<div class="col-sm-10">
-								<input type="text" class="form-control" id="sta_position" placeholder="Position" name="sta_position" value="<?php echo set_value('sta_position'); ?>"  pattern=".{3,50}" title="Allow enter from 3 to 150 characters">
-								<?php echo form_error('sta_position'); ?>
-							</div>
-						</div>
-						<div class="form-group">
 							<label for="st_address" class="col-sm-2 control-label">Address</label>
 							<div class="col-sm-10">
 								<input type="text" class="form-control" id="sta_address" placeholder="Address" name="sta_address" value="<?php echo set_value('sta_address'); ?>"  pattern=".{6,200}" title="Allow enter from 6 to 200 characters" />
