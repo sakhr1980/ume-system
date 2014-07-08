@@ -24,9 +24,6 @@ class M_Lectures extends CI_Model {
 		if ($this->input->post('sta_name_kh') != '') {
 			$this->db->like('sta_name_kh', $this->input->post('sta_name_kh'));
 		}
-		if ($this->input->post('sta_email') != '') {
-			$this->db->like('sta_email', $this->input->post('sta_email'));
-		}
 		if ($this->input->post('sta_sex') != '') {
 			$this->db->like('sta_sex', $this->input->post('sta_sex'));
 		}
@@ -83,6 +80,7 @@ class M_Lectures extends CI_Model {
 	 */
 	function add() {
 		$data = $this->input->post();
+		$this->db->set('sta_position', 'Teacher');
 		$this->db->set('sta_created', 'NOW()', false);
 		$result = $this->db->insert(TABLE_PREFIX . 'staffs', $data);
 		return $result;
