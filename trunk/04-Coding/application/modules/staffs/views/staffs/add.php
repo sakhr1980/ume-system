@@ -1,8 +1,8 @@
-<form class="form-horizontal" role="form" method="post" action="<?php echo site_url(); ?>staffs/lectures/add">
+<form class="form-horizontal" role="form" method="post" action="<?php echo site_url(); ?>staffs/staffs/add">
 	<div class="toolbar col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
 		<div class="left">
 			<!--For icon: http://getbootstrap.com/components/-->
-			<a href="<?php echo site_url(); ?>staffs/lectures/index/<?php echo $this->uri->segment(4); ?>" class="btn btn-sm btn-default"><i class="glyphicon glyphicon-arrow-left"></i> Back</a>
+			<a href="<?php echo site_url(); ?>staffs/staffs/index/<?php echo $this->uri->segment(4); ?>" class="btn btn-sm btn-default"><i class="glyphicon glyphicon-arrow-left"></i> Back</a>
 			<button type="submit" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-ok-circle"></i> Save</button>
 			<button type="reset" class="btn btn-sm btn-default"><i class="glyphicon glyphicon-ban-circle"></i> Reset</button>
 		</div>
@@ -55,7 +55,25 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="st_address" class="col-sm-2 control-label">Address</label>
+							<label for="sta_position" class="col-sm-2 control-label">Position</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" id="sta_position" placeholder="Position" name="sta_position" value="<?php echo set_value('sta_position'); ?>"  pattern=".{2,50}" title="Allow enter from 2 to 50 characters">
+								<?php echo form_error('sta_position'); ?>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="sta_start_date" class="col-sm-2 control-label">Start Date</label>
+							<div class="col-sm-6">
+								<div class="input-group date" data-datepicker="true">
+									<input type="text" class="form-control" id="sta_start_date" placeholder="yyyy-mm-dd" name="sta_start_date" value="<?php echo set_value('sta_start_date'); ?>"  pattern=".{9,50}" title="Allow enter from 9 to 50 characters">
+									<span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span>
+									</span>
+									<?php echo form_error('sta_start_date'); ?>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="sta_address" class="col-sm-2 control-label">Address</label>
 							<div class="col-sm-6">
 								<input type="text" class="form-control" id="sta_address" placeholder="Address" name="sta_address" value="<?php echo set_value('sta_address'); ?>"  pattern=".{6,200}" title="Allow enter from 6 to 200 characters" />
 								<?php echo form_error('sta_address'); ?>

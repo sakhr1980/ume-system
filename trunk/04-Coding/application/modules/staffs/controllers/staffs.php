@@ -4,11 +4,11 @@ if (!defined('BASEPATH'))
 	exit('No direct script access allowed');
 
 /**
- * Manipulation of Lecture
+ * Manipulation of Staffs
  *
  * @author Man Math <manmath4@gmail.com>
  */
-class Lectures extends CI_Controller {
+class Staffs extends CI_Controller {
 
 	/**
 	 * @var array
@@ -20,19 +20,19 @@ class Lectures extends CI_Controller {
 	 */
 	function __construct() {
 		parent::__construct();
-		$this->load->model(array('staffs/m_lectures'));
+		$this->load->model(array('staffs/m_staffs'));
 	}
 
 	/**
-	 * Retrive lecture
+	 * Retrive staff
 	 *
 	 * @author Man Math <manmath4@gmail.com>
 	 * @access public
 	 * @return void
 	 */
 	function index() {
-		$this->data['title'] = 'Manage Lecture Account';
-		$this->data['content'] = 'staffs/lectures/index';
+		$this->data['title'] = 'Manage Staffs Account';
+		$this->data['content'] = 'staffs/staffs/index';
 
 		$this->form_validation->set_rules('sta_card_id', '', 'trim');
 		$this->form_validation->set_rules('sta_name', '', 'trim');
@@ -41,55 +41,57 @@ class Lectures extends CI_Controller {
 		$this->form_validation->set_rules('sta_status', '', 'trim');
 
 		$this->form_validation->run();
-		$this->data['data'] = $this->m_lectures->findAllLectures(PAGINGATION_PERPAGE, $this->uri->segment(4));
-		pagination_config(base_url() . 'staffs/lectures/index', $this->m_lectures->countAllLectures(), PAGINGATION_PERPAGE);
+		$this->data['data'] = $this->m_staffs->findAllStaffs(PAGINGATION_PERPAGE, $this->uri->segment(4));
+		pagination_config(base_url() . 'staffs/staffs/index', $this->m_staffs->countAllStaffs(), PAGINGATION_PERPAGE);
 		$this->load->view(LAYOUT, $this->data);
 	}
 
 	/**
-	 * Create lecture
+	 * Create staff
 	 *
 	 * @author Man Math <manmath4@gmail.com>
 	 * @access public
 	 * @return void
 	 */
 	function add() {
-		$this->data['title'] = 'Add new lecture';
-		$this->data['content'] = 'staffs/lectures/add';
+		$this->data['title'] = 'Add New Staff';
+		$this->data['content'] = 'staffs/staffs/add';
 
 		$this->form_validation->set_rules('sta_card_id', 'Card ID', 'required|exact_length[5]|is_unique[tbl_staffs.sta_card_id]');
 		$this->form_validation->set_rules('sta_name', 'Name in latin', 'required|max_length[50]|min_length[3]');
 		$this->form_validation->set_rules('sta_name_kh', 'Name in khmer', 'required|max_length[50]|min_length[3]');
 		$this->form_validation->set_rules('sta_email', 'Email', 'valid_email|is_unique[tbl_staffs.sta_email]');
 		$this->form_validation->set_rules('sta_sex', '', 'trim');
+		$this->form_validation->set_rules('sta_position', '', 'trim');
+		$this->form_validation->set_rules('sta_start_date', '', 'trim');
 		$this->form_validation->set_rules('sta_address', '', 'trim');
 		$this->form_validation->set_rules('sta_status', '', 'trim');
 		$this->form_validation->set_select('sta_sex');
 		if ($this->form_validation->run() == FALSE) {
 			$this->load->view(LAYOUT, $this->data);
 		} else {
-			if ($this->m_lectures->add()) {
-				$this->session->set_flashdata('message', alert("Lecture account has been saved!", 'success'));
-				redirect('staffs/lectures');
+			if ($this->m_staffs->add()) {
+				$this->session->set_flashdata('message', alert("Staff account has been saved!", 'success'));
+				redirect('staffs/staffs');
 			} else {
-				$this->session->set_flashdata('message', alert("Lecture account cannot be added, please try again", 'danger'));
-				redirect('staffs/lectures/add');
+				$this->session->set_flashdata('message', alert("Staff account cannot be added, please try again", 'danger'));
+				redirect('staffs/staffs/add');
 			}
 		}
 	}
 
 	/**
-	 * Update lecture
+	 * Update staff
 	 *
 	 * @author Man Math <manmath4@gmail.com>
-	 * @param integer $id lecture id <segment(4)>
+	 * @param integer $id staff id <segment(4)>
 	 * @access public
 	 * @return void
 	 */
 	function edit($id = 0) {
-		$this->data['title'] = 'Edit Lecture';
-		$this->data['content'] = 'staffs/lectures/edit';
-		$this->data['data'] = $this->m_lectures->getLectureById($id);
+		$this->data['title'] = 'Edit Staff';
+		$this->data['content'] = 'staffs/staffs/edit';
+		$this->data['data'] = $this->m_staffs->getStaffById($id);
 
 		$this->form_validation->set_rules('sta_card_id', 'Card ID', 'required|exact_length[5]|callback_uniqueExcept[' . TABLE_PREFIX . 'staffs.sta_card_id,sta_id]');
 		$this->form_validation->set_rules('sta_name', 'Name in latin', 'required|max_length[50]|min_length[3]');
@@ -98,48 +100,48 @@ class Lectures extends CI_Controller {
 		if ($this->form_validation->run() == FALSE) {
 			$this->load->view(LAYOUT, $this->data);
 		} else {
-			if ($this->m_lectures->update()) {
-				$this->session->set_flashdata('message', alert("Lecture account has been updated!", 'success'));
-				redirect('staffs/lectures/index/' . $this->uri->segment(5));
+			if ($this->m_staffs->update()) {
+				$this->session->set_flashdata('message', alert("Staff account has been updated!", 'success'));
+				redirect('staffs/staffs/index/' . $this->uri->segment(5));
 			} else {
-				$this->session->set_flashdata('message', alert("Lecture account cannot be updated, please try again", 'danger'));
+				$this->session->set_flashdata('message', alert("Staff account cannot be updated, please try again", 'danger'));
 				$s5($this->uri->segment(5)) ? '/' . $this->uri->segment(5) : ''; // for pagination
-				redirect('staffs/lectures/edit/' . $this->uri->segment(4) . $s5);
+				redirect('staffs/staffs/edit/' . $this->uri->segment(4) . $s5);
 			}
 		}
 	}
 
 	/**
-	 * Discard lecture
+	 * Discard staff
 	 *
 	 * @author Man Math <manmath4@gmail.com>
-	 * @param integer $id lecture id <segment(4)>
+	 * @param integer $id staff id <segment(4)>
 	 * @access public
 	 * @return void
 	 */
 	function delete($id) {
-		if ($this->m_lectures->deleteLectureById($id)) {
-			$this->session->set_flashdata('message', alert("Lecture account has been deleted!", 'success'));
-			redirect('staffs/lectures/index/' . $this->uri->segment(5));
+		if ($this->m_staffs->deleteStaffById($id)) {
+			$this->session->set_flashdata('message', alert("Staff account has been deleted!", 'success'));
+			redirect('staffs/staffs/index/' . $this->uri->segment(5));
 		} else {
-			$this->session->set_flashdata('message', alert("Lecture account cannot be deleted, please try again!", 'danger'));
-			redirect('staffs/lectures/index/' . $this->uri->segment(5));
+			$this->session->set_flashdata('message', alert("Staff account cannot be deleted, please try again!", 'danger'));
+			redirect('staffs/staffs/index/' . $this->uri->segment(5));
 		}
 	}
 
 	/**
-	 * View lecture profile
+	 * View staff profile
 	 *
 	 * @author Man Math <manmath4@gmail.com>
-	 * @param integer $id lecture id <segment(4)>
+	 * @param integer $id staff id <segment(4)>
 	 * @access public
 	 * @return void
 	 */
 	function view($id = null) {
-		$this->data['title'] = 'View Lecture Profile';
-		$this->data['content'] = 'staffs/lectures/view';
+		$this->data['title'] = 'View Staff Profile';
+		$this->data['content'] = 'staffs/staffs/view';
 
-		$this->data['data'] = $this->m_lectures->getLectureById($id);
+		$this->data['data'] = $this->m_staffs->getStaffById($id);
 		$this->load->view(LAYOUT, $this->data);
 	}
 

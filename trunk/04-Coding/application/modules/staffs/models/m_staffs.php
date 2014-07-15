@@ -3,16 +3,16 @@
 if (!defined('BASEPATH'))
 	exit('No direct script access allowed');
 
-class M_Lectures extends CI_Model {
+class M_Staffs extends CI_Model {
 
 	/**
-	 * Filter lecture
+	 * Filter staff
 	 *
 	 * @param integer $num_row
 	 * @param integer $from_row
 	 * @return array
 	 */
-	function findAllLectures($num_row, $from_row) {
+	function findAllStaffs($num_row, $from_row) {
 		$this->db->order_by('sta_id', 'desc');
 
 		if ($this->input->post('sta_card_id') != '') {
@@ -39,7 +39,7 @@ class M_Lectures extends CI_Model {
 			$this->db->where('sta_status', $this->session->userdata('sta_status'));
 		}
 
-		$this->db->where('sta_position', 'Teacher');
+		$this->db->where('sta_position !=', 'Teacher');
 		$this->db->limit($num_row, $from_row);
 		$this->db->from(TABLE_PREFIX . 'staffs');
 		$this->db->group_by('sta_id');
@@ -47,13 +47,13 @@ class M_Lectures extends CI_Model {
 	}
 
 	/**
-	 * Count all lectures record
+	 * Count all staffs record
 	 *
 	 * @author Man Math <manmath4@gmail.com>
 	 * @access public
 	 * @return integer
 	 */
-	function countAllLectures() {
+	function countAllStaffs() {
 
 		// Keep pagination for filter status
 		if ($this->input->post('sta_status') != '') {
@@ -66,7 +66,7 @@ class M_Lectures extends CI_Model {
 			$this->db->where('sta_status', $this->session->userdata('sta_status'));
 		}
 
-		$this->db->where('sta_position', 'Teacher');
+		$this->db->where('sta_position !=', 'Teacher');
 		$this->db->from(TABLE_PREFIX . 'staffs');
 		$this->db->group_by('sta_id');
 		$data = $this->db->get();
@@ -74,7 +74,7 @@ class M_Lectures extends CI_Model {
 	}
 
 	/**
-	 * Create lecture
+	 * Create staff
 	 *
 	 * @author Man Math <manmath4@gmail.com>
 	 * @access public
@@ -82,7 +82,6 @@ class M_Lectures extends CI_Model {
 	 */
 	function add() {
 		$data = $this->input->post();
-		$this->db->set('sta_Position', 'Teacher');
 		$this->db->set('sta_created', 'NOW()', false);
 		$this->db->set('tbl_users_use_id', 1); // TODO: need to be changed
 		$result = $this->db->insert(TABLE_PREFIX . 'staffs', $data);
@@ -90,7 +89,7 @@ class M_Lectures extends CI_Model {
 	}
 
 	/**
-	 * Update lecture
+	 * Update staff
 	 *
 	 * @author Man Math <manmath4@gmail.com>
 	 * @access public
@@ -108,27 +107,27 @@ class M_Lectures extends CI_Model {
 	}
 
 	/**
-	 * Retrive lecture by id
+	 * Retrive staff by id
 	 *
 	 * @author Man Math <manmath4@gmail.com>
-	 * @param integer $id lecture id
+	 * @param integer $id staff id
 	 * @access public
 	 * @return array
 	 */
-	function getLectureById($id) {
+	function getStaffById($id) {
 		$this->db->where('sta_id', $id);
 		return $this->db->get(TABLE_PREFIX . 'staffs');
 	}
 
 	/**
-	 * Discard lecture
+	 * Discard staff
 	 *
 	 * @author Man Math <manmath4@gmail.com>
-	 * @param integer $id lecture id
+	 * @param integer $id staff id
 	 * @access public
 	 * @return boolean
 	 */
-	function deleteLectureById($id = null) {
+	function deleteStaffById($id = null) {
 		$this->db->where('sta_id', $id);
 		return $this->db->delete(TABLE_PREFIX . 'staffs');
 	}
