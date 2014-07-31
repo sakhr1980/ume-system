@@ -50,7 +50,7 @@ $active_record = TRUE;
 
 $db['default']['hostname'] = 'localhost';
 $db['default']['username'] = 'root';
-$db['default']['password'] = 'ess:3';
+$db['default']['password'] = '';
 $db['default']['database'] = 'ume_school_db';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';
