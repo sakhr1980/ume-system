@@ -8,8 +8,10 @@
         <li class=""><a href="<?php echo site_url(); ?>students/"><i class="glyphicon glyphicon-plus"></i> Student Registration</a></li>
 		<li class="divider"></li>
 		<li class="sidebar-header">Staff Management</li>
-        <li class=""><a href="<?php echo site_url(); ?>staffs/lectures/"><i class="glyphicon glyphicon-list"></i> Lecture List</a></li>
-		<li class=""><a href="<?php echo site_url(); ?>staffs/staffs/"><i class="glyphicon glyphicon-list"></i> Staff List</a></li>
+        <li class=""><a href="<?php echo site_url(); ?>staffs/lectures/"><i class="glyphicon glyphicon-list"></i> Manage Lectures</a></li>
+		<li class=""><a href="<?php echo site_url(); ?>staffs/staffs/"><i class="glyphicon glyphicon-list"></i> Manage Staffs</a></li>
+        <li class=""><a href="<?php echo site_url(); ?>staffs/positions/"><i class="glyphicon glyphicon-list"></i> Manage Positions</a></li>
+        <li class=""><a href="<?php echo site_url(); ?>staffs/terms/"><i class="glyphicon glyphicon-list"></i> Manage Job Types</a></li>
         <li class="divider"></li>
         <li class="sidebar-header">User Management</li>
         <li class=""><a href="<?php echo site_url(); ?>users/permission"><i class="glyphicon glyphicon-lock"></i> Manage Permissions</a></li>
