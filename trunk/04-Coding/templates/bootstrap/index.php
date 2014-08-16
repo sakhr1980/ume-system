@@ -29,6 +29,7 @@
         <script src="<?php echo base_url(); ?>templates/bootstrap/js/bootstrap.min.js"></script>
         <script src="<?php echo base_url(); ?>templates/bootstrap/js/docs.min.js"></script>
 		<script src="<?php echo base_url(); ?>templates/bootstrap/js/bootstrap-datepicker.js"></script>
+		<script src="<?php echo base_url(); ?>templates/bootstrap/js/jquery.validate.js"></script>
 		<script src="<?php echo base_url(); ?>templates/bootstrap/js/dashboard.js"></script>
     </head>
 
