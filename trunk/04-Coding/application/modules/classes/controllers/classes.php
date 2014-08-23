@@ -31,11 +31,12 @@ class Classes extends CI_Controller {
         $this->data['title'] = 'Manage Class';
         $this->data['content'] = 'classes/index';
 
-//        $this->form_validation->set_rules('use_name', '', 'trim');
-//        $this->form_validation->set_rules('use_status', '', 'trim');
-//        $this->form_validation->set_rules('use_email', '', 'trim|valid_email');
-//
-//        $this->form_validation->run();
+        $this->form_validation->set_rules('cla_name', '', 'trim');
+        $this->form_validation->set_rules('cla_status', '', 'trim');
+        $this->form_validation->set_rules('cla_capacity', '', 'trim');
+        
+        $this->form_validation->run();
+        
         $this->data['data'] = $this->m_classes->findAllClass(PAGINGATION_PERPAGE, $this->uri->segment(4));
         pagination_config(base_url() . 'classes/classes/index', $this->m_classes->countAllClass(), PAGINGATION_PERPAGE);
         $this->load->view(LAYOUT, $this->data);
@@ -45,13 +46,13 @@ class Classes extends CI_Controller {
      * Add new user account
      */
     function add() {
-        $this->data['title'] = 'Add new classt';
+        $this->data['title'] = 'Add new class';
         $this->data['content'] = 'classes/add';
 
 //
-        $this->form_validation->set_rules('cla_name', 'Classname', 'required|max_length[50]|min_length[3]');
+        $this->form_validation->set_rules('cla_name', 'Classname', 'required|max_length[50]|min_length[2]');
         $this->form_validation->set_rules('cla_capacity', 'Capacity', 'required|max_length[3]');
-        $this->form_validation->set_rules('tbl_major_mar_id', 'major', 'trim');
+        $this->form_validation->set_rules('cla_maj_id', 'major', 'trim');
 
         if ($this->form_validation->run() == FALSE) {
            $this->data['major'] = $this->m_global->getDataArray(TABLE_PREFIX . 'majors', 'maj_id', 'maj_name', 'maj_status');
@@ -69,60 +70,56 @@ class Classes extends CI_Controller {
         }
     }
 
-    function edit() {
+    function edit($id=0) {
 
         $this->data['title'] = 'Updat class';
         $this->data['content'] = 'classes/edit';
-        $this->data['data'] = $this->m_classes->selectJoinClass($this->uri->segment(4));
+        $this->data['data'] = $this->m_classes->selectJoinClass($id);
         
-        if ($this->data['data']->num_rows() > 0) {
-            foreach ($this->data['data']->result_array() as $row) {
-                $this->session->set_userdata('tbl_major_maj_id',$row['tbl_major_maj_id']);
-                $this->session->set_userdata('tbl_shift_shi_id',$row['tbl_shift_shi_id']);
-//                $this->session->set_userdata('fac_id',$row['fac_id']);
-            }
-        }
-        
-               
         $this->form_validation->set_rules('cla_name', 'Classname', 'required|max_length[50]|min_length[3]');
-        $this->form_validation->set_rules('cla_capacity', 'Capacity', 'required|max_length[3]');
-        $this->form_validation->set_rules('tbl_major_mar_id', 'major', 'trim');
+        $this->form_validation->set_rules('cla_capacity', 'Capacity', 'trim');
+        $this->form_validation->set_rules('cla_maj_id', 'cla_maj_id', 'trim');
 
         if ($this->form_validation->run() == FALSE) {
            $this->data['major'] = $this->m_global->getDataArray(TABLE_PREFIX . 'majors', 'maj_id', 'maj_name', 'maj_status');
             $this->data['faculty'] = $this->m_global->getDataArray(TABLE_PREFIX . 'faculties', 'fac_id', 'fac_name', 'fac_status');
             $this->data['shift'] = $this->m_global->getDataArray(TABLE_PREFIX . 'shift', 'shi_id', 'shi_name', 'shi_status');
           $this->load->view(LAYOUT, $this->data);
+//            echo "not good";
         }else{
             if ($this->m_classes->update()) {
                 $this->session->set_flashdata('message', alert("New class has been saved!", 'success'));
+                redirect('classes/index/' . $this->uri->segment(5));
+//                echo "Updated";
             } else {
+                echo "Error";
                 $this->session->set_flashdata('message', alert("Class cannot be added, please try again", 'danger'));
+                $s5=($this->uri->segment(5)) ? '/' . $this->uri->segment(4) : ''; // for pagination
+//                redirect('classes/index/' . $s5);
             }
-             $s5=($this->uri->segment(5)) ? '/' . $this->uri->segment(5) : ''; // for pagination
-                redirect('classes/classes/index/' . $s5);
+//             
         }
     }
 
     // $id = segment(4)
     function delete($id) {
-        if ($this->m_accounts->deleteGroupById($id)) {
+        if ($this->m_classes->deleteClassById($id)) {
             $this->session->set_flashdata('message', alert("User account has been deleted!", 'success'));
-            redirect('users/accounts/index/' . $this->uri->segment(5));
+            redirect('classes/classes/index/' . $this->uri->segment(5));
         } else {
             $this->session->set_flashdata('message', alert("User account cannot be deleted, please try again!", 'danger'));
-            redirect('users/accounts/index/' . $this->uri->segment(5));
+            redirect('classes/classes/index/' . $this->uri->segment(5));
         }
     }
 
-    function view($id = null) {
+    // view a Class
+	function view($id = null) {
+		$this->data['title'] = 'View Class';
+		$this->data['content'] = 'classes/view';
 
-        $this->data['title'] = 'View User Group';
-        $this->data['content'] = 'users/accounts/view';
-
-        $this->data['data'] = $this->m_accounts->getGroupById($id);
-        $this->load->view(LAYOUT, $this->data);
-    }
+		$this->data['data'] = $this->m_classes->selectJoinClass($id);
+		$this->load->view(LAYOUT, $this->data);
+	}
 
     //====================== validation
     /**

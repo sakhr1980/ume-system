@@ -28,10 +28,10 @@
                         </div>
                         
                           <div class="form-group">
-                             <label class="col-sm-2 control-label" for="tbl_major_maj_id">សកលវិទ្យាល័យ:</label>
+                             <label class="col-sm-2 control-label" for="cla_maj_id">សកលវិទ្យាល័យ:</label>
                             <div class="col-md-5">
                                
-                                <?php echo form_dropdown('tbl_major_maj_id', array('' => '--All Major--') + $major, set_value('tbl_major_maj_id', $this->session->userdata('tbl_major_maj_id')), 'class="form-control input-sm" required') ?>
+                                <?php echo form_dropdown('cla_maj_id', array('' => '--All Major--') + $major, set_value('cla_maj_id', $this->session->userdata('cla_maj_id')), 'class="form-control input-sm" required') ?>
                             </div>
                               
                               </div>
