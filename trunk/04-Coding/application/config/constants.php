@@ -29,9 +29,6 @@ define('DIR_WRITE_MODE', 0777);
   | These modes are used when working with fopen()/popen()
   |
  */
-define('DEFAULTS', '');
-define('WARNING', '');
-define('PRIMARY', '');
 
 define('FOPEN_READ', 'rb');
 
@@ -53,3 +50,11 @@ define('LAYOUT', 'layout');
 define('PAGINGATION_PERPAGE', 2);
 
 define('TABLE_PREFIX', 'tbl_');
+
+// CSS
+define('PRIMARY', 'primary');
+define('DEFAULTS', 'default');
+define('DANGER', 'danger');
+define('INFO', 'info');
+define('WARNING', 'warning');
+
