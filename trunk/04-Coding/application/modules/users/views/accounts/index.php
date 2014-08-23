@@ -27,7 +27,7 @@
                 <label class="sr-only" for="use_status">Status</label>
                 <?php echo form_dropdown('use_status', array(''=>'-- All Status --','1'=>'Enabled', '0'=>'Desabled'), set_value('use_status', $this->session->userdata('use_status')), 'class="form-control input-sm"') ?>
             </div>
-            <button type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"><i class="glyphicon glyphicon-filter"></i> Filter</button>
+            <button type="submit" class="btn btn-<?php echo PRIMARY; ?> btn-sm" value="submit" name="submit"><i class="glyphicon glyphicon-filter"></i> Filter</button>
         </form>
     </div>
     <div class="panel panel-default">

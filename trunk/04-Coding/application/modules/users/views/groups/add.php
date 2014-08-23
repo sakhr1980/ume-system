@@ -2,9 +2,9 @@
     <div class="toolbar col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
         <div class="left">
             <!--For icon: http://getbootstrap.com/components/-->
-            <a href="<?php echo site_url(); ?>users/groups/index/<?php echo $this->uri->segment(4); ?>" class="btn btn-sm btn-default"><i class="glyphicon glyphicon-arrow-left"></i> Back</a>
-            <button type="submit" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-ok-circle"></i> Save</button>
-            <button type="reset" class="btn btn-sm btn-default"><i class="glyphicon glyphicon-ban-circle"></i> Reset</button>
+            <a href="<?php echo site_url(); ?>users/groups/index/<?php echo $this->uri->segment(4); ?>" class="btn btn-sm btn-<?php echo DEFAULTS; ?>"><i class="glyphicon glyphicon-arrow-left"></i> Back</a>
+            <button type="submit" class="btn btn-sm btn-<?php echo WARNING; ?>"><i class="glyphicon glyphicon-ok-circle"></i> Save</button>
+            <button type="reset" class="btn btn-sm btn-<?php echo DEFAULTS; ?>"><i class="glyphicon glyphicon-ban-circle"></i> Reset</button>
         </div>
         <div class="right">
             <h1><?php echo $title; ?></h1>
