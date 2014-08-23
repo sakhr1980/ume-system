@@ -1,7 +1,6 @@
 <div class="toolbar col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
     <div class="left">
         <!--For icon: http://getbootstrap.com/components/-->
-		<a href="<?php echo site_url(); ?>subjects" class="btn btn-sm btn-default"><i class="glyphicon glyphicon-arrow-left"></i> Back</a>
         <a href="<?php echo site_url(); ?>subjects/type/add" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-plus-sign"></i> Create</a>
         <!--<a href="<?php echo site_url(); ?>users/permissions" class="btn btn-sm btn-default"><i class="glyphicon glyphicon-lock"></i> Permission</a>-->
     </div>
@@ -30,9 +29,9 @@
                             <td><?php echo $sub['sub_typ_description']; ?></td>
                             <td><?php
 								if($sub['sub_typ_status']) {
-									echo 'Active';
+									echo 'Enabled';
 								}else {
-									echo 'Deactive';
+									echo 'Disabled';
 								}
 								?></td>
                             <td>

@@ -33,7 +33,14 @@ class Subjects extends CI_Controller {
 	 *  list subjects
 	 */
 	function listSubjects() {
-		$data['listSubjects'] = $this->m_subjects->getSubjects();
+
+		$title = $this->input->post('sub_title');
+		$hour = $this->input->post('sub_hour');
+		$subType = $this->input->post('sub_typ_id');
+		$status = $this->input->post('sub_status');
+		$data['listSubjects'] = $this->m_subjects->getSubjects($title, $subType, $hour, $status);
+		$data['getTypes'] = $this->m_subjects->getSubjectType();
+
 		$data['title'] = 'Manage Subject';
 		$data['content'] = 'subjects/index';
 

@@ -30,9 +30,9 @@
 				<dt>Status</dt>
 				<dd><?php
 						if($status) {
-							echo 'Active';
+							echo 'Enabled';
 						}else {
-							echo 'Deactive';
+							echo 'Disabled';
 						}
 					?></dd>
 			</dl>
