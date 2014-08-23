@@ -70,7 +70,7 @@ class M_registrations extends CI_Model {
         unset($data['major']);
         //$this->db->set('gro_created', 'NOW()', false);
         
-        var_dump($data);die();
+        var_dump($data);
         return $this->db->insert(TABLE_PREFIX . 'students', $data);
     }
 
