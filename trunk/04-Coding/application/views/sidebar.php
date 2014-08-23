@@ -13,6 +13,10 @@
 		<li class=""><a href="<?php echo site_url(); ?>staffs/positions/"><i class="glyphicon glyphicon-list"></i> Manage Positions</a></li>
 		<li class=""><a href="<?php echo site_url(); ?>staffs/jobtypes/"><i class="glyphicon glyphicon-list"></i> Manage Job Types</a></li>
 		<li class="divider"></li>
+		<li class="sidebar-header">Subject Management</li>
+		<li class=""><a href="<?php echo site_url(); ?>subjects/"><i class="glyphicon glyphicon-list"></i> Manage Subjects</a></li>
+		<li class=""><a href="<?php echo site_url(); ?>subjects/type/"><i class="glyphicon glyphicon-list"></i> Manage Subject Types</a></li>
+		<li class="divider"></li>
 		<li class="sidebar-header">Room Management</li>
 		<li class=""><a href="<?php echo site_url(); ?>rooms/rooms/"><i class="glyphicon glyphicon-registration-mark"></i> Manage Rooms</a></li>
 		<li class=""><a href="<?php echo site_url(); ?>rooms/roomtypes/"><i class="glyphicon glyphicon-tower"></i> Manage Room Types</a></li>

@@ -25,20 +25,20 @@
         </div>
         <div class="panel-body">
             <dl class="dl-horizontal">
-				<dt>Type</dt>
-				<dd><?php echo $type; ?></dd>
                 <dt>Title</dt>
                 <dd><?php echo $title; ?></dd>
                 <dt>Hour</dt>
                 <dd><?php echo $hour; ?></dd>
                 <dt>Description</dt>
                 <dd><?php echo $description;?></dd>
+				<dt>Subject Type</dt>
+				<dd><?php echo $type; ?></dd>
 				<dt>Status</dt>
 				<dd><?php
 					if($status) {
-						echo 'Active';
+						echo 'Enabled';
 					}else {
-						echo 'Deactive';
+						echo 'Disabled';
 					}
 					?>
 				</dd>

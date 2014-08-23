@@ -5,9 +5,18 @@ if (!defined('BASEPATH'))
 
 class M_Subjects extends CI_Model {
 
-	function getSubjects() {
+	function getSubjects($title, $subType, $hour, $status){
 		$this->db->select('*');
 		$this->db->from(TABLE_PREFIX . 'subject');
+		if(!empty($title) or !empty($subType) or !empty($hour) or !empty($status)){
+			if($status == 2) {
+				$status = 0;
+			}
+			$this->db->like('sub_name', $title);
+			$this->db->like('sub_hours', $hour);
+			$this->db->like('sub_status', $status);
+			$this->db->like(TABLE_PREFIX . 'subject.sub_typ_id', $subType);
+		}
 		$this->db->join(TABLE_PREFIX.'subject_type', TABLE_PREFIX.'subject_type.sub_typ_id = tbl_subject.sub_typ_id', 'left outer');
 		return $this->db->get();
 	}
@@ -15,6 +24,7 @@ class M_Subjects extends CI_Model {
 	function getSubjectType() {
 		$this->db->select('*');
 		$this->db->from(TABLE_PREFIX . 'subject_type');
+		$this->db->where('sub_typ_status', 1);
 		return $this->db->get();
 	}
 

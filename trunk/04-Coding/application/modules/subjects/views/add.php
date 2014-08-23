@@ -21,9 +21,10 @@
 					<div class="panel-body">
 
 						<div class="form-group">
-							<label for="sub_typ_id" class="col-sm-2 control-label">Type</label>
+							<label for="sub_typ_id" class="col-sm-2 control-label">Type *</label>
 							<div class="col-md-10">
-								<select name="sub_typ_id">
+								<select name="sub_typ_id" class="required">
+									<option value="">-- All Types --</option>
 									<?php foreach ($getTypes->result_array() as $typ) {
 										echo '<option value="'.$typ['sub_typ_id'].'">'.$typ['sub_typ_title'].'</option>';
 									}
