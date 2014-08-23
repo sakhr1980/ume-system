@@ -1,7 +1,7 @@
 <div class="toolbar col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
     <div class="left">
         <!--For icon: http://getbootstrap.com/components/-->
-        <a href="<?php echo site_url(); ?>users/groups/add/<?php echo $this->uri->segment(4); ?>" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-plus-sign"></i> Create</a>
+        <a href="<?php echo site_url(); ?>users/groups/add/<?php echo $this->uri->segment(4); ?>" class="btn btn-sm btn-<?php echo WARNING; ?>"><i class="glyphicon glyphicon-plus-sign"></i> Create</a>
         <a href="<?php echo site_url(); ?>users/permissions" class="btn btn-sm btn-default"><i class="glyphicon glyphicon-lock"></i> Permission</a>
     </div>
     <div class="right">
@@ -19,7 +19,7 @@
                 <label class="sr-only" for="gro_status">Status</label>
                 <?php echo form_dropdown('gro_status', array(''=>'-- All Status --','1'=>'Enabled', '0'=>'Desabled'), set_value('gro_status', $this->session->userdata('gro_status')), 'class="form-control input-sm"') ?>
             </div>
-            <button type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"><i class="glyphicon glyphicon-filter"></i> Filter</button>
+            <button type="submit" class="btn btn-<?php echo PRIMARY; ?> btn-sm" value="submit" name="submit"><i class="glyphicon glyphicon-filter"></i> Filter</button>
         </form>
     </div>
     <div class="panel panel-default">
@@ -48,11 +48,11 @@
                             <td><?php echo date('M d, Y', strtotime($row['gro_modified'])); ?></td>
                             <td><?php echo get_content_teaser($row['gro_description']); ?></td>
                             <td>
-                                <a class="btn btn-default btn-xs" href="<?php echo base_url(); ?>users/groups/view/<?php echo $row['gro_id'];
+                                <a class="btn btn-<?php echo DEFAULTS; ?> btn-xs" href="<?php echo base_url(); ?>users/groups/view/<?php echo $row['gro_id'];
                 echo '/' . $this->uri->segment(4); ?>" title="View"><i class="glyphicon glyphicon-eye-open"></i> View</a>
-                                <a class="btn btn-default btn-xs" href="<?php echo base_url(); ?>users/groups/edit/<?php echo $row['gro_id'];
+                                <a class="btn btn-<?php echo DEFAULTS; ?> btn-xs" href="<?php echo base_url(); ?>users/groups/edit/<?php echo $row['gro_id'];
                 echo '/' . $this->uri->segment(4); ?>" title="Edit"><i class="glyphicon glyphicon-edit"></i> Edit</a>
-                                <a class="btn btn-danger btn-xs" href="<?php echo base_url(); ?>users/groups/delete/<?php echo $row['gro_id'];
+                                <a class="btn btn-<?php echo DANGER; ?> btn-xs" href="<?php echo base_url(); ?>users/groups/delete/<?php echo $row['gro_id'];
                 echo '/' . $this->uri->segment(4); ?>" title="Delete" onclick="return confirm('Are you sure you want to delete this group? This group will be deleted permanently.');"><i class="glyphicon glyphicon-remove-circle"></i> Delete</a>
                             </td>
                         </tr>
