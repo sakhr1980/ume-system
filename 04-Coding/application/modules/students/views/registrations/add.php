@@ -72,86 +72,65 @@
                 <label><input type="radio" name="degree" value="2" <?php echo set_radio('degree', 2, FALSE); ?>> បរិញ្ញាបត្រ Bachelor Degree Program</label>
                 <label><input type="radio" name="degree" value="3" <?php echo set_radio('degree', 3, FALSE); ?>> បរិញ្ញាបត្ររង Association Degree Program</label>
                 <div class="divider"></div>
-
+                    <?php //Debug::dump($faculties); ?>
                 <div class="row">
                     <div class="col-md-12"><label>តើអ្នកជ្រើសរើសជំនាញមួយនា? For which graduate program are you applying?</label></div>
-                    <?php foreach ($master->result_array() as $row) { ?>
+                    <?php //foreach ($master->result_array() as $row) { ?>
                         <div class="col-md-6">
-                            <label><input type="radio" name="major" id="gro_status" value="<?php echo $row['mar_id']; ?>" <?php echo set_radio('major', $row['mar_id'], FALSE); ?>> <?php echo $row['mar_name']; ?></label>
+                            <label><input type="radio" name="major" id="gro_status" value="<?php //echo $row['maj_id']; ?>" <?php //echo set_radio('major', $row['maj_id'], FALSE); ?>> <?php //echo $row['maj_name']; ?></label>
                         </div>
-                    <?php } ?>
+                    <?php //} ?>
                 </div>
 
                 <div class="row">
                     <div class="col-md-12"><strong>តើមហាវិទ្យល័យ និង ឯកទេសមួយណា ដែលអ្នកចង់ជ្រើសរើស?</strong></div>
                     <div class="col-md-12">
-
+                        <?php 
+                        $kh_num = array('០','១','២','៣','៤','៥','៦','៧','៨','៩','១០','១១',);
+                        if(count($faculties) > 0){
+                            $count = 0;
+                            foreach ($faculties->result_array as $faculty){ $count++;
+                        ?>
                         <div class="panel panel-<?php echo DEFAULTS; ?>">
                             <div class="panel-heading">
-                                <h3 class="panel-title">១-ម. ក្រប់ក្រងពាណិជ្ជកម្ម និង ទេសចរណ៍</h3>
+                                <h3 class="panel-title"><?php echo $kh_num[$count].'-ម. '.$faculty['fac_name']; ?></h3>
                             </div>
                             <div class="panel-body">
-                                <?php foreach ($bachelor_economic->result_array() as $row) { ?>
-                                    <div class="col-md-4">
-                                        <label><input type="radio" name="major" id="gro_status" value="<?php echo $row['mar_id']; ?>" <?php echo set_radio('major', $row['mar_id'], FALSE); ?>> <?php echo $row['mar_name']; ?></label>
-                                    </div>
-                                <?php } ?>
+                                <div class="col-md-4">
+                                <?php
+                                $m = $majors[$faculty['fac_id']];
+                                if($m->num_rows() > 0){
+                                    foreach ($m->result_array() as $major) { 
+                                        ?>
+
+                                            <label><input type="radio" name="major" id="gro_status" value="<?php echo $major['maj_id']; ?>" <?php echo set_radio('major', $major['maj_id'], FALSE); ?>> <?php echo $major['maj_name']; ?></label>
+
+                                    <?php 
+                                        }
+                                } 
+                                else{
+                                    echo 'Empty';
+                                }
+                                ?>
+                                </div>
                             </div>
                         </div>
-
+                        <?php 
+                            }
+                        }
+                        else{
+                        ?>
                         <div class="panel panel-<?php echo DEFAULTS; ?>">
                             <div class="panel-heading">
-                                <h3 class="panel-title">២-ម. សិល្បៈមនុស្សសាស្ត្រ និង ភារាបរទេស</h3>
+                                <h3 class="panel-title">Empty</h3>
                             </div>
                             <div class="panel-body">
-                                <?php foreach ($bachelor_art->result_array() as $row) { ?>
                                     <div class="col-md-4">
-                                        <label><input type="radio" name="major" id="gro_status" value="<?php echo $row['mar_id']; ?>" <?php echo set_radio('major', $row['mar_id'], FALSE); ?>> <?php echo $row['mar_name']; ?></label>
+                                        Empty
                                     </div>
-                                <?php } ?>
                             </div>
                         </div>
-
-                        <div class="panel panel-<?php echo DEFAULTS; ?>">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">៣-ម. និតិសសាស្ត្រ និង សេដ្ឋកិច្ខ</h3>
-                            </div>
-                            <div class="panel-body">
-                                <?php foreach ($bachelor_law->result_array() as $row) { ?>
-                                    <div class="col-md-4">
-                                        <label><input type="radio" name="major" id="gro_status" value="<?php echo $row['mar_id']; ?>" <?php echo set_radio('major', $row['mar_id'], FALSE); ?>> <?php echo $row['mar_name']; ?></label>
-                                    </div>
-                                <?php } ?>
-                            </div>
-                        </div>
-
-                        <div class="panel panel-<?php echo DEFAULTS; ?>">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">៤-ម. វិទ្យាសាស្ត្រ និង បច្ចេកវិទ្យា</h3>
-                            </div>
-                            <div class="panel-body">
-                                <?php foreach ($bachelor_it->result_array() as $row) { ?>
-                                    <div class="col-md-4">
-                                        <label><input type="radio" name="major" id="gro_status" value="<?php echo $row['mar_id']; ?>" <?php echo set_radio('major', $row['mar_id'], FALSE); ?>> <?php echo $row['mar_name']; ?></label>
-                                    </div>
-                                <?php } ?>
-                            </div>
-                        </div>
-
-                        <div class="panel panel-<?php echo DEFAULTS; ?>">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">៥-ម. កសិកម្ម និង អភិវឌ្ឃន៍ជនបទ</h3>
-                            </div>
-                            <div class="panel-body">
-                                <?php foreach ($bachelor_agriculture->result_array() as $row) { ?>
-                                    <div class="col-md-4">
-                                        <label><input type="radio" name="major" id="gro_status" value="<?php echo $row['mar_id']; ?>" <?php echo set_radio('major', $row['mar_id'], FALSE); ?>> <?php echo $row['mar_name']; ?></label>
-                                    </div>
-                                <?php } ?>
-                            </div>
-                        </div>
-
-
+                        <?php } ?>
                     </div>
                 </div>
             </div>

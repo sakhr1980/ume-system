@@ -70,7 +70,7 @@ class M_registrations extends CI_Model {
         unset($data['major']);
         //$this->db->set('gro_created', 'NOW()', false);
         
-        var_dump($data);
+        var_dump($data);die();
         return $this->db->insert(TABLE_PREFIX . 'students', $data);
     }
 
@@ -105,6 +105,11 @@ class M_registrations extends CI_Model {
         $this->db->from(TABLE_PREFIX.'majors');
         $this->db->join(TABLE_PREFIX.'faculties', 'fac_id=maj_fac_id');
         return $this->db->get();
+    }
+    
+    function getFaculties(){
+        
+        return $this->db->get(TABLE_PREFIX.'faculties');
     }
 
 }

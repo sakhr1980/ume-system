@@ -27,15 +27,19 @@ class Registrations extends CI_Controller {
      * List user group
      */
     function index() {
+
         $this->data['title'] = 'Student Registration List';
         $this->data['content'] = 'students/registrations/index';
 
 //        $this->form_validation->set_rules('gro_name','','trim');
 //        $this->form_validation->set_rules('gro_status','','trim');
 //        $this->form_validation->run();
+
+
+
         $this->data['data'] = $this->m_registrations->findAllRegistrations(PAGINGATION_PERPAGE, $this->uri->segment(4));
         pagination_config(base_url() . 'students/registrations/index', $this->m_registrations->countAllRegistrations(), PAGINGATION_PERPAGE);
-        
+
 
         $this->load->view(LAYOUT, $this->data);
     }
@@ -48,16 +52,26 @@ class Registrations extends CI_Controller {
         $this->data['content'] = 'students/registrations/add';
 
         $this->form_validation->set_rules('stu_kh_lastname', 'គោត្តនាមe', 'required]');
+
+
         if ($this->form_validation->run() == FALSE) {
-            $this->data['master'] = $this->m_registrations->getMajorByMasterId(6);
-            $this->data['bachelor_economic'] = $this->m_registrations->getMajorByMasterId(1);
-            $this->data['bachelor_art'] = $this->m_registrations->getMajorByMasterId(2);
-            $this->data['bachelor_agriculture'] = $this->m_registrations->getMajorByMasterId(5);
-            $this->data['bachelor_it'] = $this->m_registrations->getMajorByMasterId(3);
-            $this->data['bachelor_law'] = $this->m_registrations->getMajorByMasterId(4);
+//            $this->data['master'] = $this->m_registrations->getMajorByMasterId(6);
+//            $this->data['bachelor_economic'] = $this->m_registrations->getMajorByMasterId(1);
+//            $this->data['bachelor_art'] = $this->m_registrations->getMajorByMasterId(2);
+//            $this->data['bachelor_agriculture'] = $this->m_registrations->getMajorByMasterId(5);
+//            $this->data['bachelor_it'] = $this->m_registrations->getMajorByMasterId(3);
+//            $this->data['bachelor_law'] = $this->m_registrations->getMajorByMasterId(4);
+            $majors = NULL;
+            $faculties = $this->m_registrations->getFaculties();
+            //Debug::dump($faculties->result_array());die();
+            foreach ($faculties->result_array() as $row) {
+                $majors[$row['fac_id']] = $this->m_registrations->getMajorByMasterId($row['fac_id']);
+            }
+            $this->data['faculties'] = $faculties;
+            $this->data['majors'] = $majors;
             $this->load->view(LAYOUT, $this->data);
         } else {
-            
+
             if ($this->m_registrations->add()) {
                 $this->session->set_flashdata('message', alert("Student registration has been saved!", 'success'));
                 redirect('students/registrations');
@@ -101,15 +115,14 @@ class Registrations extends CI_Controller {
             redirect('students/registrations/index/' . $this->uri->segment(5));
         }
     }
-    
-    
-    function view($id=null){
-        
+
+    function view($id = null) {
+
         $this->data['title'] = 'View User Group';
         $this->data['content'] = 'students/registrations/view';
-        
+
         $this->data['data'] = $this->m_registrations->getGroupById($id);
-        $this->load->view(LAYOUT,  $this->data);
+        $this->load->view(LAYOUT, $this->data);
     }
 
     //====================== validation
