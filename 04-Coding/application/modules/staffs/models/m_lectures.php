@@ -41,7 +41,7 @@ class M_Lectures extends CI_Model {
 
 		$this->db->where('sta_position', 'Teacher');
 		$this->db->limit($num_row, $from_row);
-		$this->db->from(TABLE_PREFIX . 'staff');
+		$this->db->from(TABLE_PREFIX . 'staffs');
 		$this->db->group_by('sta_id');
 		return $this->db->get();
 	}
@@ -67,7 +67,7 @@ class M_Lectures extends CI_Model {
 		}
 
 		$this->db->where('sta_position', 'Teacher');
-		$this->db->from(TABLE_PREFIX . 'staff');
+		$this->db->from(TABLE_PREFIX . 'staffs');
 		$this->db->group_by('sta_id');
 		$data = $this->db->get();
 		return $data->num_rows();
@@ -85,7 +85,7 @@ class M_Lectures extends CI_Model {
 		$this->db->set('sta_Position', 'Teacher');
 		$this->db->set('sta_created', 'NOW()', false);
 		$this->db->set('tbl_users_use_id', 1); // TODO: need to be changed
-		$result = $this->db->insert(TABLE_PREFIX . 'staff', $data);
+		$result = $this->db->insert(TABLE_PREFIX . 'staffs', $data);
 		return $result;
 	}
 
@@ -98,13 +98,13 @@ class M_Lectures extends CI_Model {
 	 */
 	function update() {
 		$data = $this->input->post();
-		$this->db->where('sta_id', $this->uri->segment(4));
+		$this->db->where('staw_id', $this->uri->segment(4));
 		$this->db->set('sta_modified', 'NOW()', false);
 		// if checkbox is not checked
 		if (empty($data['sta_status'])) {
 			$this->db->set('sta_status', 0);
 		}
-		return $this->db->update(TABLE_PREFIX . 'staff', $data);
+		return $this->db->update(TABLE_PREFIX . 'staffs', $data);
 	}
 
 	/**
@@ -117,7 +117,7 @@ class M_Lectures extends CI_Model {
 	 */
 	function getLectureById($id) {
 		$this->db->where('sta_id', $id);
-		return $this->db->get(TABLE_PREFIX . 'staff');
+		return $this->db->get(TABLE_PREFIX . 'staffs');
 	}
 
 	/**
@@ -130,7 +130,7 @@ class M_Lectures extends CI_Model {
 	 */
 	function deleteLectureById($id = null) {
 		$this->db->where('sta_id', $id);
-		return $this->db->delete(TABLE_PREFIX . 'staff');
+		return $this->db->delete(TABLE_PREFIX . 'staffs');
 	}
 
 }
