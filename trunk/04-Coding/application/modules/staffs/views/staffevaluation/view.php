@@ -70,6 +70,14 @@ $data = $data->result_array[0];
                     <td><?php echo $data['sta_eva_idea_d']; ?></td> 
                     <td><?php echo $data['sta_eva_idea_e']; ?></td>                          
                 </tr>
+                <tr class="total">
+                    <td>Total</td>
+                    <td><?php echo $data['total_a']; ?></td> 
+                    <td><?php echo $data['total_b']; ?></td> 
+                    <td><?php echo $data['total_c']; ?></td> 
+                    <td><?php echo $data['total_d']; ?></td> 
+                    <td><?php echo $data['total_e']; ?></td>                          
+                </tr>
             </table>
 		</div>
 	</div>
@@ -83,5 +91,9 @@ $data = $data->result_array[0];
 	table.evaluation tr th {
 		text-align: center;
 		height: 35px;
+	}
+	
+	table.evaluation tr.total {
+		background: #eee;	
 	}
 </style>
