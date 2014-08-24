@@ -63,7 +63,14 @@ class M_Staffevaluation extends CI_Model {
 	}
 	
 	function getEvaluationById($id) {
-		$this->db->select(TABLE_PREFIX . 'staff_evaluation.*, sta_name');
+		//$this->db->select(TABLE_PREFIX . 'staff_evaluation.*, sta_name');
+		$this->db->select(TABLE_PREFIX . 'staff_evaluation.*, sta_name,' .
+							'((sta_eva_ability_a + sta_eva_characteristic_a + sta_eva_attendant_a + sta_eva_idea_a) / 4) AS total_a,' .
+							'((sta_eva_ability_b + sta_eva_characteristic_b + sta_eva_attendant_b + sta_eva_idea_b) / 4) AS total_b,' .
+							'((sta_eva_ability_c + sta_eva_characteristic_c + sta_eva_attendant_c + sta_eva_idea_c) / 4) AS total_c,' .
+							'((sta_eva_ability_d + sta_eva_characteristic_d + sta_eva_attendant_d + sta_eva_idea_d) / 4) AS total_d,' .
+							'((sta_eva_ability_e + sta_eva_characteristic_e + sta_eva_attendant_e + sta_eva_idea_e) / 4) AS total_e'
+		);
 		$this->db->join(TABLE_PREFIX . 'staff', TABLE_PREFIX . 'staff.sta_id = ' . TABLE_PREFIX . 'staff_evaluation.sta_id');
 		$this->db->where('sta_eva_id', $id);
 		return $this->db->get(TABLE_PREFIX . 'staff_evaluation');
