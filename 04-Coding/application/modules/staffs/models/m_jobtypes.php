@@ -13,29 +13,29 @@ class M_Jobtypes extends CI_Model {
 	 * @return array
 	 */
 	function findAllJobtypes($num_row, $from_row) {
-		$this->db->order_by('job_id', 'desc');
+		$this->db->order_by('sta_job_id', 'desc');
 
-		if ($this->input->post('job_title_en') != '') {
-			$this->db->like('job_title_en', $this->input->post('job_title_en'));
+		if ($this->input->post('sta_job_title') != '') {
+			$this->db->like('sta_job_title', $this->input->post('sta_job_title'));
 		}
-		if ($this->input->post('job_title_kh') != '') {
-			$this->db->like('job_title_kh', $this->input->post('job_title_kh'));
+		if ($this->input->post('sta_job_title_kh') != '') {
+			$this->db->like('sta_job_title_kh', $this->input->post('sta_job_title_kh'));
 		}
 
 		// Keep pagination for filter status
-		if ($this->input->post('job_status') != '') {
-			$this->session->set_userdata('job_status', $this->input->post('job_status'));
+		if ($this->input->post('sta_job_status') != '') {
+			$this->session->set_userdata('sta_job_status', $this->input->post('sta_job_status'));
 		}
-		if ($this->input->post('submit') && $this->input->post('job_status') == '') {
-			$this->session->set_userdata('job_status', '');
+		if ($this->input->post('submit') && $this->input->post('sta_job_status') == '') {
+			$this->session->set_userdata('sta_job_status', '');
 		}
-		if ($this->session->userdata('job_status') != '') {
-			$this->db->where('job_status', $this->session->userdata('job_status'));
+		if ($this->session->userdata('sta_job_status') != '') {
+			$this->db->where('sta_job_status', $this->session->userdata('sta_job_status'));
 		}
 
 		$this->db->limit($num_row, $from_row);
 		$this->db->from(TABLE_PREFIX . 'staff_job_type');
-		$this->db->group_by('job_id');
+		$this->db->group_by('sta_job_id');
 		return $this->db->get();
 	}
 
@@ -49,18 +49,18 @@ class M_Jobtypes extends CI_Model {
 	function countAllJobtypes() {
 
 		// Keep pagination for filter status
-		if ($this->input->post('job_status') != '') {
-			$this->session->set_userdata('job_status', $this->input->post('job_status'));
+		if ($this->input->post('sta_job_status') != '') {
+			$this->session->set_userdata('sta_job_status', $this->input->post('sta_job_status'));
 		}
-		if ($this->input->post('submit') && $this->input->post('job_status') == '') {
-			$this->session->set_userdata('job_status', '');
+		if ($this->input->post('submit') && $this->input->post('sta_job_status') == '') {
+			$this->session->set_userdata('sta_job_status', '');
 		}
-		if ($this->session->userdata('job_status') != '') {
-			$this->db->where('job_status', $this->session->userdata('job_status'));
+		if ($this->session->userdata('sta_job_status') != '') {
+			$this->db->where('sta_job_status', $this->session->userdata('sta_job_status'));
 		}
 
 		$this->db->from(TABLE_PREFIX . 'staff_job_type');
-		$this->db->group_by('job_id');
+		$this->db->group_by('sta_job_id');
 		$data = $this->db->get();
 		return $data->num_rows();
 	}
@@ -74,7 +74,7 @@ class M_Jobtypes extends CI_Model {
 	 */
 	function add() {
 		$data = $this->input->post();
-		$this->db->set('job_created', 'NOW()', false);
+		$this->db->set('sta_job_created', 'NOW()', false);
 		$this->db->set('tbl_users_use_id', 1); // TODO: need to be changed
 		$result = $this->db->insert(TABLE_PREFIX . 'staff_job_type', $data);
 		return $result;
@@ -89,11 +89,11 @@ class M_Jobtypes extends CI_Model {
 	 */
 	function update() {
 		$data = $this->input->post();
-		$this->db->where('job_id', $this->uri->segment(4));
-		$this->db->set('job_modified', 'NOW()', false);
+		$this->db->where('sta_job_id', $this->uri->segment(4));
+		$this->db->set('sta_job_modified', 'NOW()', false);
 		// if checkbox is not checked
-		if (empty($data['job_status'])) {
-			$this->db->set('job_status', 0);
+		if (empty($data['sta_job_status'])) {
+			$this->db->set('sta_job_status', 0);
 		}
 		return $this->db->update(TABLE_PREFIX . 'staff_job_type', $data);
 	}
@@ -107,7 +107,7 @@ class M_Jobtypes extends CI_Model {
 	 * @return array
 	 */
 	function getJobtypeById($id) {
-		$this->db->where('job_id', $id);
+		$this->db->where('sta_job_id', $id);
 		return $this->db->get(TABLE_PREFIX . 'staff_job_type');
 	}
 
@@ -120,7 +120,7 @@ class M_Jobtypes extends CI_Model {
 	 * @return boolean
 	 */
 	function deleteJobtypeById($id = null) {
-		$this->db->where('job_id', $id);
+		$this->db->where('sta_job_id', $id);
 		return $this->db->delete(TABLE_PREFIX . 'staff_job_type');
 	}
 

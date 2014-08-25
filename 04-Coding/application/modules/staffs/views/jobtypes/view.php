@@ -21,22 +21,22 @@ $data = $data->result_array[0];
 		<div class="panel-body">
 			<dl class="dl-horizontal">
 				<dt>Title in Latin</dt>
-				<dd><?php echo $data['job_title_en']; ?></dd>
+				<dd><?php echo $data['sta_job_title']; ?></dd>
 
 				<dt>Title in Khmer</dt>
-				<dd><?php echo $data['job_title_kh']; ?></dd>
+				<dd><?php echo $data['sta_job_title_kh']; ?></dd>
 
 				<dt>Description</dt>
-				<dd><?php echo $data['job_description'] ? $data['job_description'] : '------'; ?></dd>
+				<dd><?php echo $data['sta_job_description'] ? $data['job_description'] : '------'; ?></dd>
 
 				<dt>Status</dt>
-				<dd><?php echo status_string($data['job_status']); ?></dd>
+				<dd><?php echo status_string($data['sta_job_status']); ?></dd>
 
 				<dt>Created</dt>
-				<dd><i class="glyphicon glyphicon-calendar"></i> <?php echo get_date_string($data['job_created']); ?></dd>
+				<dd><i class="glyphicon glyphicon-calendar"></i> <?php echo get_date_string($data['sta_job_created']); ?></dd>
 
 				<dt>Modified</dt>
-				<dd><i class="glyphicon glyphicon-calendar"></i> <?php echo get_date_string($data['job_modified']); ?></dd>
+				<dd><i class="glyphicon glyphicon-calendar"></i> <?php echo get_date_string($data['sta_job_modified']); ?></dd>
 			</dl>
 		</div>
 	</div>

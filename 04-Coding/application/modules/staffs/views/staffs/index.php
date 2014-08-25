@@ -24,8 +24,15 @@
 				<input type="text" class="form-control input-sm" id="sta_name_kh" name="sta_name_kh" value="<?php echo set_value('sta_name_kh'); ?>" placeholder="Name in khmer">
 			</div>
 			<div class="form-group">
-				<label class="sr-only" for="sta_sex">Sex</label>
-				<?php echo form_dropdown('sta_sex', array('' => '-- All Sex --', 'm' => 'Male', 'f' => 'Female'), set_value('sta_sex', $this->session->userdata('sta_sex')), 'class="form-control input-sm"') ?>
+				<label class="sr-only" for="sta_job_type">Job type</label>
+				<select name="sta_job_type" class="form-control input-sm" id="sta_job_type">
+					<option value="">--All job types--</option>
+					<?php
+					foreach ($jobtypes as $key => $value) {
+						echo '<option value="' . $key . '" ' . set_select('sta_job_type', $key) . '>' . $value . '</option>';
+					}
+					?>
+				</select>
 			</div>
 			<div class="form-group">
 				<label class="sr-only" for="sta_status">Status</label>
@@ -36,7 +43,7 @@
 	</div>
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			<h3 class="panel-title">Teacher List</h3>
+			<h3 class="panel-title">Staff List</h3>
 		</div>
 		<div class="panel-body">
 			<table class="table table-hover">
@@ -65,7 +72,7 @@
 								<td><?php echo $row['sta_card_id']; ?></td>
 								<td><?php echo $row['sta_name']; ?></td>
 								<td><?php echo $row['sta_name_kh']; ?></td>
-								<td><?php echo $row['sta_position']; ?></td>
+								<td><?php echo $row['sta_pos_title']; ?></td>
 								<td><?php echo $row['sta_email']; ?></td>
 								<td><?php echo strtoupper($row['sta_sex']); ?></td>
 								<td><?php echo get_date_string($row['sta_start_date']); ?></td>
