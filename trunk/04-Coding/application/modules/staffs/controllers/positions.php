@@ -34,9 +34,9 @@ class Positions extends CI_Controller {
 		$this->data['title'] = 'Manage Staffs Position';
 		$this->data['content'] = 'staffs/positions/index';
 
-		$this->form_validation->set_rules('pos_title_en', '', 'trim');
-		$this->form_validation->set_rules('pos_title_kh', '', 'trim');
-		$this->form_validation->set_rules('pos_status', '', 'trim');
+		$this->form_validation->set_rules('sta_pos_title', '', 'trim');
+		$this->form_validation->set_rules('sta_pos_title_kh', '', 'trim');
+		$this->form_validation->set_rules('sta_pos_status', '', 'trim');
 
 		$this->form_validation->run();
 		$this->data['data'] = $this->m_positions->findAllPositions(PAGINGATION_PERPAGE, $this->uri->segment(4));
@@ -55,11 +55,11 @@ class Positions extends CI_Controller {
 		$this->data['title'] = 'Add New Position';
 		$this->data['content'] = 'staffs/positions/add';
 
-		$this->form_validation->set_rules('pos_title_en', 'Title in Latin', 'required|max_length[50]|min_length[2]|is_unique[' . TABLE_PREFIX . 'staff_position.pos_title_en]');
-		$this->form_validation->set_rules('pos_title_kh', 'Title in Khmer', 'max_length[50]|min_length[2]|is_unique[' . TABLE_PREFIX . 'staff_position.pos_title_kh]');
-		$this->form_validation->set_rules('pos_description', 'Description', 'trim|max_length[250]');
-		$this->form_validation->set_rules('pos_status', '', 'trim');
-		$this->form_validation->set_checkbox('pos_status');
+		$this->form_validation->set_rules('sta_pos_title', 'Title in Latin', 'required|max_length[50]|min_length[2]|is_unique[' . TABLE_PREFIX . 'staff_position.sta_pos_title]');
+		$this->form_validation->set_rules('sta_pos_title_kh', 'Title in Khmer', 'max_length[50]|min_length[2]|is_unique[' . TABLE_PREFIX . 'staff_position.sta_pos_title_kh]');
+		$this->form_validation->set_rules('sta_pos_description', 'Description', 'trim|max_length[250]');
+		$this->form_validation->set_rules('sta_pos_status', '', 'trim');
+		$this->form_validation->set_checkbox('sta_pos_status');
 		if ($this->form_validation->run() == FALSE) {
 			$this->load->view(LAYOUT, $this->data);
 		} else {
@@ -86,11 +86,11 @@ class Positions extends CI_Controller {
 		$this->data['content'] = 'staffs/positions/edit';
 		$this->data['data'] = $this->m_positions->getPositionById($id);
 
-		$this->form_validation->set_rules('pos_title_en', 'Title in Latin', 'required|min_length[2]|max_length[50]|callback_uniqueExcept[' . TABLE_PREFIX . 'staff_position.pos_title_en,pos_id]');
-		$this->form_validation->set_rules('pos_title_kh', 'Title in Khmer', 'min_length[2]|max_length[50]|callback_uniqueExcept[' . TABLE_PREFIX . 'staff_position.pos_title_kh,pos_id]');
-		$this->form_validation->set_rules('pos_description', 'Description', 'trim|max_length[250]');
-		$this->form_validation->set_rules('pos_status', '', 'trim');
-		$this->form_validation->set_checkbox('pos_status');
+		$this->form_validation->set_rules('sta_pos_title', 'Title in Latin', 'required|min_length[2]|max_length[50]|callback_uniqueExcept[' . TABLE_PREFIX . 'staff_position.sta_pos_title,sta_pos_id]');
+		$this->form_validation->set_rules('pos_title_kh', 'Title in Khmer', 'min_length[2]|max_length[50]|callback_uniqueExcept[' . TABLE_PREFIX . 'staff_position.sta_pos_title_kh,sta_pos_id]');
+		$this->form_validation->set_rules('sta_pos_description', 'Description', 'trim|max_length[250]');
+		$this->form_validation->set_rules('sta_pos_status', '', 'trim');
+		$this->form_validation->set_checkbox('sta_pos_status');
 		if ($this->form_validation->run() == FALSE) {
 			$this->load->view(LAYOUT, $this->data);
 		} else {

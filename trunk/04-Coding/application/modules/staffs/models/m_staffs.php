@@ -13,19 +13,20 @@ class M_Staffs extends CI_Model {
 	 * @return array
 	 */
 	function findAllStaffs($num_row, $from_row) {
-		$this->db->order_by('sta_id', 'desc');
+		$this->db->select(array('s.*', 'p.sta_pos_title', 'j.sta_job_title'));
+		$this->db->order_by('s.sta_id', 'desc');
 
 		if ($this->input->post('sta_card_id') != '') {
-			$this->db->like('sta_card_id', $this->input->post('sta_card_id'));
+			$this->db->like('s.sta_card_id', $this->input->post('sta_card_id'));
 		}
 		if ($this->input->post('sta_name') != '') {
-			$this->db->like('sta_name', $this->input->post('sta_name'));
+			$this->db->like('s.sta_name', $this->input->post('sta_name'));
 		}
 		if ($this->input->post('sta_name_kh') != '') {
-			$this->db->like('sta_name_kh', $this->input->post('sta_name_kh'));
+			$this->db->like('s.sta_name_kh', $this->input->post('sta_name_kh'));
 		}
-		if ($this->input->post('sta_sex') != '') {
-			$this->db->like('sta_sex', $this->input->post('sta_sex'));
+		if ($this->input->post('sta_job_type') != '') {
+			$this->db->like('s.sta_job_type', $this->input->post('sta_job_type'));
 		}
 
 		// Keep pagination for filter status
@@ -36,13 +37,15 @@ class M_Staffs extends CI_Model {
 			$this->session->set_userdata('sta_status', '');
 		}
 		if ($this->session->userdata('sta_status') != '') {
-			$this->db->where('sta_status', $this->session->userdata('sta_status'));
+			$this->db->where('s.sta_status', $this->session->userdata('sta_status'));
 		}
 
-		$this->db->where('sta_position !=', 'Teacher');
+		$this->db->where('s.sta_position !=', 'Teacher');
 		$this->db->limit($num_row, $from_row);
-		$this->db->from(TABLE_PREFIX . 'staffs');
-		$this->db->group_by('sta_id');
+		$this->db->from(TABLE_PREFIX . 'staff s');
+		$this->db->join(TABLE_PREFIX . 'staff_position p', 'p.sta_pos_id = s.sta_position');
+		$this->db->join(TABLE_PREFIX . 'staff_job_type j', 'j.sta_job_id = s.sta_job_type');
+		$this->db->group_by('s.sta_id');
 		return $this->db->get();
 	}
 
@@ -67,7 +70,7 @@ class M_Staffs extends CI_Model {
 		}
 
 		$this->db->where('sta_position !=', 'Teacher');
-		$this->db->from(TABLE_PREFIX . 'staffs');
+		$this->db->from(TABLE_PREFIX . 'staff');
 		$this->db->group_by('sta_id');
 		$data = $this->db->get();
 		return $data->num_rows();
@@ -84,7 +87,7 @@ class M_Staffs extends CI_Model {
 		$data = $this->input->post();
 		$this->db->set('sta_created', 'NOW()', false);
 		$this->db->set('tbl_users_use_id', 1); // TODO: need to be changed
-		$result = $this->db->insert(TABLE_PREFIX . 'staffs', $data);
+		$result = $this->db->insert(TABLE_PREFIX . 'staff', $data);
 		return $result;
 	}
 
@@ -103,7 +106,7 @@ class M_Staffs extends CI_Model {
 		if (empty($data['sta_status'])) {
 			$this->db->set('sta_status', 0);
 		}
-		return $this->db->update(TABLE_PREFIX . 'staffs', $data);
+		return $this->db->update(TABLE_PREFIX . 'staff', $data);
 	}
 
 	/**
@@ -115,8 +118,12 @@ class M_Staffs extends CI_Model {
 	 * @return array
 	 */
 	function getStaffById($id) {
-		$this->db->where('sta_id', $id);
-		return $this->db->get(TABLE_PREFIX . 'staffs');
+		$this->db->select(array('s.*', 'p.sta_pos_title', 'j.sta_job_title'));
+		$this->db->from(TABLE_PREFIX . 'staff s');
+		$this->db->join(TABLE_PREFIX . 'staff_position p', 'p.sta_pos_id = s.sta_position');
+		$this->db->join(TABLE_PREFIX . 'staff_job_type j', 'j.sta_job_id = s.sta_job_type');
+		$this->db->where('s.sta_id', $id);
+		return $this->db->get();
 	}
 
 	/**
@@ -129,7 +136,7 @@ class M_Staffs extends CI_Model {
 	 */
 	function deleteStaffById($id = null) {
 		$this->db->where('sta_id', $id);
-		return $this->db->delete(TABLE_PREFIX . 'staffs');
+		return $this->db->delete(TABLE_PREFIX . 'staff');
 	}
 
 }

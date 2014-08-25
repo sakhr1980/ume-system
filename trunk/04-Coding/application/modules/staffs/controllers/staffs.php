@@ -37,10 +37,11 @@ class Staffs extends CI_Controller {
 		$this->form_validation->set_rules('sta_card_id', '', 'trim');
 		$this->form_validation->set_rules('sta_name', '', 'trim');
 		$this->form_validation->set_rules('sta_name_kh', '', 'trim');
-		$this->form_validation->set_rules('sta_sex', '', 'trim');
+		$this->form_validation->set_rules('sta_job_type', '', 'trim');
 		$this->form_validation->set_rules('sta_status', '', 'trim');
 
 		$this->form_validation->run();
+		$this->data['jobtypes'] = $this->m_global->getDataArray(TABLE_PREFIX . 'staff_job_type', 'sta_job_id', 'sta_job_title', 'sta_job_status');
 		$this->data['data'] = $this->m_staffs->findAllStaffs(PAGINGATION_PERPAGE, $this->uri->segment(4));
 		pagination_config(base_url() . 'staffs/staffs/index', $this->m_staffs->countAllStaffs(), PAGINGATION_PERPAGE);
 		$this->load->view(LAYOUT, $this->data);
@@ -57,17 +58,71 @@ class Staffs extends CI_Controller {
 		$this->data['title'] = 'Add New Staff';
 		$this->data['content'] = 'staffs/staffs/add';
 
-		$this->form_validation->set_rules('sta_card_id', 'Card ID', 'required|exact_length[5]|is_unique[tbl_staffs.sta_card_id]');
-		$this->form_validation->set_rules('sta_name', 'Name in latin', 'required|max_length[50]|min_length[3]');
-		$this->form_validation->set_rules('sta_name_kh', 'Name in khmer', 'required|max_length[50]|min_length[3]');
-		$this->form_validation->set_rules('sta_email', 'Email', 'valid_email|is_unique[tbl_staffs.sta_email]');
-		$this->form_validation->set_rules('sta_sex', '', 'trim');
-		$this->form_validation->set_rules('sta_position', '', 'trim');
-		$this->form_validation->set_rules('sta_start_date', '', 'trim');
-		$this->form_validation->set_rules('sta_address', '', 'trim');
-		$this->form_validation->set_rules('sta_status', '', 'trim');
+		$config = array(
+			array(
+				'field' => 'sta_card_id',
+				'label' => 'Card ID',
+				'rules' => 'trim|required|exact_length[5]|is_unique[tbl_staff.sta_card_id]'
+			),
+			array(
+				'field' => 'sta_name',
+				'label' => 'Name in latin',
+				'rules' => 'trim|required|max_length[50]|min_length[3]'
+			),
+			array(
+				'field' => 'sta_name_kh',
+				'label' => 'Name in khmer',
+				'rules' => 'trim|max_length[50]|min_length[3]'
+			),
+			array(
+				'field' => 'sta_phone',
+				'label' => 'Mobile Phone',
+				'rules' => 'trim|min_length[9]|max_length[30]'
+			),
+			array(
+				'field' => 'sta_email',
+				'label' => 'Email',
+				'rules' => 'trim|valid_email|is_unique[tbl_staff.sta_email]'
+			),
+			array(
+				'field' => 'sta_sex',
+				'label' => 'Email',
+				'rules' => 'trim'
+			),
+			array(
+				'field' => 'sta_address',
+				'label' => '',
+				'rules' => 'trim'
+			),
+			array(
+				'field' => 'sta_position',
+				'label' => '',
+				'rules' => 'trim'
+			),
+			array(
+				'field' => 'sta_job_type',
+				'label' => '',
+				'rules' => 'trim'
+			),
+			array(
+				'field' => 'sta_start_date',
+				'label' => '',
+				'rules' => 'trim'
+			),
+			array(
+				'field' => 'sta_status',
+				'label' => '',
+				'rules' => 'trim'
+			)
+		);
+		$this->form_validation->set_rules($config);
+		$this->form_validation->set_select('sta_position');
+		$this->form_validation->set_select('sta_job_type');
 		$this->form_validation->set_select('sta_sex');
+		$this->form_validation->set_checkbox('sta_status');
 		if ($this->form_validation->run() == FALSE) {
+			$this->data['positions'] = $this->m_global->getDataArray(TABLE_PREFIX . 'staff_position', 'sta_pos_id', 'sta_pos_title', 'sta_pos_status');
+			$this->data['jobtypes'] = $this->m_global->getDataArray(TABLE_PREFIX . 'staff_job_type', 'sta_job_id', 'sta_job_title', 'sta_job_status');
 			$this->load->view(LAYOUT, $this->data);
 		} else {
 			if ($this->m_staffs->add()) {

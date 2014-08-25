@@ -13,29 +13,29 @@ class M_Positions extends CI_Model {
 	 * @return array
 	 */
 	function findAllPositions($num_row, $from_row) {
-		$this->db->order_by('pos_id', 'desc');
+		$this->db->order_by('sta_pos_id', 'desc');
 
-		if ($this->input->post('pos_title_en') != '') {
-			$this->db->like('pos_title_en', $this->input->post('pos_title_en'));
+		if ($this->input->post('sta_pos_title') != '') {
+			$this->db->like('sta_pos_title', $this->input->post('sta_pos_title'));
 		}
-		if ($this->input->post('pos_title_kh') != '') {
-			$this->db->like('pos_title_kh', $this->input->post('pos_title_kh'));
+		if ($this->input->post('sta_pos_title_kh') != '') {
+			$this->db->like('sta_pos_title_kh', $this->input->post('sta_pos_title_kh'));
 		}
 
 		// Keep pagination for filter status
-		if ($this->input->post('pos_status') != '') {
-			$this->session->set_userdata('pos_status', $this->input->post('pos_status'));
+		if ($this->input->post('sta_pos_status') != '') {
+			$this->session->set_userdata('sta_pos_status', $this->input->post('sta_pos_status'));
 		}
-		if ($this->input->post('submit') && $this->input->post('pos_status') == '') {
-			$this->session->set_userdata('pos_status', '');
+		if ($this->input->post('submit') && $this->input->post('sta_pos_status') == '') {
+			$this->session->set_userdata('sta_pos_status', '');
 		}
-		if ($this->session->userdata('pos_status') != '') {
-			$this->db->where('pos_status', $this->session->userdata('pos_status'));
+		if ($this->session->userdata('sta_pos_status') != '') {
+			$this->db->where('sta_pos_status', $this->session->userdata('sta_pos_status'));
 		}
 
 		$this->db->limit($num_row, $from_row);
 		$this->db->from(TABLE_PREFIX . 'staff_position');
-		$this->db->group_by('pos_id');
+		$this->db->group_by('sta_pos_id');
 		return $this->db->get();
 	}
 
@@ -49,18 +49,18 @@ class M_Positions extends CI_Model {
 	function countAllPositions() {
 
 		// Keep pagination for filter status
-		if ($this->input->post('pos_status') != '') {
-			$this->session->set_userdata('pos_status', $this->input->post('pos_status'));
+		if ($this->input->post('sta_pos_status') != '') {
+			$this->session->set_userdata('sta_pos_status', $this->input->post('sta_pos_status'));
 		}
-		if ($this->input->post('submit') && $this->input->post('pos_status') == '') {
-			$this->session->set_userdata('pos_status', '');
+		if ($this->input->post('submit') && $this->input->post('sta_pos_status') == '') {
+			$this->session->set_userdata('sta_pos_status', '');
 		}
-		if ($this->session->userdata('pos_status') != '') {
-			$this->db->where('pos_status', $this->session->userdata('pos_status'));
+		if ($this->session->userdata('sta_pos_status') != '') {
+			$this->db->where('sta_pos_status', $this->session->userdata('sta_pos_status'));
 		}
 
 		$this->db->from(TABLE_PREFIX . 'staff_position');
-		$this->db->group_by('pos_id');
+		$this->db->group_by('sta_pos_id');
 		$data = $this->db->get();
 		return $data->num_rows();
 	}
@@ -74,7 +74,7 @@ class M_Positions extends CI_Model {
 	 */
 	function add() {
 		$data = $this->input->post();
-		$this->db->set('pos_created', 'NOW()', false);
+		$this->db->set('sta_pos_created', 'NOW()', false);
 		$this->db->set('tbl_users_use_id', 1); // TODO: need to be changed
 		$result = $this->db->insert(TABLE_PREFIX . 'staff_position', $data);
 		return $result;
@@ -89,11 +89,11 @@ class M_Positions extends CI_Model {
 	 */
 	function update() {
 		$data = $this->input->post();
-		$this->db->where('pos_id', $this->uri->segment(4));
-		$this->db->set('pos_modified', 'NOW()', false);
+		$this->db->where('sta_pos_id', $this->uri->segment(4));
+		$this->db->set('sta_pos_modified', 'NOW()', false);
 		// if checkbox is not checked
-		if (empty($data['pos_status'])) {
-			$this->db->set('pos_status', 0);
+		if (empty($data['sta_pos_status'])) {
+			$this->db->set('sta_pos_status', 0);
 		}
 		return $this->db->update(TABLE_PREFIX . 'staff_position', $data);
 	}
@@ -107,7 +107,7 @@ class M_Positions extends CI_Model {
 	 * @return array
 	 */
 	function getPositionById($id) {
-		$this->db->where('pos_id', $id);
+		$this->db->where('sta_pos_id', $id);
 		return $this->db->get(TABLE_PREFIX . 'staff_position');
 	}
 
@@ -120,7 +120,7 @@ class M_Positions extends CI_Model {
 	 * @return boolean
 	 */
 	function deletePositionById($id = null) {
-		$this->db->where('pos_id', $id);
+		$this->db->where('sta_pos_id', $id);
 		return $this->db->delete(TABLE_PREFIX . 'staff_position');
 	}
 
