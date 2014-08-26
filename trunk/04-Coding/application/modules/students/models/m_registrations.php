@@ -60,18 +60,33 @@ class M_registrations extends CI_Model {
         $exp_responsibility = $data['exp_responsibility'];
         
         unset($data['exp_date']);
-        unset($data['exp_shift1']);
-        unset($data['exp_shift2']);
+        unset($data['exp_shift']);
         unset($data['exp_position']);
         unset($data['exp_employer_tel']);
         unset($data['exp_responsibility']);
+        unset($data['stu_image']);
         
         unset($data['shift']);
         unset($data['major']);
+        unset($data['degree']);
         //$this->db->set('gro_created', 'NOW()', false);
         
-        var_dump($data);
-        return $this->db->insert(TABLE_PREFIX . 'students', $data);
+        //var_dump($data);
+        $this->db->insert(TABLE_PREFIX . 'students', $data);
+        $stu_id = $this->db->insert_id();
+        
+        $i = 0;
+        foreach ($exp_date as $value) {
+            $ext['exp_stu_id'] = $stu_id;
+            $ext['exp_date'] = $exp_date[$i];
+            $ext['exp_shift'] = $exp_shift[$i];
+            $ext['exp_position'] = $exp_position[$i];
+            $ext['exp_employer_tel'] = $exp_employer_tel[$i];
+            $ext['exp_responsibility'] = $exp_responsibility[$i];
+            $this->db->insert('tbl_experiences', $ext);
+            $ext = NULL;
+        }
+        return true;
     }
 
     /**

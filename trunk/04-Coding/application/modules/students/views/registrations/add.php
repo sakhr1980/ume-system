@@ -19,7 +19,7 @@
             <div class="panel-body">
 
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label for="stu_kh_lastname" class="col-sm-2 control-label">គោត្តនាម</label>
                             <div class="col-sm-10">
@@ -35,19 +35,28 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label for="stu_kh_firstname" class="col-sm-2 control-label">នាម</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control input-sm" id="gro_name" placeholder="នាម" name="stu_kh_firstname" value="<?php echo set_value('stu_kh_firstname'); ?>"  pattern=".{2,50}" required title="Allow enter from 2 to 50 characters">
+                                <input type="text" class="form-control input-sm" id="stu_kh_firstname" placeholder="នាម" name="stu_kh_firstname" value="<?php echo set_value('stu_kh_firstname'); ?>" required title="Allow enter from 2 to 50 characters">
                                 <?php echo form_error('stu_kh_firstname'); ?>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="stu_en_firstname" class="col-sm-2 control-label">First Name</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control input-sm" id="gro_name" placeholder="First Name" name="stu_en_firstname" value="<?php echo set_value('stu_en_firstname'); ?>"  pattern=".{2,50}" required title="Allow enter from 2 to 50 characters">
+                                <input type="text" class="form-control input-sm" id="stu_en_firstname" placeholder="First Name" name="stu_en_firstname" value="<?php echo set_value('stu_en_firstname'); ?>" required title="Allow enter from 2 to 50 characters">
                                 <?php echo form_error('stu_en_firstname'); ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="col-sm-6"><img id="image_preview" alt="Uploaded Image Preview Holder" width="100px"/></div>
+                            <div class="col-sm-6">
+                                <input type="file" accept=".png, .gif, .jpg, .jpeg" class="form-control input-sm" id="stu_image" name="stu_image" value="<?php echo set_value('stu_en_firstname'); ?>" required title="Allow enter from 2 to 50 characters" />
+                                <?php echo form_error('stu_image'); ?>
                             </div>
                         </div>
                     </div>
@@ -58,8 +67,8 @@
 
 
 
-        <label><input type="radio" name="job" id="gro_status" value="1" <?php echo set_radio('job', 1, FALSE); ?>> មានការងារធ្វើ</label>&nbsp;&nbsp;
-        <label><input type="radio" name="job" id="gro_status" value="2" <?php echo set_radio('job', 2, FALSE); ?>> ជានិស្សិត</label>
+        <label><input type="radio" name="stu_job" id="gro_status" value="មានការងារធ្វើ" <?php echo set_radio('job', 1, FALSE); ?>> មានការងារធ្វើ</label>&nbsp;&nbsp;
+        <label><input type="radio" name="stu_job" id="gro_status" value="ជានិស្សិត" <?php echo set_radio('job', 2, FALSE); ?>> ជានិស្សិត</label>
 
 
 
@@ -73,14 +82,14 @@
                 <label><input type="radio" name="degree" value="3" <?php echo set_radio('degree', 3, FALSE); ?>> បរិញ្ញាបត្ររង Association Degree Program</label>
                 <div class="divider"></div>
                     <?php //Debug::dump($faculties); ?>
-                <div class="row">
+<!--                <div class="row">
                     <div class="col-md-12"><label>តើអ្នកជ្រើសរើសជំនាញមួយនា? For which graduate program are you applying?</label></div>
                     <?php //foreach ($master->result_array() as $row) { ?>
                         <div class="col-md-6">
-                            <label><input type="radio" name="major" id="gro_status" value="<?php //echo $row['maj_id']; ?>" <?php //echo set_radio('major', $row['maj_id'], FALSE); ?>> <?php //echo $row['maj_name']; ?></label>
+                            <label><input type="radio" name="major" value="<?php //echo $row['maj_id']; ?>" <?php //echo set_radio('major', $row['maj_id'], FALSE); ?>> <?php //echo $row['maj_name']; ?></label>
                         </div>
                     <?php //} ?>
-                </div>
+                </div>-->
 
                 <div class="row">
                     <div class="col-md-12"><strong>តើមហាវិទ្យល័យ និង ឯកទេសមួយណា ដែលអ្នកចង់ជ្រើសរើស?</strong></div>
@@ -96,15 +105,15 @@
                                 <h3 class="panel-title"><?php echo $kh_num[$count].'-ម. '.$faculty['fac_name']; ?></h3>
                             </div>
                             <div class="panel-body">
-                                <div class="col-md-4">
+                                
                                 <?php
                                 $m = $majors[$faculty['fac_id']];
                                 if($m->num_rows() > 0){
                                     foreach ($m->result_array() as $major) { 
                                         ?>
-
+                                        <div class="col-md-4">
                                             <label><input type="radio" name="major" id="gro_status" value="<?php echo $major['maj_id']; ?>" <?php echo set_radio('major', $major['maj_id'], FALSE); ?>> <?php echo $major['maj_name']; ?></label>
-
+                                        </div>
                                     <?php 
                                         }
                                 } 
@@ -112,7 +121,7 @@
                                     echo 'Empty';
                                 }
                                 ?>
-                                </div>
+                                
                             </div>
                         </div>
                         <?php 
@@ -359,10 +368,10 @@
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <label for="exp_shift1" class="col-sm-12">SHIFT</label>
+                    <label for="exp_shift0" class="col-sm-12">SHIFT</label>
                     <div class="col-sm-12">
-                        <label><input type="radio" name="exp_shift1[]" value="Full Time" <?php echo set_radio('exp_shift1[]', 'Full Time', FALSE); ?>> ពេញម៉ោង Full Time</label>
-                        <label><input type="radio" name="exp_shift1[]" value="Parth Time" <?php echo set_radio('majexp_shift1[]', 'Part Time', FALSE); ?>> ពេញម៉ោង Full Time</label>
+                        <label><input type="radio" name="exp_shift[0]" value="Full Time" <?php echo set_radio('exp_shift[0]', 'Full Time', FALSE); ?>> ពេញម៉ោង Full Time</label>
+                        <label><input type="radio" name="exp_shift[0]" value="Parth Time" <?php echo set_radio('majexp_shift[0]', 'Part Time', FALSE); ?>> មិនពេញម៉ោង Part Time</label>
                         <?php echo form_error('exp_date'); ?>
                     </div>
                 </div>
@@ -401,8 +410,8 @@
                 <div class="col-md-4">
                     <label for="exp_shift2" class="col-sm-12">SHIFT</label>
                     <div class="col-sm-12">
-                        <label><input type="radio" name="exp_shift2[]" id="exp_shift" value="Full Time" <?php echo set_radio('exp_shift2[]', 'Full Time', FALSE); ?>> ពេញម៉ោង Full Time</label>
-                        <label><input type="radio" name="exp_shift2[]" id="exp_shift" value="Parth Time" <?php echo set_radio('exp_shift2[]', 'Part Time', FALSE); ?>> ពេញម៉ោង Full Time</label>
+                        <label><input type="radio" name="exp_shift[1]" id="exp_shift" value="Full Time" <?php echo set_radio('exp_shift[1]', 'Full Time', FALSE); ?>> ពេញម៉ោង Full Time</label>
+                        <label><input type="radio" name="exp_shift[1]" id="exp_shift" value="Parth Time" <?php echo set_radio('exp_shift[1]', 'Part Time', FALSE); ?>> មិនពេញម៉ោង Part Time</label>
                         <?php echo form_error('exp_shift[]'); ?>
                     </div>
                 </div>
@@ -453,8 +462,22 @@
                 </div>
             </div>
         </div>
-
-
-
     </div>
 </form>
+<script type="text/javascript">
+            function readURL(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        $('#image_preview').attr('src', e.target.result);
+                    }
+
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+            $(function(){
+                $("#stu_image").change(function() {
+                    readURL(this);
+                });
+            });
+</script>
