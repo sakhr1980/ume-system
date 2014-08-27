@@ -21,7 +21,7 @@ class M_Staffevaluation extends CI_Model {
 		);
 		$this->db->limit($num_row, $from_row);
 		$this->db->from(TABLE_PREFIX . 'staff_evaluation');
-		$this->db->join(TABLE_PREFIX . 'staffs', TABLE_PREFIX . 'staffs.sta_id = ' . TABLE_PREFIX . 'staff_evaluation.sta_id');
+		$this->db->join(TABLE_PREFIX . 'staff', TABLE_PREFIX . 'staff.sta_id = ' . TABLE_PREFIX . 'staff_evaluation.sta_id');
 		$this->db->group_by('sta_eva_id');
 		return $this->db->get();
 	}
@@ -41,7 +41,7 @@ class M_Staffevaluation extends CI_Model {
 							'((sta_eva_ability_e + sta_eva_characteristic_e + sta_eva_attendant_e + sta_eva_idea_e) / 4) AS total_e'
 		);
 		$this->db->from(TABLE_PREFIX . 'staff_evaluation');
-		$this->db->join(TABLE_PREFIX . 'staffs', TABLE_PREFIX . 'staffs.sta_id = ' . TABLE_PREFIX . 'staff_evaluation.sta_id');
+		$this->db->join(TABLE_PREFIX . 'staff', TABLE_PREFIX . 'staff.sta_id = ' . TABLE_PREFIX . 'staff_evaluation.sta_id');
 		$this->db->group_by('sta_eva_id');
 		$data = $this->db->get();
 		return $data->num_rows();
@@ -71,7 +71,7 @@ class M_Staffevaluation extends CI_Model {
 							'((sta_eva_ability_d + sta_eva_characteristic_d + sta_eva_attendant_d + sta_eva_idea_d) / 4) AS total_d,' .
 							'((sta_eva_ability_e + sta_eva_characteristic_e + sta_eva_attendant_e + sta_eva_idea_e) / 4) AS total_e'
 		);
-		$this->db->join(TABLE_PREFIX . 'staffs', TABLE_PREFIX . 'staffs.sta_id = ' . TABLE_PREFIX . 'staff_evaluation.sta_id');
+		$this->db->join(TABLE_PREFIX . 'staff', TABLE_PREFIX . 'staff.sta_id = ' . TABLE_PREFIX . 'staff_evaluation.sta_id');
 		$this->db->where('sta_eva_id', $id);
 		return $this->db->get(TABLE_PREFIX . 'staff_evaluation');
 	}
@@ -82,7 +82,7 @@ class M_Staffevaluation extends CI_Model {
 	}
 	
 	function getStaffList(){
-		$result = $this->db->select('sta_id, sta_name')->get(TABLE_PREFIX . 'staffs');
+		$result = $this->db->select('sta_id, sta_name')->get(TABLE_PREFIX . 'staff');
 		$arr = array(''=>'');
 		foreach($result->result_array() as $row){
 			$arr[$row['sta_id']] = $row['sta_name'];
