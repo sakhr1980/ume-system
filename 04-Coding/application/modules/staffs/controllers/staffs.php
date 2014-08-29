@@ -148,10 +148,10 @@ class Staffs extends CI_Controller {
 		$this->data['content'] = 'staffs/staffs/edit';
 		$this->data['data'] = $this->m_staffs->getStaffById($id);
 
-		$this->form_validation->set_rules('sta_card_id', 'Card ID', 'required|exact_length[5]|callback_uniqueExcept[' . TABLE_PREFIX . 'staffs.sta_card_id,sta_id]');
+		$this->form_validation->set_rules('sta_card_id', 'Card ID', 'required|exact_length[5]|callback_uniqueExcept[' . TABLE_PREFIX . 'staff.sta_card_id,sta_id]');
 		$this->form_validation->set_rules('sta_name', 'Name in latin', 'required|max_length[50]|min_length[3]');
 		$this->form_validation->set_rules('sta_name_kh', 'Name in khmer', 'required|max_length[50]|min_length[3]');
-		$this->form_validation->set_rules('sta_email', 'Email', 'required|valid_email|callback_uniqueExcept[' . TABLE_PREFIX . 'staffs.sta_email,sta_id]');
+		$this->form_validation->set_rules('sta_email', 'Email', 'required|valid_email|callback_uniqueExcept[' . TABLE_PREFIX . 'staff.sta_email,sta_id]');
 		if ($this->form_validation->run() == FALSE) {
 			$this->load->view(LAYOUT, $this->data);
 		} else {

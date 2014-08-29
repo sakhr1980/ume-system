@@ -42,7 +42,7 @@ class M_Staffs extends CI_Model {
 
 		$this->db->where('s.sta_position !=', 'Teacher');
 		$this->db->limit($num_row, $from_row);
-		$this->db->from(TABLE_PREFIX . 'staff');
+		$this->db->from(TABLE_PREFIX . 'staff s');
 		$this->db->join(TABLE_PREFIX . 'staff_position p', 'p.sta_pos_id = s.sta_position');
 		$this->db->join(TABLE_PREFIX . 'staff_job_type j', 'j.sta_job_id = s.sta_job_type');
 		$this->db->group_by('s.sta_id');
@@ -119,7 +119,7 @@ class M_Staffs extends CI_Model {
 	 */
 	function getStaffById($id) {
 		$this->db->select(array('s.*', 'p.sta_pos_title', 'j.sta_job_title'));
-		$this->db->from(TABLE_PREFIX . 'staff');
+		$this->db->from(TABLE_PREFIX . 'staff s');
 		$this->db->join(TABLE_PREFIX . 'staff_position p', 'p.sta_pos_id = s.sta_position');
 		$this->db->join(TABLE_PREFIX . 'staff_job_type j', 'j.sta_job_id = s.sta_job_type');
 		$this->db->where('s.sta_id', $id);
