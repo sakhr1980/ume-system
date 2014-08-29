@@ -57,7 +57,7 @@ class Lectures extends CI_Controller {
 		$this->data['title'] = 'Add new lecture';
 		$this->data['content'] = 'staffs/lectures/add';
 
-		$this->form_validation->set_rules('sta_card_id', 'Card ID', 'required|exact_length[5]|is_unique[' . TABLE_PREFIX . 'staffs.sta_card_id]');
+		$this->form_validation->set_rules('sta_card_id', 'Card ID', 'required|exact_length[5]|is_unique[' . TABLE_PREFIX . 'staff.sta_card_id]');
 		$this->form_validation->set_rules('sta_name', 'Name in latin', 'required|max_length[50]|min_length[3]');
 		$this->form_validation->set_rules('sta_name_kh', 'Name in khmer', 'required|max_length[50]|min_length[3]');
 		$this->form_validation->set_rules('sta_email', 'Email', 'valid_email|is_unique[tbl_staffs.sta_email]');
