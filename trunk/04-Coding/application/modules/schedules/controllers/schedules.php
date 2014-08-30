@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
@@ -28,17 +28,20 @@ class schedules extends CI_Controller {
      * List classees
      */
     function index() {
-        $this->data['title'] = 'Manage Schedule';
+        $this->data['title'] = 'កាលវិភាគ';
         $this->data['content'] = 'schedules/index';
 
-        $this->form_validation->set_rules('cla_name', '', 'trim');
-        $this->form_validation->set_rules('cla_status', '', 'trim');
-        $this->form_validation->set_rules('cla_capacity', '', 'trim');
-        
-        $this->form_validation->run();
-        
-        $this->data['data'] = $this->m_schedules->findAllSchedule(PAGINGATION_PERPAGE, $this->uri->segment(4));
-        pagination_config(base_url() . 'schedules/schedules/index', $this->m_schedules->countAllSchedule(), PAGINGATION_PERPAGE);
+        $this->form_validation->set_rules('sch_title', '', 'trim');
+        $this->form_validation->set_rules('sch_academic_year', '', 'trim');
+     
+		
+        $this->data['major'] = $this->m_global->getDataArray(TABLE_PREFIX . 'majors', 'maj_id', 'maj_name', 'maj_status');
+        $this->data['shift'] = $this->m_global->getDataArray(TABLE_PREFIX . 'shift', 'shi_id', 'shi_name', 'shi_status');
+        $this->data['data'] = array();
+		if ($this->form_validation->run() == true) {
+			$this->data['data'] = $this->m_schedules->findAllSchedule(PAGINGATION_PERPAGE, $this->uri->segment(4));
+			pagination_config(site_url('schedules/index'), $this->m_schedules->countAllSchedule(), PAGINGATION_PERPAGE);
+		}
         $this->load->view(LAYOUT, $this->data);
     }
 
@@ -46,21 +49,22 @@ class schedules extends CI_Controller {
      * Add new user account
      */
     function add() {
-        $this->data['title'] = 'Add new class';
+        $this->data['title'] = 'បង្កើតកាលវិភាគ';
         $this->data['content'] = 'schedules/add';
-
-//
-        $this->form_validation->set_rules('cla_name', 'Schedulename', 'required|max_length[50]|min_length[2]');
-        $this->form_validation->set_rules('cla_capacity', 'Capacity', 'required|max_length[3]');
-        $this->form_validation->set_rules('cla_maj_id', 'major', 'trim');
+		
+		$this->form_validation->set_rules('sch_title', 'title', 'required');
+        $this->form_validation->set_rules('tbl_majors_maj_id', 'major', 'required');
+        $this->form_validation->set_rules('tbl_shift_shi_id', 'shift', 'required');
+        $this->form_validation->set_rules('sch_semester', 'semester', 'required');
+		$this->form_validation->set_rules('sch_year_number', 'year', 'required');
+        $this->form_validation->set_rules('sch_academic_year', 'academic year', 'required|max_length[50]|min_length[5]');
 
         if ($this->form_validation->run() == FALSE) {
-           $this->data['major'] = $this->m_global->getDataArray(TABLE_PREFIX . 'majors', 'maj_id', 'maj_name', 'maj_status');
-            $this->data['faculty'] = $this->m_global->getDataArray(TABLE_PREFIX . 'faculties', 'fac_id', 'fac_name', 'fac_status');
+			$this->data['major'] = $this->m_global->getDataArray(TABLE_PREFIX . 'majors', 'maj_id', 'maj_name', 'maj_status');
             $this->data['shift'] = $this->m_global->getDataArray(TABLE_PREFIX . 'shift', 'shi_id', 'shi_name', 'shi_status');
-          $this->load->view(LAYOUT, $this->data);
+			$this->load->view(LAYOUT, $this->data);
         }else{
-            if ($this->m_schedules->add()) {
+            if($this->m_schedules->add()) {
                 $this->session->set_flashdata('message', alert("New class has been saved!", 'success'));
                 redirect('schedules');
             } else {
@@ -69,6 +73,21 @@ class schedules extends CI_Controller {
             }
         }
     }
+	
+	function ajaxTeacher(){
+		$data = $this->m_schedules->getAjaxData('staff',array('sta_id as id','sta_name as name'));
+		echo json_encode($data);
+	}
+	
+	function ajaxRoom(){
+		$data = $this->m_schedules->getAjaxData('room',array('rom_id as id','rom_name as name'));
+		echo json_encode($data);
+	}
+	
+	function ajaxSubject(){
+		$data = $this->m_schedules->getAjaxData('subject',array('sub_id as id','sub_name as name'));
+		echo json_encode($data);
+	}
 
     function edit($id=0) {
 
