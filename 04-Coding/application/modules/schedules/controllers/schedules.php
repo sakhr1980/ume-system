@@ -65,7 +65,7 @@ class schedules extends CI_Controller {
 			$this->load->view(LAYOUT, $this->data);
         }else{
             if($this->m_schedules->add()) {
-                $this->session->set_flashdata('message', alert("New class has been saved!", 'success'));
+                $this->session->set_flashdata('message', alert("New schedule has been saved!", 'success'));
                 redirect('schedules');
             } else {
                 $this->session->set_flashdata('message', alert("Schedule cannot be added, please try again", 'danger'));
@@ -90,45 +90,35 @@ class schedules extends CI_Controller {
 	}
 
     function edit($id=0) {
-
-        $this->data['title'] = 'Updat class';
+        $this->data['title'] = 'កែប្រែកាលវិភាគ';
         $this->data['content'] = 'schedules/edit';
-        $this->data['data'] = $this->m_schedules->selectJoinSchedule($id);
-        
-        $this->form_validation->set_rules('cla_name', 'Schedulename', 'required|max_length[50]|min_length[3]');
-        $this->form_validation->set_rules('cla_capacity', 'Capacity', 'trim');
-        $this->form_validation->set_rules('cla_maj_id', 'cla_maj_id', 'trim');
+		$this->data['data'] = $this->m_schedules->getDataSchedule($id);
+		
+		$this->form_validation->set_rules('sch_title', 'title', 'required');
+        $this->form_validation->set_rules('tbl_majors_maj_id', 'major', 'required');
+        $this->form_validation->set_rules('tbl_shift_shi_id', 'shift', 'required');
+        $this->form_validation->set_rules('sch_semester', 'semester', 'required');
+		$this->form_validation->set_rules('sch_year_number', 'year', 'required');
+        $this->form_validation->set_rules('sch_academic_year', 'academic year', 'required|max_length[50]|min_length[5]');
 
         if ($this->form_validation->run() == FALSE) {
-           $this->data['major'] = $this->m_global->getDataArray(TABLE_PREFIX . 'majors', 'maj_id', 'maj_name', 'maj_status');
-            $this->data['faculty'] = $this->m_global->getDataArray(TABLE_PREFIX . 'faculties', 'fac_id', 'fac_name', 'fac_status');
+			$this->data['major'] = $this->m_global->getDataArray(TABLE_PREFIX . 'majors', 'maj_id', 'maj_name', 'maj_status');
             $this->data['shift'] = $this->m_global->getDataArray(TABLE_PREFIX . 'shift', 'shi_id', 'shi_name', 'shi_status');
-          $this->load->view(LAYOUT, $this->data);
-//            echo "not good";
+			$this->load->view(LAYOUT, $this->data);
         }else{
-            if ($this->m_schedules->update()) {
-                $this->session->set_flashdata('message', alert("New class has been saved!", 'success'));
-                redirect('schedules/index/' . $this->uri->segment(5));
-//                echo "Updated";
+            if($this->m_schedules->update()) {
+                $this->session->set_flashdata('message', alert("schedule has been saved!", 'success'));
+                redirect('schedules');
             } else {
-                echo "Error";
-                $this->session->set_flashdata('message', alert("Schedule cannot be added, please try again", 'danger'));
-                $s5=($this->uri->segment(5)) ? '/' . $this->uri->segment(4) : ''; // for pagination
-//                redirect('schedules/index/' . $s5);
+                $this->session->set_flashdata('message', alert("Schedule cannot be updated, please try again", 'danger'));
+                redirect('schedules/edit');
             }
-//             
         }
     }
 
     // $id = segment(4)
-    function delete($id) {
-        if ($this->m_schedules->deleteScheduleById($id)) {
-            $this->session->set_flashdata('message', alert("User account has been deleted!", 'success'));
-            redirect('schedules/schedules/index/' . $this->uri->segment(5));
-        } else {
-            $this->session->set_flashdata('message', alert("User account cannot be deleted, please try again!", 'danger'));
-            redirect('schedules/schedules/index/' . $this->uri->segment(5));
-        }
+    function delete($id=0) {
+        echo $this->m_schedules->deleteScheduleById($id);
     }
 
     // view a Schedule

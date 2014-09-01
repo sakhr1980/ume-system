@@ -70,10 +70,17 @@
 	<?php
 		$comma = ', ';
 		foreach($data as $item):
-			$header = $item['header'];			
+			$header = $item['header'];
+			$sch_id = $header['sch_id'];
 	?>
-			<div class="panel panel-default">
+			<div class="panel panel-default" id="panel<?php echo $sch_id;?>">
                 <div class="panel-body">
+					<div class="btn-group">
+					<?php
+						echo anchor(site_url('schedules/edit/'.$sch_id),'Edit','class="btn btn-default"');
+						echo anchor(site_url('schedules/delete/'.$sch_id),'Delete',"class='btn btn-default schedule-delete' id='$sch_id'");
+					?>
+					</div>
 	<?php
 			if($header):
 				echo '<div style="text-align:center;font-size:15px;">';
@@ -142,4 +149,19 @@
 			echo $this->pagination->create_links(); 
 	?>
 </div>
+<script>
+	$(document).ready(function(){
+		$(document).on('click','.schedule-delete',function(e){
+			e.preventDefault();
+			var th = $(this);
+			var url = th.attr('href');
+			var id = th.attr('id');
+			$.get(url,function(response){
+				if(response){					
+					$('#panel'+id).remove();
+				}
+			});
+		});
+	});
+</script>
 
