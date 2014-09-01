@@ -15,7 +15,7 @@ if (!defined('BASEPATH'))
  */
 class Registrations extends CI_Controller {
 
-    //put your code here
+//put your code here
     var $data = array('title' => null, 'content' => 'missing_view');
 
     function __construct() {
@@ -34,13 +34,8 @@ class Registrations extends CI_Controller {
 //        $this->form_validation->set_rules('gro_name','','trim');
 //        $this->form_validation->set_rules('gro_status','','trim');
 //        $this->form_validation->run();
-
-
-
         $this->data['data'] = $this->m_registrations->findAllRegistrations(PAGINGATION_PERPAGE, $this->uri->segment(4));
         pagination_config(base_url() . 'students/registrations/index', $this->m_registrations->countAllRegistrations(), PAGINGATION_PERPAGE);
-
-
         $this->load->view(LAYOUT, $this->data);
     }
 
@@ -52,8 +47,6 @@ class Registrations extends CI_Controller {
         $this->data['content'] = 'students/registrations/add';
 
         $this->form_validation->set_rules('stu_kh_lastname', 'គោត្តនាមe', 'required]');
-
-
         if ($this->form_validation->run() == FALSE) {
 //            $this->data['master'] = $this->m_registrations->getMajorByMasterId(6);
 //            $this->data['bachelor_economic'] = $this->m_registrations->getMajorByMasterId(1);
@@ -63,7 +56,7 @@ class Registrations extends CI_Controller {
 //            $this->data['bachelor_law'] = $this->m_registrations->getMajorByMasterId(4);
             $majors = NULL;
             $faculties = $this->m_registrations->getFaculties();
-            //Debug::dump($faculties->result_array());die();
+//Debug::dump($faculties->result_array());die();
             foreach ($faculties->result_array() as $row) {
                 $majors[$row['fac_id']] = $this->m_registrations->getMajorByMasterId($row['fac_id']);
             }
@@ -86,10 +79,24 @@ class Registrations extends CI_Controller {
 
         $this->data['title'] = 'Edit Group';
         $this->data['content'] = 'students/registrations/edit';
-        $this->data['data'] = $this->m_registrations->getGroupById($this->uri->segment(4));
+        $this->data['data'] = $this->m_registrations->getStudentById($this->uri->segment(4));
+//         $this->data['class'] = $this->m_registrations->getUdateClassById(,$this->uri->segment(4));
 
-//        $this->form_validation->set_error_delimiters('<div class="alert alert-error">', '</div>');
-        $this->form_validation->set_rules('gro_name', 'Group Name', 'required|max_length[50]|min_length[2]|callback_uniqueExcept[' . TABLE_PREFIX . 'registrations.gro_name,gro_id]');
+        $this->data['data'] = $this->m_registrations->getStudentById($this->uri->segment(4));
+        $majors = NULL;
+        $faculties = $this->m_registrations->getFaculties();
+//Debug::dump($faculties->result_array());die();
+        foreach ($faculties->result_array() as $row) {
+            $majors[$row['fac_id']] = $this->m_registrations->getMajorByMasterId($row['fac_id']);
+        }
+        $this->data['faculties'] = $faculties;
+        $this->data['majors'] = $majors;
+//        $this->form_validation->set_rules('stu_card_id', '', 'trim');
+        $this->form_validation->set_rules('stu_en_firstname', '', 'trim');
+        $this->form_validation->set_rules('stu_en_lastname', '', 'trim');
+        $this->form_validation->set_rules('stu_kh_firstname', '', 'trim');
+        $this->form_validation->set_rules('stu_kh_lastname', '', 'trim');
+
         if ($this->form_validation->run() == FALSE) {
             $this->load->view(LAYOUT, $this->data);
         } else {
@@ -105,36 +112,36 @@ class Registrations extends CI_Controller {
         }
     }
 
-    // $id = segment(4)
+// $id = segment(4)
     function delete($id) {
-        if ($this->m_registrations->deleteGroupById($id)) {
-            $this->session->set_flashdata('message', alert("Student registration has been deleted!", 'success'));
+        if ($this->m_registrations->deleteStudentById($id)) {
+            $this->session->set_flashdata('message', alert("Student  has been deleted!", 'success'));
             redirect('students/registrations/index/' . $this->uri->segment(5));
         } else {
-            $this->session->set_flashdata('message', alert("Student registration cannot be deleted, please try again!", 'danger'));
+            $this->session->set_flashdata('message', alert("Student cannot be deleted, please try again!", 'danger'));
             redirect('students/registrations/index/' . $this->uri->segment(5));
         }
     }
 
     function view($id = null) {
 
-        $this->data['title'] = 'View User Group';
+        $this->data['title'] = 'View Student';
         $this->data['content'] = 'students/registrations/view';
 
-        $this->data['data'] = $this->m_registrations->getGroupById($id);
+        $this->data['data'] = $this->m_registrations->getStudentById($id);
         $this->load->view(LAYOUT, $this->data);
     }
 
-    //====================== validation
+//====================== validation
     /**
      * 
      * @param type $str
      * @return boolean
      */
     function uniqueExcept($str, $table_field) {
-        // $f1[0] : table name
-        // $f1[1] : field to insert
-        // $tf[1] : field id
+// $f1[0] : table name
+// $f1[1] : field to insert
+// $tf[1] : field id
         $tf = explode(',', $table_field);
         $f1 = explode('.', $tf[0]);
         $this->db->where($f1[1], $str);
@@ -145,6 +152,28 @@ class Registrations extends CI_Controller {
             return FALSE;
         } else {
             return TRUE;
+        }
+    }
+
+    function ajax_get_class() {
+//       $shift = 1;
+//        $generation =1;
+//        $major =4;
+// $data = $this->input->post();
+
+        $shift = $this->input->post('reShift');
+        $generation = $this->input->post('reGeneration');
+        $major = $this->input->post('reMajor');
+
+        $class_data = $this->m_registrations->getClassById($shift, $generation, $major);
+        if ($class_data->num_rows() > 0) {
+            foreach ($class_data->result_array() as $class) {
+                echo ' <div class="col-md-3" >
+                    <label><input type="radio"  required="required" name="class" id="shift" value="' . $class["cla_id"] . '" >' . $class["cla_name"] . ' (' . $class["studnetNumber"] . ')' . '</label>
+                </div> ';
+            }
+        } else {
+            echo "<span class=''>Don't have class for you selected major and shift...!</span>";
         }
     }
 

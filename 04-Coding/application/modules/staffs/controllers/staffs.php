@@ -32,7 +32,7 @@ class Staffs extends CI_Controller {
 	 */
 	function index() {
 		$this->data['title'] = 'Manage Staffs Account';
-		$this->data['content'] = 'staffs/staffs/index';
+		$this->data['content'] = 'staff/staffs/index';
 
 		$this->form_validation->set_rules('sta_card_id', '', 'trim');
 		$this->form_validation->set_rules('sta_name', '', 'trim');

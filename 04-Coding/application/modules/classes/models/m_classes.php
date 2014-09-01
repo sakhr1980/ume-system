@@ -7,11 +7,7 @@ class M_Classes extends CI_Model {
 
     function findAllClass($num_row, $from_row) {
         $this->db->order_by('cla_id', 'desc');
-
-//        if ($this->input->post('cla_namel') != '') {
-//            $this->db->like('cla_name', $this->input->post('cla_name'));
-//        }
-//
+        
 //         Keep pagination for filter status
         if ($this->input->post('cla_name') != '') {
             $this->session->set_userdata('cla_name', $this->input->post('cla_name'));
@@ -83,6 +79,7 @@ class M_Classes extends CI_Model {
     function add() {
         $data = $this->input->post();
         unset($data['fac_id']);
+        $this->db->set('cla_create_date', 'NOW()', false);
         $result = $this->db->insert(TABLE_PREFIX . 'classes', $data);
 
         return $result;
