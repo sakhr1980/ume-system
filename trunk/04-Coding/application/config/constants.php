@@ -47,7 +47,7 @@ define('FOPEN_READ_WRITE_CREATE_STRICT', 'x+b');
 define('TEMPMLATE', 'templates/bootstrap/index');
 define('TEMPMLATEPATH', 'dist');
 define('LAYOUT', 'layout');
-define('PAGINGATION_PERPAGE', 2);
+define('PAGINGATION_PERPAGE', 10);
 
 define('TABLE_PREFIX', 'tbl_');
 

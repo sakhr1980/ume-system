@@ -34,9 +34,9 @@ class Classes extends CI_Controller {
         $this->form_validation->set_rules('cla_name', '', 'trim');
         $this->form_validation->set_rules('cla_status', '', 'trim');
         $this->form_validation->set_rules('cla_capacity', '', 'trim');
-        
+
         $this->form_validation->run();
-        
+
         $this->data['data'] = $this->m_classes->findAllClass(PAGINGATION_PERPAGE, $this->uri->segment(4));
         pagination_config(base_url() . 'classes/classes/index', $this->m_classes->countAllClass(), PAGINGATION_PERPAGE);
         $this->load->view(LAYOUT, $this->data);
@@ -55,11 +55,12 @@ class Classes extends CI_Controller {
         $this->form_validation->set_rules('cla_maj_id', 'major', 'trim');
 
         if ($this->form_validation->run() == FALSE) {
-           $this->data['major'] = $this->m_global->getDataArray(TABLE_PREFIX . 'majors', 'maj_id', 'maj_name', 'maj_status');
-            $this->data['faculty'] = $this->m_global->getDataArray(TABLE_PREFIX . 'faculties', 'fac_id', 'fac_name', 'fac_status');
+            $this->data['generation'] = $this->m_global->getDataArray(TABLE_PREFIX . 'generation', 'gen_id', 'gen_title', 'gen_status');
+            $this->data['major'] = $this->m_global->getDataArray(TABLE_PREFIX . 'majors', 'maj_id', 'maj_name', 'maj_status');
+//            $this->data['faculty'] = $this->m_global->getDataArray(TABLE_PREFIX . 'faculties', 'fac_id', 'fac_name', 'fac_status');
             $this->data['shift'] = $this->m_global->getDataArray(TABLE_PREFIX . 'shift', 'shi_id', 'shi_name', 'shi_status');
-          $this->load->view(LAYOUT, $this->data);
-        }else{
+            $this->load->view(LAYOUT, $this->data);
+        } else {
             if ($this->m_classes->add()) {
                 $this->session->set_flashdata('message', alert("New class has been saved!", 'success'));
                 redirect('classes');
@@ -70,23 +71,24 @@ class Classes extends CI_Controller {
         }
     }
 
-    function edit($id=0) {
+    function edit($id = 0) {
 
         $this->data['title'] = 'Updat class';
         $this->data['content'] = 'classes/edit';
         $this->data['data'] = $this->m_classes->selectJoinClass($id);
-        
+
         $this->form_validation->set_rules('cla_name', 'Classname', 'required|max_length[50]|min_length[3]');
         $this->form_validation->set_rules('cla_capacity', 'Capacity', 'trim');
         $this->form_validation->set_rules('cla_maj_id', 'cla_maj_id', 'trim');
 
         if ($this->form_validation->run() == FALSE) {
-           $this->data['major'] = $this->m_global->getDataArray(TABLE_PREFIX . 'majors', 'maj_id', 'maj_name', 'maj_status');
-            $this->data['faculty'] = $this->m_global->getDataArray(TABLE_PREFIX . 'faculties', 'fac_id', 'fac_name', 'fac_status');
+            $this->data['generation'] = $this->m_global->getDataArray(TABLE_PREFIX . 'generation', 'gen_id', 'gen_title', 'gen_status');
+            $this->data['major'] = $this->m_global->getDataArray(TABLE_PREFIX . 'majors', 'maj_id', 'maj_name', 'maj_status');
+//            $this->data['faculty'] = $this->m_global->getDataArray(TABLE_PREFIX . 'faculties', 'fac_id', 'fac_name', 'fac_status');
             $this->data['shift'] = $this->m_global->getDataArray(TABLE_PREFIX . 'shift', 'shi_id', 'shi_name', 'shi_status');
-          $this->load->view(LAYOUT, $this->data);
+            $this->load->view(LAYOUT, $this->data);
 //            echo "not good";
-        }else{
+        } else {
             if ($this->m_classes->update()) {
                 $this->session->set_flashdata('message', alert("New class has been saved!", 'success'));
                 redirect('classes/index/' . $this->uri->segment(5));
@@ -94,7 +96,7 @@ class Classes extends CI_Controller {
             } else {
                 echo "Error";
                 $this->session->set_flashdata('message', alert("Class cannot be added, please try again", 'danger'));
-                $s5=($this->uri->segment(5)) ? '/' . $this->uri->segment(4) : ''; // for pagination
+                $s5 = ($this->uri->segment(5)) ? '/' . $this->uri->segment(4) : ''; // for pagination
 //                redirect('classes/index/' . $s5);
             }
 //             
@@ -113,13 +115,13 @@ class Classes extends CI_Controller {
     }
 
     // view a Class
-	function view($id = null) {
-		$this->data['title'] = 'View Class';
-		$this->data['content'] = 'classes/view';
+    function view($id = null) {
+        $this->data['title'] = 'View Class';
+        $this->data['content'] = 'classes/view';
 
-		$this->data['data'] = $this->m_classes->selectJoinClass($id);
-		$this->load->view(LAYOUT, $this->data);
-	}
+        $this->data['data'] = $this->m_classes->selectJoinClass($id);
+        $this->load->view(LAYOUT, $this->data);
+    }
 
     //====================== validation
     /**
@@ -142,9 +144,6 @@ class Classes extends CI_Controller {
         } else {
             return TRUE;
         }
-        
-        
     }
 
 }
-

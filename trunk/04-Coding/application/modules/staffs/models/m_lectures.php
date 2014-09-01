@@ -98,7 +98,7 @@ class M_Lectures extends CI_Model {
 	 */
 	function update() {
 		$data = $this->input->post();
-		$this->db->where('staw_id', $this->uri->segment(4));
+		$this->db->where('sta_id', $this->uri->segment(4));
 		$this->db->set('sta_modified', 'NOW()', false);
 		// if checkbox is not checked
 		if (empty($data['sta_status'])) {

@@ -19,16 +19,24 @@
                         <h3 class="panel-title">គ្រ​ប់គ្រង់ថ្នាក់</h3>
                     </div>
                     <div class="panel-body">
-                        
+                                              
                         <div class="form-group">
-                                     <label for="fac_id" class="col-sm-2 control-label">មហាវិទ្យាល័យ:</label>             
+                                     <label for="tbl_generation_gen_id" class="col-sm-3 control-label">ជំនាន់ / Generation:</label>             
                             <div class="col-md-5">
-                                <?php echo form_dropdown('fac_id', array('' => '--All Faculty--') + $faculty, set_value('fac_id', $this->session->userdata('fac_id')), 'class="form-control input-sm" required') ?>
+                                <?php echo form_dropdown('tbl_generation_gen_id', array('' => '--All Generation--') + $generation, set_value('tbl_generation_gen_id', $this->session->userdata('tbl_generation_gen_id')), 'class="form-control input-sm" required') ?>
                             </div>
                         </div>
                         
+<!--
+                        <div class="form-group">
+                                     <label for="fac_id" class="col-sm-3 control-label">មហាវិទ្យាល័យ:</label>             
+                            <div class="col-md-5">
+                                <?php // echo form_dropdown('fac_id', array('' => '--All Faculty--') + $faculty, set_value('fac_id', $this->session->userdata('fac_id')), 'class="form-control input-sm" required') ?>
+                            </div>
+                        </div>-->
+                        
                           <div class="form-group">
-                             <label class="col-sm-2 control-label" for="cla_maj_id">សកលវិទ្យាល័យ:</label>
+                             <label class="col-sm-3 control-label" for="cla_maj_id">សកលវិទ្យាល័យ / Major::</label>
                             <div class="col-md-5">
                                
                                 <?php echo form_dropdown('cla_maj_id', array('' => '--All Major--') + $major, set_value('cla_maj_id', $this->session->userdata('cla_maj_id')), 'class="form-control input-sm" required') ?>
@@ -37,7 +45,7 @@
                               </div>
                         
                             <div class="form-group">
-                                <label class="col-sm-2 control-label" for="tbl_shift_shi_id">ម៉ោងសិក្សា:</label>
+                                <label class="col-sm-3 control-label" for="tbl_shift_shi_id">ម៉ោងសិក្សា / Shift:</label>
                                 <div class="col-md-5">
 
                                     <?php echo form_dropdown('tbl_shift_shi_id', array('' => '--All Faculty--') + $shift, set_value('tbl_shift_shi_id', $this->session->userdata('tbl_shift_shi_id')), 'class="form-control input-sm" required') ?>
@@ -46,14 +54,14 @@
                         
                         
                         <div class="form-group">
-                            <label for="cla_name" class="col-sm-2 control-label">ឈ្មោះថ្នាក់ៈ</label>
+                            <label for="cla_name" class="col-sm-3 control-label">ឈ្មោះថ្នាក់ / Name</label>
                             <div class="col-sm-5">
                                 <input type="text" class="form-control" id="class_name" placeholder="Classname" name="cla_name" value="<?php echo set_value('cla_name'); ?>"  pattern=".{3,50}"  title="Allow enter from 3 to 50 characters">
                                 <?php echo form_error('cla_name'); ?>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="cla_capacity" class="col-sm-2 control-label">ចំនួនសិស្ស</label>
+                            <label for="cla_capacity" class="col-sm-3 control-label">ចំនួនសិស្សច្រើនបំផុត /Capacity</label>
                             <div class="col-sm-5">
                                 <input type="number" class="form-control" id="use_email" placeholder="cla_capacity" name="cla_capacity" value="<?php echo set_value('cla_capacity'); ?>" >
                                 <?php echo form_error('cla_capacity'); ?>
@@ -74,8 +82,8 @@
                                                     </div>-->
                     </div>
                     <div class="form-group">
-                        <label for="use_status" class="col-sm-2 control-label">ស្ថានភាព</label>
-                        <div class="col-sm-10">
+                        <label for="use_status" class="col-sm-3 control-label">ស្ថានភាព</label>
+                        <div class="col-sm-9">
                             <div class="checkbox">
                                 <label><input type="checkbox" name="cla_status" id="use_status" value="1" <?php echo set_checkbox('cla_status', 1, TRUE); ?>> ដាក់អោយដំណើរការថ្នាក់នេះ</label>
                             </div>

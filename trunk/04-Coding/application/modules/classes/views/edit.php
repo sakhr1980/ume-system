@@ -25,15 +25,21 @@ echo '/' . $this->uri->segment(5); // segment(5) for pagination
                         <h3 class="panel-title">Edit From</h3>
                     </div>
                     <div class="panel-body">
-<!--                        <div class="form-group">
-                            <label for="fac_id" class="col-sm-2 control-label">មហាវិទ្យាល័យ:</label>             
+                           <div class="form-group">
+                                     <label for="tbl_generation_gen_id" class="col-sm-3 control-label">ជំនាន់ / Generation:</label>             
                             <div class="col-md-5">
-                                <?php echo form_dropdown('fac_id', array('' => '--All Faculty--') + $faculty, set_value('fac_id', $this->session->userdata('fac_id')), 'class="form-control input-sm" required') ?>
+                                <?php echo form_dropdown('tbl_generation_gen_id', array('' => '--All Generation--') + $generation, set_value('tbl_generation_gen_id', $this->session->userdata('tbl_generation_gen_id')), 'class="form-control input-sm" required') ?>
+                            </div>
+                        </div>
+<!--                        <div class="form-group">
+                            <label for="fac_id" class="col-sm-3 control-label">មហាវិទ្យាល័យ:</label>             
+                            <div class="col-md-5">
+                                <?php // echo form_dropdown('fac_id', array('' => '--All Faculty--') + $faculty, set_value('fac_id', $this->session->userdata('fac_id')), 'class="form-control input-sm" required') ?>
                             </div>
                         </div>-->
 
                         <div class="form-group">
-                            <label class="col-sm-2 control-label" for="cla_maj_id">សកលវិទ្យាល័យ:</label>
+                            <label class="col-sm-3 control-label" for="cla_maj_id">សកលវិទ្យាល័យ / Major:</label>
                             <div class="col-md-5">
 
                                 <?php echo form_dropdown('cla_maj_id', array('' => '--All Major--') + $major, set_value('cla_maj_id', $this->session->userdata('cla_maj_id')), 'class="form-control input-sm" required') ?>
@@ -41,21 +47,21 @@ echo '/' . $this->uri->segment(5); // segment(5) for pagination
 
                         </div>
                         <div class="form-group">
-                                <label class="col-sm-2 control-label" for="tbl_shift_shi_id">ម៉ោងសិក្សា:</label>
+                                <label class="col-sm-3 control-label" for="tbl_shift_shi_id">ម៉ោងសិក្សា / Shift:</label>
                                 <div class="col-md-5">
 
-                                    <?php echo form_dropdown('tbl_shift_shi_id', array('' => '--All Faculty--') + $shift, set_value('tbl_shift_shi_id', $this->session->userdata('tbl_shift_shi_id')), 'class="form-control input-sm" required') ?>
+                                    <?php echo form_dropdown('tbl_shift_shi_id', array('' => '--All Shift--') + $shift, set_value('tbl_shift_shi_id', $this->session->userdata('tbl_shift_shi_id')), 'class="form-control input-sm" required') ?>
                                 </div>
                             </div>
                         <div class="form-group">
-                            <label for="cla_name" class="col-sm-2 control-label">Name</label>
+                            <label for="cla_name" class="col-sm-3 control-label">ឈ្មោះថ្នាក់ / Name</label>
                             <div class="col-sm-6">
                                 <input type="text" class="form-control" id="sta_name" placeholder="Name in latin" name="cla_name" value="<?php echo set_value('cla_name', $data['cla_name']); ?>"  pattern=".{2,50}" required title="Allow enter from 2 to 50 characters">
                                 <?php echo form_error('cla_name'); ?>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="cla_capacity" class="col-sm-2 control-label">Capacity</label>
+                            <label for="cla_capacity" class="col-sm-3 control-label">ចំនួនសិក្សច្រើនបំផុត ​/ Capacity</label>
                             <div class="col-sm-6">
                                 <input type="text" class="form-control" id="cla_capacity" placeholder="Capacity" name="cla_capacity" value="<?php echo set_value('cla_capacity', $data['cla_capacity']); ?>"  pattern=".{0,3}" required title="Allow enter from 1 to 99 characters">
                                 <?php echo form_error('cla_capacity'); ?>
@@ -63,7 +69,7 @@ echo '/' . $this->uri->segment(5); // segment(5) for pagination
                         </div>
                         
                         <div class="form-group">
-                            <label for="sta_status" class="col-sm-2 control-label">Enable</label>
+                            <label for="sta_status" class="col-sm-3 control-label">Enable</label>
                             <div class="col-sm-6">
                                 <div class="checkbox">
                                     <label><input type="checkbox" name="cla_status" id="sta_status" value="1" <?php echo set_checkbox('cla_status', 1, ($data['cla_status'] == 1) ? TRUE : FALSE); ?>> Check to enable this class</label>

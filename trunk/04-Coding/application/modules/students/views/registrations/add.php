@@ -53,12 +53,13 @@
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <div class="col-sm-6"><img id="image_preview" alt="Uploaded Image Preview Holder" width="100px"/></div>
-                            <div class="col-sm-6">
-                                <input type="file" accept=".png, .gif, .jpg, .jpeg" class="form-control input-sm" id="stu_image" name="stu_image" value="<?php echo set_value('stu_en_firstname'); ?>" required title="Allow enter from 2 to 50 characters" />
-                                <?php echo form_error('stu_image'); ?>
-                            </div>
+                            <div class="col-sm-6"><img id="image_preview" alt="Uploaded Image Preview Holder"/>&nbsp;</div>
+
+                        </div> 
+                        <div class="col-sm">
+                            <input type="file" accept=".png, .gif, .jpg, .jpeg" class="form-control input-sm" id="stu_image" name="stu_image" value="<?php echo set_value('stu_en_firstname'); ?>"  title="Allow enter from 2 to 50 characters" />
                         </div>
+                        <?php echo form_error('stu_image'); ?>
                     </div>
                 </div>
 
@@ -67,8 +68,8 @@
 
 
 
-        <label><input type="radio" name="stu_job" id="gro_status" value="មានការងារធ្វើ" <?php echo set_radio('job', 1, FALSE); ?>> មានការងារធ្វើ</label>&nbsp;&nbsp;
-        <label><input type="radio" name="stu_job" id="gro_status" value="ជានិស្សិត" <?php echo set_radio('job', 2, FALSE); ?>> ជានិស្សិត</label>
+        <label><input type="radio" required="required" name="stu_job" id="gro_status" value="មានការងារធ្វើ" <?php echo set_radio('job', 1, FALSE); ?>> មានការងារធ្វើ</label>&nbsp;&nbsp;
+        <label><input type="radio" required="required" name="stu_job" id="gro_status" value="ជានិស្សិត" <?php echo set_radio('job', 2, FALSE); ?>> ជានិស្សិត</label>
 
 
 
@@ -77,68 +78,67 @@
                 <h3 class="panel-title">I. កមរិតសញ្ញាប័ត្រ និងជំនាញ PROGRAM OF STUDY AND MAJOR</h3>
             </div>
             <div class="panel-body">
-                <label><input type="radio" name="degree" value="1" <?php echo set_radio('degree', 1, FALSE); ?>> បរិញ្ញបត្រជាន់ខ្ពស់ Master Degree Program</label>&nbsp;&nbsp;
-                <label><input type="radio" name="degree" value="2" <?php echo set_radio('degree', 2, FALSE); ?>> បរិញ្ញាបត្រ Bachelor Degree Program</label>
-                <label><input type="radio" name="degree" value="3" <?php echo set_radio('degree', 3, FALSE); ?>> បរិញ្ញាបត្ររង Association Degree Program</label>
+                <label><input type="radio" required="required" name="degree" value="1" <?php echo set_radio('degree', 1, FALSE); ?>> បរិញ្ញបត្រជាន់ខ្ពស់ Master Degree Program</label>&nbsp;&nbsp;
+                <label><input type="radio" required="required" name="degree" value="2" <?php echo set_radio('degree', 2, FALSE); ?>> បរិញ្ញាបត្រ Bachelor Degree Program</label>
+                <label><input type="radio" required="required" name="degree" value="3" <?php echo set_radio('degree', 3, FALSE); ?>> បរិញ្ញាបត្ររង Association Degree Program</label>
                 <div class="divider"></div>
-                    <?php //Debug::dump($faculties); ?>
-<!--                <div class="row">
-                    <div class="col-md-12"><label>តើអ្នកជ្រើសរើសជំនាញមួយនា? For which graduate program are you applying?</label></div>
-                    <?php //foreach ($master->result_array() as $row) { ?>
-                        <div class="col-md-6">
-                            <label><input type="radio" name="major" value="<?php //echo $row['maj_id']; ?>" <?php //echo set_radio('major', $row['maj_id'], FALSE); ?>> <?php //echo $row['maj_name']; ?></label>
-                        </div>
-                    <?php //} ?>
-                </div>-->
+                <?php //Debug::dump($faculties); ?>
+                <!--                <div class="row">
+                                    <div class="col-md-12"><label>តើអ្នកជ្រើសរើសជំនាញមួយនា? For which graduate program are you applying?</label></div>
+                <?php //foreach ($master->result_array() as $row) { ?>
+                                        <div class="col-md-6">
+                                            <label><input type="radio" name="major" value="<?php //echo $row['maj_id'];         ?>" <?php //echo set_radio('major', $row['maj_id'], FALSE);         ?>> <?php //echo $row['maj_name'];         ?></label>
+                                        </div>
+                <?php //} ?>
+                                </div>-->
 
                 <div class="row">
                     <div class="col-md-12"><strong>តើមហាវិទ្យល័យ និង ឯកទេសមួយណា ដែលអ្នកចង់ជ្រើសរើស?</strong></div>
                     <div class="col-md-12">
-                        <?php 
-                        $kh_num = array('០','១','២','៣','៤','៥','៦','៧','៨','៩','១០','១១',);
-                        if(count($faculties) > 0){
+                        <?php
+                        $kh_num = array('០', '១', '២', '៣', '៤', '៥', '៦', '៧', '៨', '៩', '១០', '១១',);
+                        if (count($faculties) > 0) {
                             $count = 0;
-                            foreach ($faculties->result_array as $faculty){ $count++;
-                        ?>
-                        <div class="panel panel-<?php echo DEFAULTS; ?>">
-                            <div class="panel-heading">
-                                <h3 class="panel-title"><?php echo $kh_num[$count].'-ម. '.$faculty['fac_name']; ?></h3>
-                            </div>
-                            <div class="panel-body">
-                                
-                                <?php
-                                $m = $majors[$faculty['fac_id']];
-                                if($m->num_rows() > 0){
-                                    foreach ($m->result_array() as $major) { 
-                                        ?>
-                                        <div class="col-md-4">
-                                            <label><input type="radio" name="major" id="gro_status" value="<?php echo $major['maj_id']; ?>" <?php echo set_radio('major', $major['maj_id'], FALSE); ?>> <?php echo $major['maj_name']; ?></label>
-                                        </div>
-                                    <?php 
-                                        }
-                                } 
-                                else{
-                                    echo 'Empty';
-                                }
+                            foreach ($faculties->result_array as $faculty) {
+                                $count++;
                                 ?>
-                                
-                            </div>
-                        </div>
-                        <?php 
+                                <div class="panel panel-<?php echo DEFAULTS; ?>">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title"><?php echo $kh_num[$count] . '-ម. ' . $faculty['fac_name']; ?></h3>
+                                    </div>
+                                    <div class="panel-body">
+
+                                        <?php
+                                        $m = $majors[$faculty['fac_id']];
+                                        if ($m->num_rows() > 0) {
+                                            foreach ($m->result_array() as $major) {
+                                                ?>
+                                                <div class="col-md-4">
+                                                    <label><input type="radio" required="required"  name="major" id="maj_id_<?php echo $major['maj_id']; ?>" value="<?php echo $major['maj_id']; ?>" <?php echo set_radio('major', $major['maj_id'], FALSE); ?>> <?php echo $major['maj_name']; ?></label>
+                                                </div>
+                                                <?php
+                                            }
+                                        } else {
+                                            echo 'Empty';
+                                        }
+                                        ?>
+
+                                    </div>
+                                </div>
+                                <?php
                             }
-                        }
-                        else{
-                        ?>
-                        <div class="panel panel-<?php echo DEFAULTS; ?>">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Empty</h3>
-                            </div>
-                            <div class="panel-body">
+                        } else {
+                            ?>
+                            <div class="panel panel-<?php echo DEFAULTS; ?>">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Empty</h3>
+                                </div>
+                                <div class="panel-body">
                                     <div class="col-md-4">
                                         Empty
                                     </div>
+                                </div>
                             </div>
-                        </div>
                         <?php } ?>
                     </div>
                 </div>
@@ -155,8 +155,15 @@
                 <div class="col-md-4">
                     <label for="stu_dob" class="col-sm-12">ថ្ងៃខែឆ្នាំកំណើត DATE OF BIRTH</label>
                     <div class="col-sm-12">
-                        <input type="text" class="form-control input-sm" id="stu_dob" placeholder="" name="stu_dob" value="<?php echo set_value('stu_dob'); ?>" />
-                        <?php echo form_error('stu_dob'); ?>
+                        <!--<input type="text" class="form-control input-sm" id="stu_dob" placeholder="" name="stu_dob" value="<?php echo set_value('stu_dob'); ?>" />-->
+                        <?php //  echo form_error('stu_dob'); ?>
+
+                        <div class="input-group date" data-datepicker="true">
+                            <input type="text" class="form-control" id="stu_dob" placeholder="yyyy-mm-dd" name="stu_dob" value="<?php echo set_value('stu_dob'); ?>" >
+                            <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                            <?php echo form_error('stu_dob'); ?>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -346,7 +353,7 @@
                 <div class="col-md-4">
                     <label for="stu_highschool_bacii_table" class="col-sm-12">លេខតុ</label>
                     <div class="col-sm-12">
-                        <input type="text" class="form-control input-sm" id="stu_highschool_bacii_table" placeholder="" name="stu_highschool_bacii_table" value="<?php echo set_value('stu_highschool_bacii_table'); ?>" />
+                        <input type="number" class="form-control input-sm" id="stu_highschool_bacii_table" placeholder="" name="stu_highschool_bacii_table" value="<?php echo set_value('stu_highschool_bacii_table'); ?>" />
                         <?php echo form_error('stu_highschool_bacii_table'); ?>
                     </div>
                 </div>
@@ -402,8 +409,15 @@
 
                 <div class="col-md-4">
                     <label for="exp_date2" class="col-sm-12">Date of Employment From-To</label>
-                    <div class="col-sm-12">
-                        <input type="text" class="form-control input-sm" id="exp_date2" placeholder="" name="exp_date[]" value="<?php echo set_value('exp_date[]'); ?>" />
+                    <!--                    <div class="col-sm-12">
+                                            <input type="text" class="form-control input-sm" id="exp_date2" placeholder="" name="exp_date[]" value="<?php echo set_value('exp_date[]'); ?>" />
+                    <?php echo form_error('exp_date[]'); ?>
+                                        </div>-->
+
+                    <div class="col-sm-12 input-group date" data-datepicker="true">
+                        <input type="text" class="form-control" id="exp_date2" placeholder="yyyy-mm-dd" name="exp_date[]" value="<?php echo set_value('exp_date[]'); ?>" >
+                        <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span>
+                        </span>
                         <?php echo form_error('exp_date[]'); ?>
                     </div>
                 </div>
@@ -445,39 +459,83 @@
 
         <div class="panel panel-<?php echo DEFAULTS; ?>">
             <div class="panel-heading">
-                <h3 class="panel-title">ម៉ោងសិក្សា Study Time (Only for Bachelor and Association Degree</h3>
+                <h3 class="panel-title">ម៉ោងសិក្សា Study Time (Only for Bachelor and Association Degree)</h3>
             </div>
             <div class="panel-body">
                 <div class="col-md-3">
-                    <label><input type="radio" name="shift" id="shift" value="Mornong" <?php echo set_radio('shift', 'Morning', FALSE); ?>> MORNING</label>
+                    <label><input type="radio" required="required" name="shift" id="shift" value="1" <?php echo set_radio('shift', 'Morning', FALSE); ?>> MORNING</label>
                 </div>
                 <div class="col-md-3">
-                    <label><input type="radio" name="shift" id="shift" value="Afternoon" <?php echo set_radio('shift', 'Afternoon', FALSE); ?>> AFTERNOON</label>
+                    <label><input type="radio" required="required"  name="shift" id="shift" value="2" <?php echo set_radio('shift', 'Afternoon', FALSE); ?>> AFTERNOON</label>
                 </div>
                 <div class="col-md-3">
-                    <label><input type="radio" name="shift" id="shift" value="Evening" <?php echo set_radio('shift', 'Evening', FALSE); ?>> EVENING</label>
+                    <label><input type="radio" name="shift" id="shift" value="3" <?php echo set_radio('shift', 'Evening', FALSE); ?>> EVENING</label>
                 </div>
                 <div class="col-md-3">
-                    <label><input type="radio" name="shift" id="shift" value="Weeken" <?php echo set_radio('shift', 'Weeken', FALSE); ?>> WEEKEN</label>
+                    <label><input type="radio" name="shift" id="shift" value="4" <?php echo set_radio('shift', 'Weeken', FALSE); ?>> WEEKEN</label>
                 </div>
             </div>
         </div>
-    </div>
-</form>
+        <div class="panel panel-<?php echo DEFAULTS; ?>">
+            <div class="panel-heading">
+                <h3 class="panel-title">ថ្នាក់រៀន Class</h3>
+            </div>
+            <div class="col-md-3" >
+                <br/>
+                <a href="<?php echo site_url(); ?>classes/add/" class=" warning"><i class="glyphicon glyphicon-plus-sign"></i> New Class</a>
+            </div>
+            <div class="panel-body" id="classDisplay">
+            </div>
+        </div>
+    </div><br/><br/>
+    <br/><br/>
+</form> 
 <script type="text/javascript">
-            function readURL(input) {
-                if (input.files && input.files[0]) {
-                    var reader = new FileReader();
-                    reader.onload = function(e) {
-                        $('#image_preview').attr('src', e.target.result);
-                    }
-
-                    reader.readAsDataURL(input.files[0]);
-                }
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $('#image_preview').attr('src', e.target.result);
             }
-            $(function(){
-                $("#stu_image").change(function() {
-                    readURL(this);
-                });
-            });
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    $(function() {
+        $("#stu_image").change(function() {
+            readURL(this);
+        });
+    });
+    var major = 3;
+    var shift = generation = "1";
+    $(function() {
+//          $('input[name="major"]:checked').val();
+        $('input[name="major"]').click(function() {
+            major = this.value;
+            getClass(major);
+        });
+        $('input[name="shift"]').click(function() {
+            shift = this.value;
+            getClass(shift);
+        });
+    });
+    function getClass(key) {
+        var form_data = {
+            reShift: shift,
+            reGeneration: generation,
+            reMajor: major
+        };
+        $.ajax({
+            url: "<?php echo site_url(); ?>students/registrations/ajax_get_class",
+            async: false,
+            type: "POST",
+            data: form_data,
+            dataType: "html",
+            success: function(data) {
+                $('#classDisplay').html(data);
+            }
+        })
+
+    }
+
 </script>
