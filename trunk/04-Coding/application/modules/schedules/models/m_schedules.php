@@ -4,6 +4,41 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 class M_Schedules extends CI_Model {
+	
+	function getDataSchedule($id=0) {
+		$res = array();
+        $this->db->join(TABLE_PREFIX . 'shift', 'tbl_shift_shi_id=shi_id');
+        $this->db->join(TABLE_PREFIX . 'majors', 'tbl_majors_maj_id=maj_id');
+		$query = $this->db->get(TABLE_PREFIX . 'schadule');
+		$schedule = array();
+		if($query->num_rows()>0){
+			$schedule = $query->row();			
+		}
+		$query->free_result();
+		$res['header'] = $schedule;
+		if($schedule){
+			$this->db->join(TABLE_PREFIX . 'staff', 'tbl_staffs_sta_id=sta_id','left');
+			$this->db->join(TABLE_PREFIX . 'room', 'tbl_room_rom_id=rom_id','left');
+			$this->db->join(TABLE_PREFIX . 'subject', 'tbl_subject_sub_id=sub_id','left');
+			$this->db->where('tbl_schadule_sch_id',$schedule->sch_id);
+			$query = $this->db->get(TABLE_PREFIX . 'schadule_detail');
+			$body = array();
+			if($query->num_rows()>0){
+				foreach($query->result_array() as $roww){
+					$time = $roww['scd_time'];
+					$sec = $roww['scd_section'];
+					$sday = $roww['scd_day'];
+					$body['times'][$sec] = $time; 
+					$body['sections'][$sec][$sday]['teacher'] = $roww['sta_name'];
+					$body['sections'][$sec][$sday]['room'] = $roww['rom_name'];
+					$body['sections'][$sec][$sday]['subject'] = $roww['sub_name'];
+				}
+				$res['body'] = $body;
+			}
+		}
+				
+		return $res;
+    }
 
     function findAllSchedule($num_row, $from_row) {
 		$res = array();
@@ -169,18 +204,14 @@ class M_Schedules extends CI_Model {
     }
     
 
-    function deleteClassById($id = null) {
-//        $this->db->where('use_id', $id);
-//        return $this->db->delete(TABLE_PREFIX . 'users');
-   
-
-        $this->db->where('cla_id', $id);
-        $this->db->set('cla_modified_date', 'NOW()', false);
-//         if checkbox is not checked
-  
-            $this->db->set('cla_status', 0,false);
-        
-        return $this->db->update(TABLE_PREFIX . 'classes');
+    function deleteScheduleById($id = 0) {
+		$this->db->where('tbl_schadule_sch_id', $id);
+        $res = $this->db->delete(TABLE_PREFIX . 'schadule_detail');
+		if($res){
+			$this->db->where('sch_id', $id);
+			return $this->db->delete(TABLE_PREFIX . 'schadule');
+		}
+		return $res;
     }
 
     function selectJoinClass($id) {
