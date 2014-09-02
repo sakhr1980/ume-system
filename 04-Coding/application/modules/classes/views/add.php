@@ -21,9 +21,9 @@
                     <div class="panel-body">
                                               
                         <div class="form-group">
-                                     <label for="tbl_generation_gen_id" class="col-sm-3 control-label">ជំនាន់ / Generation:</label>             
+                                     <label for="gen_id" class="col-sm-3 control-label">ជំនាន់ / Generation:</label>             
                             <div class="col-md-5">
-                                <?php echo form_dropdown('tbl_generation_gen_id', array('' => '--All Generation--') + $generation, set_value('tbl_generation_gen_id', $this->session->userdata('tbl_generation_gen_id')), 'class="form-control input-sm" required') ?>
+                                <?php echo form_dropdown('gen_id', array('' => '--All Generation--') + $generation, set_value('gen_id', $this->session->userdata('gen_id')), 'class="form-control input-sm" required') ?>
                             </div>
                         </div>
                         
