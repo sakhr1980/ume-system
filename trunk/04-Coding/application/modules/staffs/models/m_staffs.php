@@ -139,4 +139,30 @@ class M_Staffs extends CI_Model {
 		return $this->db->delete(TABLE_PREFIX . 'staff');
 	}
 
+	/**
+	 * Select staffs record to be render to csv
+	 *
+	 * @return array/mixed
+	 */
+	public function exportcsv() {
+		$fields = array(
+			's.sta_card_id AS `Card ID`',
+			's.sta_name AS `Name in Latin`',
+			's.sta_name_kh AS `Name in Khmer`',
+			's.sta_sex AS Sex',
+			'p.sta_pos_title AS Position',
+			'j.sta_job_title AS `Job Type`',
+			's.sta_start_date AS `Start Date`',
+			's.sta_phone AS Phone',
+			's.sta_email AS Email',
+			's.sta_address AS Address'
+		);
+		$this->db->select($fields)
+			->from(TABLE_PREFIX . 'staff s')
+			->join(TABLE_PREFIX . 'staff_position p', 'p.sta_pos_id = s.sta_position')
+			->join(TABLE_PREFIX . 'staff_job_type j', 'j.sta_job_id = s.sta_job_type')
+			->where('s.sta_status', 1);
+		return $this->db->get();
+	}
+
 }

@@ -68,14 +68,6 @@
 								<?php echo form_error('sta_address'); ?>
 							</div>
 						</div>
-						<div class="form-group">
-							<label for="use_status" class="col-sm-3 control-label">Enable</label>
-							<div class="col-sm-9">
-								<div class="checkbox">
-									<label><input type="checkbox" name="sta_status" id="use_status" value="1" <?php echo set_checkbox('sta_status', 1, TRUE); ?>> Check to enable this lecture account</label>
-								</div>
-							</div>
-						</div>
 					</div>
 				</div>
 			</div>
@@ -113,10 +105,18 @@
 							<label for="sta_start_date" class="col-sm-3 control-label">Start Date</label>
 							<div class="col-sm-9">
 								<div class="input-group date" data-datepicker="true">
-									<input type="text" class="form-control" id="sta_start_date" placeholder="yyyy-mm-dd" name="sta_start_date" value="<?php echo set_value('sta_start_date'); ?>"  pattern=".{9,50}" title="Allow enter from 9 to 50 characters">
+									<input type="text" class="form-control" id="sta_start_date" placeholder="yyyy-mm-dd" name="sta_start_date" value="<?php echo set_value('sta_start_date'); ?>" pattern=".{9,50}" title="Allow enter from 9 to 50 characters" required>
 									<span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span>
 									</span>
 									<?php echo form_error('sta_start_date'); ?>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="use_status" class="col-sm-3 control-label">Enable</label>
+							<div class="col-sm-9">
+								<div class="checkbox">
+									<label><input type="checkbox" name="sta_status" id="use_status" value="1" <?php echo set_checkbox('sta_status', 1, TRUE); ?>> Check to enable this lecture account</label>
 								</div>
 							</div>
 						</div>
