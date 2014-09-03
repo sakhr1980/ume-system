@@ -44,6 +44,9 @@
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<h3 class="panel-title">Staff List</h3>
+			<?php
+			echo anchor('staffs/staffs/exportcsv', '<i class="glyphicon glyphicon-export"></i> Export', 'class="btn btn-success btn-sm"');
+			?>
 		</div>
 		<div class="panel-body">
 			<table class="table table-hover">
@@ -58,8 +61,6 @@
 						<th>Sex</th>
 						<th>Start Date</th>
 						<th>Status</th>
-						<th>Created</th>
-						<th>Modified</th>
 						<th>Actions</th>
 					</tr>
 				</thead>
@@ -77,8 +78,6 @@
 								<td><?php echo strtoupper($row['sta_sex']); ?></td>
 								<td><?php echo get_date_string($row['sta_start_date']); ?></td>
 								<td><?php echo status_string($row['sta_status']); ?></td>
-								<td><?php echo get_date_string($row['sta_created']); ?></td>
-								<td><?php echo get_date_string($row['sta_modified']); ?></td>
 								<td>
 									<a class="btn btn-default btn-xs" href="<?php echo base_url(); ?>staffs/staffs/view/<?php
 									echo $row['sta_id'];

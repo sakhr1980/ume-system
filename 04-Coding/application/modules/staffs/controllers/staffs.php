@@ -32,7 +32,7 @@ class Staffs extends CI_Controller {
 	 */
 	function index() {
 		$this->data['title'] = 'Manage Staffs Account';
-		$this->data['content'] = 'staff/staffs/index';
+		$this->data['content'] = 'staffs/staffs/index';
 
 		$this->form_validation->set_rules('sta_card_id', '', 'trim');
 		$this->form_validation->set_rules('sta_name', '', 'trim');
@@ -106,8 +106,8 @@ class Staffs extends CI_Controller {
 			),
 			array(
 				'field' => 'sta_start_date',
-				'label' => '',
-				'rules' => 'trim'
+				'label' => 'Start Date',
+				'rules' => 'trim|required'
 			),
 			array(
 				'field' => 'sta_status',
@@ -147,12 +147,66 @@ class Staffs extends CI_Controller {
 		$this->data['title'] = 'Edit Staff';
 		$this->data['content'] = 'staffs/staffs/edit';
 		$this->data['data'] = $this->m_staffs->getStaffById($id);
-
-		$this->form_validation->set_rules('sta_card_id', 'Card ID', 'required|exact_length[5]|callback_uniqueExcept[' . TABLE_PREFIX . 'staff.sta_card_id,sta_id]');
-		$this->form_validation->set_rules('sta_name', 'Name in latin', 'required|max_length[50]|min_length[3]');
-		$this->form_validation->set_rules('sta_name_kh', 'Name in khmer', 'required|max_length[50]|min_length[3]');
-		$this->form_validation->set_rules('sta_email', 'Email', 'required|valid_email|callback_uniqueExcept[' . TABLE_PREFIX . 'staff.sta_email,sta_id]');
+		$config = array(
+			array(
+				'field' => 'sta_name',
+				'label' => 'Name in latin',
+				'rules' => 'trim|required|max_length[50]|min_length[3]'
+			),
+			array(
+				'field' => 'sta_name_kh',
+				'label' => 'Name in khmer',
+				'rules' => 'trim|max_length[50]|min_length[3]'
+			),
+			array(
+				'field' => 'sta_phone',
+				'label' => 'Mobile Phone',
+				'rules' => 'trim|min_length[9]|max_length[30]'
+			),
+			array(
+				'field' => 'sta_email',
+				'label' => 'Email',
+				'rules' => 'trim|valid_email|callback_uniqueExcept[' . TABLE_PREFIX . 'staff.sta_email,sta_id]'
+			),
+			array(
+				'field' => 'sta_sex',
+				'label' => 'Email',
+				'rules' => 'trim'
+			),
+			array(
+				'field' => 'sta_address',
+				'label' => '',
+				'rules' => 'trim'
+			),
+			array(
+				'field' => 'sta_position',
+				'label' => '',
+				'rules' => 'trim'
+			),
+			array(
+				'field' => 'sta_job_type',
+				'label' => '',
+				'rules' => 'trim'
+			),
+			array(
+				'field' => 'sta_start_date',
+				'label' => 'Start Date',
+				'rules' => 'trim|required'
+			),
+			array(
+				'field' => 'sta_status',
+				'label' => '',
+				'rules' => 'trim'
+			)
+		);
+		$this->form_validation->set_rules($config);
+		$this->form_validation->set_select('sta_position');
+		$this->form_validation->set_select('sta_job_type');
+		$this->form_validation->set_select('sta_sex');
+		$this->form_validation->set_checkbox('sta_status');
 		if ($this->form_validation->run() == FALSE) {
+			$this->data['positions'] = $this->m_global->getDataArray(TABLE_PREFIX . 'staff_position', 'sta_pos_id', 'sta_pos_title', 'sta_pos_status');
+			$this->data['jobtypes'] = $this->m_global->getDataArray(TABLE_PREFIX . 'staff_job_type', 'sta_job_id', 'sta_job_title', 'sta_job_status');
 			$this->load->view(LAYOUT, $this->data);
 		} else {
 			if ($this->m_staffs->update()) {
@@ -222,6 +276,16 @@ class Staffs extends CI_Controller {
 			return FALSE;
 		} else {
 			return TRUE;
+		}
+	}
+
+	/**
+	 * Export staffs to csv file
+	 */
+	public function exportcsv() {
+		$result = $this->m_staffs->exportcsv();
+		if (query_to_csv($result, TRUE, 'STAFF-' . date('Y-m-d', time()) . '.csv')) {
+			redirect('staffs/staffs/index/');
 		}
 	}
 

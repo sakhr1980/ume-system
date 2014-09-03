@@ -3,7 +3,7 @@ $data->result_array();
 $data = $data->result_array[0];
 ?>
 <form class="form-horizontal" role="form" method="post" action="<?php echo site_url(); ?>staffs/jobtypes/edit/<?php
-echo $data['job_id'];
+echo $data['sta_job_id'];
 echo '/' . $this->uri->segment(5); // segment(5) for pagination
 ?>">
 	<div class="toolbar col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
