@@ -3,7 +3,7 @@
 		cursor:pointer;
 	}
 </style>
-<form class="form-horizontal" method="post" action="<?php echo site_url('schedules/edit'); ?>">
+<form class="form-horizontal" id="schedule-form" method="post" onsubmit="return false;" action="<?php echo site_url('schedules/ajaxUpdate/'.$data['header']->sch_id); ?>">
     <div class="toolbar col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
         <div class="left">
             <a href="<?php echo site_url('schedules/index/'.$this->uri->segment(4)); ?>" class="btn btn-sm btn-default">
@@ -26,36 +26,44 @@
                     </div>
 					<?php
 						$header = $data['header'];
+						$body = $data['body'];
 					?>
                     <div class="panel-body">
                         <div class="row form-group">                                        
-                            <div class="col-lg-4 col-md-4">
-								<label for="fac_id">ឈ្មោះ</label> 
+                            <div class="col-lg-3 col-md-3">
+								<label for="fac_id">ថ្នាក់</label> 
 								<?php
-									$data = array('name'=>'sch_title',
-										'id'=>'sch_title',
-										'value'=>set_value('sch_title',$header->sch_title),
-										'class'=>'form-control input-sm',
-										'placeholder'=>'ឈ្មោះ');
-									echo form_input($data);
-									echo form_error('sch_title');
+									$data_dropdown = array('' => '   ថ្នាក់  ') + $class;
+									$selector = set_value('tbl_classes_cla_id',$data['header']->tbl_classes_cla_id);
+									$extra = 'class="form-control input-sm required" id="tbl_classes_cla_id"';
+									echo form_dropdown('tbl_classes_cla_id',$data_dropdown , $selector, $extra);
+									echo form_error('tbl_classes_cla_id');
 								?>
-                            </div>
-							<div class="col-lg-4 col-md-4">
+                            </div>							
+							<div class="col-lg-3 col-md-3">
 								<label for="tbl_majors_maj_id">សកលវិទ្យាល័យ</label>
 								<?php
-									$data_dropdown_value = array('' => '  សកលវិទ្យាល័យ  ') + $major;
-									$selector = set_value('tbl_majors_maj_id',$header->tbl_majors_maj_id);
+									$data_dropdown_value = array('' => '  សកលវិទ្យាល័យ  ');
+									$selector = set_value('tbl_majors_maj_id');
 									$extra = 'class="form-control input-sm" id="tbl_majors_maj_id"';
 									echo form_dropdown('tbl_majors_maj_id',$data_dropdown_value , $selector, $extra);
 									echo form_error('tbl_majors_maj_id');
 								?>								
                             </div>
-							<div class="col-lg-4 col-md-4">
+							<div class="col-lg-3 col-md-3">
+								<label for="tbl_majors_maj_id">ជំនាន់</label>
+								<?php
+									$data_dropdown_value = array('' => '  ជំនាន់  ');
+									$selector = set_value('tbl_generation_gen_id');
+									$extra = 'class="form-control input-sm" id="tbl_generation_gen_id"';
+									echo form_dropdown('tbl_generation_gen_id',$data_dropdown_value , $selector, $extra);
+								?>								
+                            </div>
+							<div class="col-lg-3 col-md-3">
 								<label for="tbl_shift_shi_id">ម៉ោងសិក្សា</label>
 								<?php
-									$data_dropdown_value = array('' => '  ម៉ោងសិក្សា  ') + $shift;
-									$selector = set_value('tbl_shift_shi_id',$header->tbl_shift_shi_id);
+									$data_dropdown_value = array('' => '  ម៉ោងសិក្សា  ');
+									$selector = set_value('tbl_shift_shi_id');
 									$extra = 'class="form-control input-sm" id="tbl_shift_shi_id"';
 									echo form_dropdown('tbl_shift_shi_id',$data_dropdown_value , $selector, $extra);
 									echo form_error('tbl_shift_shi_id');
@@ -63,42 +71,41 @@
 							</div>
                         </div>
                         
-                        <div class="row form-group">
-							<div class="col-lg-4 col-md-4">
+                        <div class="row form-group">							
+							<div class="col-lg-3 col-md-3">
 								<label for="cla_name">ឆ្នាំ</label>
                                 <?php 
 									$data_dropdown_value = array(''=>'  ឆ្នាំ  ','1'=>'I','2'=>'II','3'=>'III','4'=>'IV');
-									$selected = set_value('sch_year_number',$header->sch_year_number);
-									$extra = 'class="form-control input-sm" id="sch_year_number"';
+									$selected = set_value('sch_year_number',$data['header']->sch_year_number);
+									$extra = 'class="form-control input-sm required" id="sch_year_number"';
 									echo form_dropdown('sch_year_number',$data_dropdown_value,$selected,$extra);
 									echo form_error('sch_year_number');
 								?>
 							</div>
-							<div class="col-lg-4 col-md-4">
+							<div class="col-lg-3 col-md-3">
 								<label for="cla_name">ឆមាស</label>
 								<?php 
 									$data_dropdown_value = array(''=>'  ឆមាស  ','1'=>'I','2'=>'II');
-									$selected = set_value('sch_semester',$header->sch_semester);
-									$extra = 'class="form-control input-sm" id="sch_semester"';
+									$selected = set_value('sch_semester',$data['header']->sch_semester);
+									$extra = 'class="form-control input-sm required" id="sch_semester"';
 									echo form_dropdown('sch_semester',$data_dropdown_value,$selected,$extra);
 									echo form_error('sch_semester');
 								?>
 							</div>
-							<div class="col-lg-4 col-md-4">
+							<div class="col-lg-3 col-md-3">
 								<label for="cla_capacity">ឆ្នាំសិក្សា</label>
 								<?php
-									$data = array('name'=>'sch_academic_year',
+									$data_input = array('name'=>'sch_academic_year',
 										'id'=>'sch_academic_year',
-										'value'=>set_value('sch_academic_year',$header->sch_academic_year),
-										'class'=>'form-control input-sm',
+										'value'=>set_value('sch_academic_year',$data['header']->sch_academic_year),
+										'class'=>'form-control input-sm required',
 										'placeholder'=>'ឆ្នាំសិក្សា');
-									echo form_input($data);
-									echo form_error('sch_academic_year');
+									echo form_input($data_input);									
 								?>
 							</div>
 						</div>
 						
-						<table class="table table-bordered">
+						<table class="table table-bordered" id="timetable">
 							<thead>
 								<tr>
 									<th width="20%">Time of Study</th>
@@ -107,30 +114,69 @@
 									<th>Wednesday</th>
 									<th>Thursday</th>
 									<th>Friday</th>
+									<th width="8%">Action</th>
 								</tr>
 							</thead>
 							<tbody>
 								<?php
-								for($ind=1;$ind<4;$ind++){
+								$times = $body['times'];
+								$sections = $body['sections'];
+								//print_r($sections);
+								$index = 0;
+								foreach($times as $ind=>$time):									
 								?>
-								<tr>
-									<td><input type="text" class="form-control" name="times[<?php echo $ind;?>]"/></td>
-									<?php
-										for($j=1;$j<=5;$j++){
-											$id = $ind.'_'.$j;
-									?>
-									<td>
-										<input type="hidden" id="<?php echo 'Teacher_'.$id;?>" class="form-control" name="sections[<?php echo $ind;?>][<?php echo $j;?>][teacher]" value=""/>
-										<input type="hidden" id="<?php echo 'Room_'.$id;?>" class="form-control" name="sections[<?php echo $ind;?>][<?php echo $j;?>][room]" value=""/>
-										<input type="hidden" id="<?php echo 'Subject_'.$id;?>" class="form-control" name="sections[<?php echo $ind;?>][<?php echo $j;?>][subject]" value=""/>										
-										<button type="button" data-label="Teacher" data-id="<?php echo $id;?>" data-day="<?php echo $j;?>" class="btn btn-default btn-xs btn-block myModal">Teacher</button>										
-										<button type="button" data-label="Room" data-id="<?php echo $id;?>" data-day="<?php echo $j;?>" class="btn btn-default btn-xs btn-block myModal">Room</button>										
-										<button type="button" data-label="Subject" data-id="<?php echo $id;?>" data-day="<?php echo $j;?>" class="btn btn-default btn-xs btn-block myModal">Subject</button>
-									</td>
-									<?php } ?>									
-								</tr>
-								<?php } ?>
+									<tr>
+										<td><input type="text" id="time_<?php echo $ind;?>" class="form-control" value="<?php echo set_value('times[$ind]',$time);?>" name="times[<?php echo $ind;?>]"/></td>
+										<?php
+											$section = $sections[$ind];
+											for($j=1;$j<=5;$j++){
+												$id = $ind.'_'.$j;
+												$tmp = $section[$j];
+												$teacher = $tmp['teacher'];
+												$tname = $tmp['teacher_name'];
+												$room = $tmp['room'];
+												$rname = $tmp['room_name'];
+												$subject = $tmp['subject'];
+												$sname = $tmp['subject_name'];
+										?>
+										<td>
+											<input type="hidden" id="<?php echo 'Teacher_'.$id;?>" class="form-control" name="sections[<?php echo $ind;?>][<?php echo $j;?>][teacher]" value=""/>
+											<input type="hidden" id="<?php echo 'Room_'.$id;?>" class="form-control" name="sections[<?php echo $ind;?>][<?php echo $j;?>][room]" value=""/>
+											<input type="hidden" id="<?php echo 'Subject_'.$id;?>" class="form-control" name="sections[<?php echo $ind;?>][<?php echo $j;?>][subject]" value=""/>										
+											<button type="button" data-label="Teacher" data-id="<?php echo $id;?>" data-day="<?php echo $j;?>" class="btn btn-default btn-xs btn-block myModal">
+												<?php
+													echo $tname==''?'Teacher':$tname;
+												?>
+											</button>										
+											<button type="button" data-label="Room" data-id="<?php echo $id;?>" data-day="<?php echo $j;?>" class="btn btn-default btn-xs btn-block myModal">
+												<?php
+													echo $rname==''?'Room':$rname;
+												?>
+											</button>										
+											<button type="button" data-label="Subject" data-id="<?php echo $id;?>" data-day="<?php echo $j;?>" class="btn btn-default btn-xs btn-block myModal">
+												<?php
+													echo $sname==''?'Subject':$sname;
+												?>
+											</button>
+										</td>
+										<?php } ?>	
+										<td>
+											<?php if($index>0){ ?>
+											<button type="button" id="<?php echo $ind;?>" class="btn btn-default remove">Remove</button>
+											<?php } ?>
+										</td>
+									</tr>
+								<?php
+									$index = $ind;
+								endforeach;
+								?>
 							</tbody>
+							<tfoot>
+								<tr>
+									<td colspan="6">&nbsp;</td>
+									<td><button type="button" class="btn btn-default" id="btnTimeTable"><i class="fa fa-plus"></i> Add</button></td>
+								</tr>
+							</tfoot>
 						</table>
                     </div>                   
                 </div>
@@ -139,6 +185,7 @@
     </div>
 </div>
 <script>
+	var index = '<?php echo $index;?>';
 	var btn_id = '';
 	var btn_html = '';
 	var btn = '';
@@ -152,30 +199,57 @@
 	var trs_name = '';
 	var obj = '';
 	$(document).ready(function(){
+		$(document).on('click','#btnTimeTable',function(){
+			index++;
+			var tt = $('#timetable tbody');
+			var tr = '<tr id="row_'+index+'">';
+			tr += '<td><input type="text" id="time_'+index+'" class="form-control" name="times['+index+']"/></td>';
+			for(var sind= 1; sind<6; sind++){
+				var id = index + '_' + sind;				
+				tr += '<td>';
+				tr += '	<input type="hidden" id="Teacher_'+index+'" class="form-control" name="sections['+index+']['+sind+'][teacher]" value=""/>';
+				tr += '	<input type="hidden" id="Room_'+index+'" class="form-control" name="sections['+index+']['+sind+'][room]" value=""/>';
+				tr += '	<input type="hidden" id="Subject_'+index+'" class="form-control" name="sections['+index+']['+sind+'][subject]" value=""/>';
+				tr += '	<button type="button" data-label="Teacher" data-id="'+id+'" data-day="'+sind+'" class="btn btn-default btn-xs btn-block myModal">Teacher</button>';										
+				tr += '	<button type="button" data-label="Room" data-id="'+id+'" data-day="'+sind+'" class="btn btn-default btn-xs btn-block myModal">Room</button>';										
+				tr += ' <button type="button" data-label="Subject" data-id="'+id+'" data-day="'+sind+'" class="btn btn-default btn-xs btn-block myModal">Subject</button>';
+				tr += '	</td>';
+			}
+			tr += '<td><button type="button" id="'+index+'" class="btn btn-default remove">Remove</button></td>';
+			tr += '</tr>';
+			tt.append(tr);
+		});
+		
+		$(document).on('click','.remove',function(){
+			var id = $(this).attr('id');
+			$('#timetable tbody tr#row_'+id).remove();	
+		});
+		
 		$(document).on('click','.btn-xs.btn-block.myModal',function(){
 			obj = $(this);
 			btn_html = obj.html(); 
 			btn = obj.attr('data-label');
 			btn_id = obj.attr('data-id');
-			day = obj.attr('data-day');
-			title = $('#sch_title').val();
-			major = $('#tbl_majors_maj_id').val();
-			shift = $('#tbl_shift_shi_id').val();
+			var tmps = btn_id.split('_');
+			var sday = obj.attr('data-day');
+			var stime = $('#time_'+tmps[0]).val();
+			var ssection = $('#timetable tbody tr#row_'+tmps[0]).index()+1;
+			cla_id = $('#tbl_classes_cla_id').val();
 			year = $('#sch_year_number').val();
 			semester = $('#sch_semester').val();
 			academic = $('#sch_academic_year').val();
 			trs_id = '';
-			if(title!='' && major!='' && shift!='' &&
-				year != '' && academic != '' && semester != ''){
+			if(cla_id!='' && year != '' && academic != '' && semester != '' && ssection!=''){
 				var fn = 'ajax' + btn;
 				var url = '<?php echo site_url('schedules/');?>/' + fn;
-				var dataString = {title:title,major:major,shift:shift,year:year,semester:semester,academic:academic,day:day};
+				var dataString = {cla_id:cla_id,year:year,semester:semester,academic:academic,sday:sday,stime:stime,ssection:ssection};
 				$.ajax({
 					url:url,
 					type:'post',
 					data:dataString,
 					dataType:'json',
-					success:function(response){						
+					success:function(response){
+						console.log(response);
 						var res = '<div class="row">';
 						res += '<div class="col col-lg-3 col-md-2">';
 						res += '<div class="panel panel-primary pointer">';
@@ -192,6 +266,7 @@
 						}
 						res += '</div>';
 						$('#items').html(res);
+						$('#myModalLabel').html(btn_html);
 					}
 				});				
 				$('#myModal').modal('show');
@@ -216,6 +291,96 @@
 			trs_name = th.html();
 			th.addClass('bg-primary');
 			console.log(trs_id);
+		});
+		
+		$(document).on('change','#tbl_classes_cla_id',function(){
+			var th = $(this);
+			var id = th.val();
+			changeClassBy(id);
+		});
+		
+		var id = '<?php echo $data['header']->tbl_classes_cla_id;?>';
+		changeClassBy(id);
+		
+		function changeClassBy(id){
+			if(id!=''){
+				var url = "<?php echo site_url('schedules/ajaxClass/');?>/"+id;
+				$.ajax({
+					type:'get',
+					url:url,
+					dataType:'json',
+					success:function(res){
+						addOrRemoveSelect('#tbl_majors_maj_id',res.maj_id,res.maj_name);
+						addOrRemoveSelect('#tbl_shift_shi_id',res.shi_id,res.shi_name);
+						addOrRemoveSelect('#tbl_generation_gen_id',res.gen_id,res.gen_year);
+					}
+				});
+			}else{
+				addOrRemoveSelect('#tbl_majors_maj_id','','');
+				addOrRemoveSelect('#tbl_shift_shi_id','','');
+				addOrRemoveSelect('#tbl_generation_gen_id','','');
+			}
+		}
+		function addOrRemoveSelect(eleId,id,val){
+			$(eleId+' [value!=""]').remove();
+			if(id>0 && typeof(id)!='undifined'){
+				$(eleId).get(0).options[1] = new Option(val, id);
+				$(eleId).val(id);
+			}	
+		}
+		
+		$(document).on('change blur','.required',function(){
+			var th = $(this);
+			var txt = th.val();
+			if(txt==''){
+				th.parent().addClass('has-error');
+			}else{
+				th.parent().removeClass('has-error');
+			}
+		});
+		
+		$("#schedule-form").submit(function(){
+			var clas = $('#tbl_classes_cla_id').val();
+			var year = $('#sch_year_number').val();
+			var semester = $('#sch_semester').val();
+			var academic = $('#sch_academic_year').val();
+			
+			if(clas==''){
+				$('#tbl_classes_cla_id').parent().addClass('has-error');
+			}else{
+				$('#tbl_classes_cla_id').parent().removeClass('has-error');
+			}
+			if(year==''){
+				$('#sch_year_number').parent().addClass('has-error');
+			}else{
+				$('#sch_year_number').parent().removeClass('has-error');
+			}			
+			if(semester==''){				
+				$('#sch_semester').parent().addClass('has-error');
+			}else{				
+				$('#sch_semester').parent().removeClass('has-error');
+			}			
+			if(academic==''){				
+				$('#sch_academic_year').parent().addClass('has-error');
+			}else{				
+				$('#sch_academic_year').parent().removeClass('has-error');
+			}
+			
+			if(clas!='' && year!='' && semester!='' && academic != ''){
+				var th = $(this); 
+				$.ajax({
+					type:'post',
+					url:th.attr('action'),
+					data:th.serialize(),
+					dataType:'json',
+					success:function(res){
+						if(res.result=='ok'){
+							window.location = "<?php echo site_url('schedules');?>";
+						}
+					}
+				});
+			}
+			return false;
 		});
 		
 	});

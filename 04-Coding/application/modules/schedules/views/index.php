@@ -12,20 +12,25 @@
 <div class="content">
     <div class="filter">
         <form class="form-inline" role="form" method="post" action="<?php echo site_url('schedules/index'); ?>">
-            <div class="form-group">
-                <label class="sr-only" for="cla_name">ឈ្មោះ</label>
-                <?php
-					$data_input = array('name'=>'sch_title','class'=>'form-control input-sm','value'=>set_value('sch_title'),'placeholder'=>'ឈ្មោះ');
-					echo form_input($data_input);
-				?>
-            </div>
+            <?php
+				echo set_value('tbl_classes_cla_id');
+			?>
 			<div class="form-group">
-				<label class="sr-only" for="tbl_majors_maj_id">សកលវិទ្យាល័យ</label>
+				<label class="sr-only" for="tbl_classes_cla_id">ថ្នាក់</label>
+				<?php
+					$data_dropdown = array('' => '  ថ្នាក់  ') + $class;
+					$selector = set_value('tbl_classes_cla_id');
+					$extra = 'class="form-control input-sm"';
+					echo form_dropdown('tbl_classes_cla_id',$data_dropdown, $selector, $extra); 
+				?>
+			</div>
+			<div class="form-group">
+				<label class="sr-only" for="cla_maj_id">សកលវិទ្យាល័យ </label>
 				<?php
 					$data_dropdown = array('' => '  សកលវិទ្យាល័យ  ') + $major;
-					$selector = set_value('tbl_majors_maj_id');
+					$selector = set_value('cla_maj_id');
 					$extra = 'class="form-control input-sm"';
-					echo form_dropdown('tbl_majors_maj_id',$data_dropdown, $selector, $extra); 
+					echo form_dropdown('cla_maj_id',$data_dropdown, $selector, $extra); 
 				?>
 			</div>
 			<div class="form-group">				
@@ -84,9 +89,10 @@
 	<?php
 			if($header):
 				echo '<div style="text-align:center;font-size:15px;">';
-					echo $header['sch_title'].br();
+					echo $header['cla_name'].br();
 					echo 'ឆ្នាំ'.$header['sch_year_number'].$comma;
 					echo 'ឆមាស'.$header['sch_semester'].$comma;
+					echo 'ជំនាន់'.$header['gen_year'].$comma;
 					echo 'វេន'.$header['shi_name'].$comma.br();
 					echo 'សកលវិទ្យាល័យ'.$header['maj_name'].br();
 					echo 'ឆ្នាំសិក្សា'.$header['sch_academic_year'].br(2);

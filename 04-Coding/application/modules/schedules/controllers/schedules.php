@@ -30,11 +30,9 @@ class schedules extends CI_Controller {
     function index() {
         $this->data['title'] = 'កាលវិភាគ';
         $this->data['content'] = 'schedules/index';
-
-        $this->form_validation->set_rules('sch_title', '', 'trim');
         $this->form_validation->set_rules('sch_academic_year', '', 'trim');
      
-		
+		$this->data['class'] = $this->m_global->getDataArray(TABLE_PREFIX . 'classes', 'cla_id', 'cla_name', 'cla_status');
         $this->data['major'] = $this->m_global->getDataArray(TABLE_PREFIX . 'majors', 'maj_id', 'maj_name', 'maj_status');
         $this->data['shift'] = $this->m_global->getDataArray(TABLE_PREFIX . 'shift', 'shi_id', 'shi_name', 'shi_status');
         $this->data['data'] = array();
@@ -51,41 +49,41 @@ class schedules extends CI_Controller {
     function add() {
         $this->data['title'] = 'បង្កើតកាលវិភាគ';
         $this->data['content'] = 'schedules/add';
-		
-		$this->form_validation->set_rules('sch_title', 'title', 'required');
-        $this->form_validation->set_rules('tbl_majors_maj_id', 'major', 'required');
-        $this->form_validation->set_rules('tbl_shift_shi_id', 'shift', 'required');
-        $this->form_validation->set_rules('sch_semester', 'semester', 'required');
-		$this->form_validation->set_rules('sch_year_number', 'year', 'required');
-        $this->form_validation->set_rules('sch_academic_year', 'academic year', 'required|max_length[50]|min_length[5]');
-
-        if ($this->form_validation->run() == FALSE) {
-			$this->data['major'] = $this->m_global->getDataArray(TABLE_PREFIX . 'majors', 'maj_id', 'maj_name', 'maj_status');
-            $this->data['shift'] = $this->m_global->getDataArray(TABLE_PREFIX . 'shift', 'shi_id', 'shi_name', 'shi_status');
-			$this->load->view(LAYOUT, $this->data);
-        }else{
-            if($this->m_schedules->add()) {
-                $this->session->set_flashdata('message', alert("New schedule has been saved!", 'success'));
-                redirect('schedules');
-            } else {
-                $this->session->set_flashdata('message', alert("Schedule cannot be added, please try again", 'danger'));
-                redirect('schedules/add');
-            }
-        }
+		$this->data['class'] = $this->m_global->getDataArray(TABLE_PREFIX . 'classes', 'cla_id', 'cla_name', 'cla_status');
+		$this->load->view(LAYOUT, $this->data);        
     }
 	
+	function ajaxSave(){
+		$res = $this->m_schedules->add();
+		echo json_encode($res);
+	}
+	
 	function ajaxTeacher(){
-		$data = $this->m_schedules->getAjaxData('staff',array('sta_id as id','sta_name as name'));
+		$fselecteds = array('sta_id as id','sta_name as name');
+		$fselected = 'tbl_staffs_sta_id';
+		$fwhere = 'sta_id';
+		$data = $this->m_schedules->getAjaxData('staff',$fselecteds,$fwhere,$fselected);
 		echo json_encode($data);
 	}
 	
 	function ajaxRoom(){
-		$data = $this->m_schedules->getAjaxData('room',array('rom_id as id','rom_name as name'));
+		$fselecteds = array('rom_id as id','rom_name as name');
+		$fselected = 'tbl_room_rom_id';
+		$fwhere = 'rom_id';
+		$data = $this->m_schedules->getAjaxData('room',$fselecteds,$fwhere,$fselected);
 		echo json_encode($data);
 	}
 	
-	function ajaxSubject(){
-		$data = $this->m_schedules->getAjaxData('subject',array('sub_id as id','sub_name as name'));
+	function ajaxSubject(){		
+		$fselecteds = array('sub_id as id','sub_name as name');
+		$fselected = 'tbl_subject_sub_id';
+		$fwhere = 'sub_id';
+		$data = $this->m_schedules->getAjaxData('subject',$fselecteds,$fwhere,$fselected);
+		echo json_encode($data);
+	}
+	
+	function ajaxClass($id=0){
+		$data = $this->m_schedules->getClassBy($id);
 		echo json_encode($data);
 	}
 
@@ -93,28 +91,14 @@ class schedules extends CI_Controller {
         $this->data['title'] = 'កែប្រែកាលវិភាគ';
         $this->data['content'] = 'schedules/edit';
 		$this->data['data'] = $this->m_schedules->getDataSchedule($id);
-		
-		$this->form_validation->set_rules('sch_title', 'title', 'required');
-        $this->form_validation->set_rules('tbl_majors_maj_id', 'major', 'required');
-        $this->form_validation->set_rules('tbl_shift_shi_id', 'shift', 'required');
-        $this->form_validation->set_rules('sch_semester', 'semester', 'required');
-		$this->form_validation->set_rules('sch_year_number', 'year', 'required');
-        $this->form_validation->set_rules('sch_academic_year', 'academic year', 'required|max_length[50]|min_length[5]');
-
-        if ($this->form_validation->run() == FALSE) {
-			$this->data['major'] = $this->m_global->getDataArray(TABLE_PREFIX . 'majors', 'maj_id', 'maj_name', 'maj_status');
-            $this->data['shift'] = $this->m_global->getDataArray(TABLE_PREFIX . 'shift', 'shi_id', 'shi_name', 'shi_status');
-			$this->load->view(LAYOUT, $this->data);
-        }else{
-            if($this->m_schedules->update()) {
-                $this->session->set_flashdata('message', alert("schedule has been saved!", 'success'));
-                redirect('schedules');
-            } else {
-                $this->session->set_flashdata('message', alert("Schedule cannot be updated, please try again", 'danger'));
-                redirect('schedules/edit');
-            }
-        }
+		$this->data['class'] = $this->m_global->getDataArray(TABLE_PREFIX . 'classes', 'cla_id', 'cla_name', 'cla_status');
+		$this->load->view(LAYOUT, $this->data);
     }
+	
+	function ajaxUpdate($id=0){
+		$res = $this->m_schedules->update($id);
+		echo json_encode($res);
+	}
 
     // $id = segment(4)
     function delete($id=0) {
