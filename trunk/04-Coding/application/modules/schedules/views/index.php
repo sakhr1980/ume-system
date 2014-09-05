@@ -70,7 +70,6 @@
             <button type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"><i class="glyphicon glyphicon-filter"></i> Filter</button>
         </form>
     </div>
-
     <div>		
 	<?php
 		$comma = ', ';
@@ -92,7 +91,7 @@
 					echo $header['cla_name'].br();
 					echo 'ឆ្នាំ'.$header['sch_year_number'].$comma;
 					echo 'ឆមាស'.$header['sch_semester'].$comma;
-					echo 'ជំនាន់'.$header['gen_year'].$comma;
+					echo 'ជំនាន់'.$header['gen_title'].$comma;
 					echo 'វេន'.$header['shi_name'].$comma.br();
 					echo 'សកលវិទ្យាល័យ'.$header['maj_name'].br();
 					echo 'ឆ្នាំសិក្សា'.$header['sch_academic_year'].br(2);
@@ -150,10 +149,6 @@
 		endforeach;
 	?>
 	</div>
-	<?php 
-		if(isset($this->pagination))
-			echo $this->pagination->create_links(); 
-	?>
 </div>
 <script>
 	$(document).ready(function(){

@@ -35,11 +35,14 @@ class schedules extends CI_Controller {
 		$this->data['class'] = $this->m_global->getDataArray(TABLE_PREFIX . 'classes', 'cla_id', 'cla_name', 'cla_status');
         $this->data['major'] = $this->m_global->getDataArray(TABLE_PREFIX . 'majors', 'maj_id', 'maj_name', 'maj_status');
         $this->data['shift'] = $this->m_global->getDataArray(TABLE_PREFIX . 'shift', 'shi_id', 'shi_name', 'shi_status');
-        $this->data['data'] = array();
+        $res = array();
+		$num = 0;
 		if ($this->form_validation->run() == true) {
-			$this->data['data'] = $this->m_schedules->findAllSchedule(PAGINGATION_PERPAGE, $this->uri->segment(4));
-			pagination_config(site_url('schedules/index'), $this->m_schedules->countAllSchedule(), PAGINGATION_PERPAGE);
+			$res = $this->m_schedules->findAllSchedule(PAGINGATION_PERPAGE, $this->uri->segment(4));
+			$num = $this->m_schedules->countAllSchedule();
 		}
+		$this->data['data'] = $res;
+		//pagination_config(site_url('schedules/index'),$num , PAGINGATION_PERPAGE);
         $this->load->view(LAYOUT, $this->data);
     }
 

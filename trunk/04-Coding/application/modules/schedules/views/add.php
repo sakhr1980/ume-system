@@ -2,6 +2,9 @@
 	.pointer{
 		cursor:pointer;
 	}
+	.schedule{
+		min-height:65px;
+	}
 </style>
 <form class="form-horizontal" method="post" onsubmit="return false;" id="schedule-form" action="<?php echo site_url('schedules/ajaxSave'); ?>">
     <div class="toolbar col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
@@ -269,7 +272,7 @@
 					success:function(res){
 						addOrRemoveSelect('#tbl_majors_maj_id',res.maj_id,res.maj_name);
 						addOrRemoveSelect('#tbl_shift_shi_id',res.shi_id,res.shi_name);
-						addOrRemoveSelect('#tbl_generation_gen_id',res.gen_id,res.gen_year);
+						addOrRemoveSelect('#tbl_generation_gen_id',res.gen_id,res.gen_title);
 					}
 				});
 			}else{
