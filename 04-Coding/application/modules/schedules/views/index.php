@@ -88,13 +88,15 @@
 	<?php
 			if($header):
 				echo '<div style="text-align:center;font-size:15px;">';
-					echo $header['cla_name'].br();
-					echo 'ឆ្នាំ'.$header['sch_year_number'].$comma;
-					echo 'ឆមាស'.$header['sch_semester'].$comma;
-					echo 'ជំនាន់'.$header['gen_title'].$comma;
-					echo 'វេន'.$header['shi_name'].$comma.br();
-					echo 'សកលវិទ្យាល័យ'.$header['maj_name'].br();
-					echo 'ឆ្នាំសិក្សា'.$header['sch_academic_year'].br(2);
+					preg_match('/weeken/',strtolower($header['shi_name']),$res);
+					echo (count($res)>0?'Schedule for Saturday to Sunday Class':'Schedule for Monday to Friday Class').br();
+					echo 'ឆ្នាំ '.$header['sch_year_number'].$comma;
+					echo 'ឆមាស '.$header['sch_semester'].$comma;
+					echo 'ជំនាន់ '.$header['gen_title'].$comma;
+					echo 'វេន '.$header['shi_name'];
+					echo " (".$header['cla_name'].")".br();
+					echo $header['maj_name'].br();
+					echo 'ឆ្នាំសិក្សា::'.$header['sch_academic_year'].br(2);
 				echo '</div>';				
 			endif;
 			$body = $item['body'];
@@ -136,9 +138,9 @@
 						?>
 							<td>
 							<?php
-								echo $col['teacher'].br();
-								echo $col['room'].br();
-								echo $col['subject'];
+								echo $col['subject'].br();
+								echo ($col['teacher']?'Tec: ':'').$col['teacher'].br();
+								echo ($col['room']?'រៀនបន្ទប់: ':'').$col['room'];								
 							?>
 							</td>
 						<?php
