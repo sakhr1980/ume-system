@@ -105,46 +105,15 @@
 						</div>
 						
 						<table class="table table-bordered" id="timetable">
-							<thead>
-								<tr>
-									<th width="20%">Time of Study</th>
-									<th>Monday</th>
-									<th>Tuesday</th>
-									<th>Wednesday</th>
-									<th>Thursday</th>
-									<th>Friday</th>
-									<th width="8%">Action</th>
-								</tr>
+							<thead>								
 							</thead>
-							<tbody>
-								<?php
-								$index = 0;
-								for($ind=1;$ind<2;$ind++){
-									$index = $ind;
-								?>
-								<tr id="row_<?php echo $ind;?>">
-									<td><input type="text" id="time_<?php echo $ind;?>" class="form-control" name="times[<?php echo $ind;?>]"/></td>
-									<?php
-										for($j=1;$j<=5;$j++){
-											$id = $ind.'_'.$j;
-									?>
-									<td>
-										<input type="hidden" id="<?php echo 'Teacher_'.$id;?>" class="form-control" name="sections[<?php echo $ind;?>][<?php echo $j;?>][teacher]" value=""/>
-										<input type="hidden" id="<?php echo 'Room_'.$id;?>" class="form-control" name="sections[<?php echo $ind;?>][<?php echo $j;?>][room]" value=""/>
-										<input type="hidden" id="<?php echo 'Subject_'.$id;?>" class="form-control" name="sections[<?php echo $ind;?>][<?php echo $j;?>][subject]" value=""/>										
-										<button type="button" data-label="Teacher" data-id="<?php echo $id;?>" data-day="<?php echo $j;?>" class="btn btn-default btn-xs btn-block myModal">Teacher</button>										
-										<button type="button" data-label="Room" data-id="<?php echo $id;?>" data-day="<?php echo $j;?>" class="btn btn-default btn-xs btn-block myModal">Room</button>										
-										<button type="button" data-label="Subject" data-id="<?php echo $id;?>" data-day="<?php echo $j;?>" class="btn btn-default btn-xs btn-block myModal">Subject</button>
-									</td>
-									<?php } ?>
-									<td></td>
-								</tr>
-								<?php } ?>
+							<tbody>								
 							</tbody>
 							<tfoot>
-								<tr>
-									<td colspan="6">&nbsp;</td>
-									<td><button type="button" class="btn btn-default" id="btnTimeTable"><i class="fa fa-plus"></i> Add</button></td>
+								<tr>									
+									<td colspan='8' style="text-align:right;">
+										<button type="button" disabled="disabled" class="btn btn-default" id="btnTimeTable">Add &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;</button>
+									</td>
 								</tr>
 							</tfoot>
 						</table>
@@ -155,7 +124,7 @@
     </div>
 </div>
 <script>
-	var index = '<?php echo $index;?>';
+	var index = 0;
 	var btn_id = '';
 	var btn_html = '';
 	var btn = '';
@@ -166,24 +135,27 @@
 	var trs_id = ''; //t->teacher,r->room,s->subject
 	var trs_name = '';
 	var obj = '';
+	var isWeekend = false;
 	$(document).ready(function(){
 		$(document).on('click','#btnTimeTable',function(){
 			index++;
 			var tt = $('#timetable tbody');
 			var tr = '<tr id="row_'+index+'">';
 			tr += '<td><input type="text" id="time_'+index+'" class="form-control" name="times['+index+']"/></td>';
-			for(var sind= 1; sind<6; sind++){
+			var num = 6;
+			if(isWeekend) num = 3;
+			for(var sind= 1; sind < num; sind++){
 				var id = index + '_' + sind;				
 				tr += '<td>';
-				tr += '	<input type="hidden" id="Teacher_'+index+'" class="form-control" name="sections['+index+']['+sind+'][teacher]" value=""/>';
-				tr += '	<input type="hidden" id="Room_'+index+'" class="form-control" name="sections['+index+']['+sind+'][room]" value=""/>';
-				tr += '	<input type="hidden" id="Subject_'+index+'" class="form-control" name="sections['+index+']['+sind+'][subject]" value=""/>';
+				tr += '	<input type="hidden" id="Teacher_'+id+'" class="form-control" name="sections['+index+']['+sind+'][teacher]" value=""/>';
+				tr += '	<input type="hidden" id="Room_'+id+'" class="form-control" name="sections['+index+']['+sind+'][room]" value=""/>';
+				tr += '	<input type="hidden" id="Subject_'+id+'" class="form-control" name="sections['+index+']['+sind+'][subject]" value=""/>';
 				tr += '	<button type="button" data-label="Teacher" data-id="'+id+'" data-day="'+sind+'" class="btn btn-default btn-xs btn-block myModal">Teacher</button>';										
 				tr += '	<button type="button" data-label="Room" data-id="'+id+'" data-day="'+sind+'" class="btn btn-default btn-xs btn-block myModal">Room</button>';										
 				tr += ' <button type="button" data-label="Subject" data-id="'+id+'" data-day="'+sind+'" class="btn btn-default btn-xs btn-block myModal">Subject</button>';
 				tr += '	</td>';
 			}
-			tr += '<td><button type="button" id="'+index+'" class="btn btn-default remove">Remove</button></td>';
+			tr += '<td style="text-align:right;"><button type="button" id="'+index+'" class="btn btn-default remove">Remove</button></td>';
 			tr += '</tr>';
 			tt.append(tr);
 		});
@@ -273,12 +245,32 @@
 						addOrRemoveSelect('#tbl_majors_maj_id',res.maj_id,res.maj_name);
 						addOrRemoveSelect('#tbl_shift_shi_id',res.shi_id,res.shi_name);
 						addOrRemoveSelect('#tbl_generation_gen_id',res.gen_id,res.gen_title);
+						var th = '<tr>';
+						th += '<th width="20%">Time of Study</th>';
+						var match = res.shi_name.match(/weeken/gi);
+						if(match!=null){
+							isWeekend = true;
+							th += '<th>Statuday</th>';
+							th += '<th>Sunday</th>';
+						}else{
+							th += '<th>Monday</th>';
+							th += '<th>Tuesday</th>';
+							th += '<th>Wednesday</th>';
+							th += '<th>Thursday</th>';
+							th += '<th>Friday</th>';
+						}
+						th += '<th width="10%">Action</th>';
+						th += '</tr>'
+						$('#timetable thead').html(th);
+						$('#btnTimeTable').attr('disabled',false);
 					}
 				});
 			}else{
 				addOrRemoveSelect('#tbl_majors_maj_id','','');
 				addOrRemoveSelect('#tbl_shift_shi_id','','');
 				addOrRemoveSelect('#tbl_generation_gen_id','','');
+				$('#timetable thead').html('');
+				$('#btnTimeTable').attr('disabled','disabled');
 			}
 		});
 		function addOrRemoveSelect(eleId,id,val){
