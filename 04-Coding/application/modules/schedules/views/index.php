@@ -101,16 +101,27 @@
 			if($body):
 				$times = $body['times'];
 				$sections = $body['sections'];
+				$num = 0;
+				foreach($times as $indd=>$tim){
+					$section = $sections[$indd];
+					$num = count($section);
+					break;
+				}
 	?>
 				<table class="table table-bordered">
 					<thead>
 						<tr>
 							<th width="20%">Time of Study</th>
+							<?php if($num==2){ ?>
+							<th>Saturday</th>
+							<th>Sunday</th>
+							<?php }else{ ?>
 							<th>Monday</th>
 							<th>Tuesday</th>
 							<th>Wednesday</th>
 							<th>Thursday</th>
 							<th>Friday</th>
+							<?php } ?>
 						</tr>
 					</thead>
 					<tbody>
