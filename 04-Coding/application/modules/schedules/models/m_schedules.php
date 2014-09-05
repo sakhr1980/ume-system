@@ -99,7 +99,7 @@ class M_Schedules extends CI_Model {
         }
 		
         $this->db->order_by('sc.sch_id', 'desc');
-		$this->db->limit($num_row, $from_row);
+		//$this->db->limit($num_row, $from_row);
         $query = $this->db->get();
 		$data = array();
 		if($query->num_rows()>0){
@@ -147,8 +147,8 @@ class M_Schedules extends CI_Model {
         if($this->input->post('tbl_classes_cla_id') != '') {
             $this->db->where('sc.tbl_classes_cla_id',$this->input->post('tbl_classes_cla_id'));
         }
-		if($this->input->post('tbl_majors_maj_id') != '') {
-            $this->db->where('cl.tbl_majors_maj_id',$this->input->post('tbl_majors_maj_id'));
+		if($this->input->post('cla_maj_id') != '') {
+            $this->db->where('cl.cla_maj_id',$this->input->post('cla_maj_id'));
         }
 		if($this->input->post('tbl_generation_gen_id') != '') {
             $this->db->where('cl.tbl_generation_gen_id',$this->input->post('tbl_generation_gen_id'));
@@ -190,7 +190,6 @@ class M_Schedules extends CI_Model {
 		if($select=='') $select = '*';
 		$this->db->select($select);
 		
-		
 		$this->db->where_not_in($fwhere,$data);
 		
 		$query = $this->db->get(TABLE_PREFIX . $tbl);
@@ -216,7 +215,10 @@ class M_Schedules extends CI_Model {
 		$query = $this->db->get();
 		if($query->num_rows()>0){
 			foreach($query->result_array() as $row){
-				$res[] = $row[$field_seleted];
+				$data = $row[$field_seleted];
+				if($data!=null){
+					$res[] = $data;
+				}
 			}
 		}
 		$query->free_result();

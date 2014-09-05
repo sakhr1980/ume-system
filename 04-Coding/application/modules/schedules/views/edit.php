@@ -2,6 +2,9 @@
 	.pointer{
 		cursor:pointer;
 	}
+	.schedule{
+		min-height:65px;
+	}
 </style>
 <form class="form-horizontal" id="schedule-form" method="post" onsubmit="return false;" action="<?php echo site_url('schedules/ajaxUpdate/'.$data['header']->sch_id); ?>">
     <div class="toolbar col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
@@ -123,9 +126,10 @@
 								$sections = $body['sections'];
 								//print_r($sections);
 								$index = 0;
-								foreach($times as $ind=>$time):									
+								foreach($times as $ind=>$time):
+									$index = $ind;
 								?>
-									<tr>
+									<tr id="row_<?php echo $index; ?>">
 										<td><input type="text" id="time_<?php echo $ind;?>" class="form-control" value="<?php echo set_value('times[$ind]',$time);?>" name="times[<?php echo $ind;?>]"/></td>
 										<?php
 											$section = $sections[$ind];
@@ -249,7 +253,6 @@
 					data:dataString,
 					dataType:'json',
 					success:function(response){
-						console.log(response);
 						var res = '<div class="row">';
 						res += '<div class="col col-lg-3 col-md-2">';
 						res += '<div class="panel panel-primary pointer">';
@@ -290,7 +293,6 @@
 			trs_id = th.attr('data-id');
 			trs_name = th.html();
 			th.addClass('bg-primary');
-			console.log(trs_id);
 		});
 		
 		$(document).on('change','#tbl_classes_cla_id',function(){
@@ -312,7 +314,7 @@
 					success:function(res){
 						addOrRemoveSelect('#tbl_majors_maj_id',res.maj_id,res.maj_name);
 						addOrRemoveSelect('#tbl_shift_shi_id',res.shi_id,res.shi_name);
-						addOrRemoveSelect('#tbl_generation_gen_id',res.gen_id,res.gen_year);
+						addOrRemoveSelect('#tbl_generation_gen_id',res.gen_id,res.gen_title);
 					}
 				});
 			}else{
