@@ -4,6 +4,26 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 class M_Accounts extends CI_Model {
+    
+    
+    function signin(){
+        
+        $this->db->where('use_name', $this->input->post('username'));
+        $this->db->where('use_pass', get_password($this->input->post('password')));
+        $this->db->where('use_status', 1);
+        $data = $this->db->get(TABLE_PREFIX.'users');
+        if($data->num_rows() > 0){
+            $data->result_array();
+            $user = $data->result_array[0];
+            unset($user['use_pass']);
+            $this->session->set_userdata('user',$user);
+            
+            return TRUE;
+        }
+        else{
+            return false;
+        }
+    }
 
     function findAllAccounts($num_row, $from_row) {
         $this->db->order_by('use_id', 'desc');
@@ -114,14 +134,43 @@ class M_Accounts extends CI_Model {
         return $this->db->update(TABLE_PREFIX . 'users', $data);
     }
 
-    function getGroupById($id) {
+    function getAccountById($id) {
         $this->db->where('use_id', $id);
         return $this->db->get(TABLE_PREFIX . 'users');
     }
 
-    function deleteGroupById($id = null) {
+    function deleteAccountById($id = null) {
+        $this->db->where('tbl_users_use_id', $id);
+        $this->db->delete(TABLE_PREFIX . 'user_group');
         $this->db->where('use_id', $id);
         return $this->db->delete(TABLE_PREFIX . 'users');
+    }
+    
+    function getGroupByAccountId($id){
+        
+        $this->db->where('tbl_users_use_id', $id);
+        $this->db->from(TABLE_PREFIX.'groups');
+        $this->db->join(TABLE_PREFIX.'user_group','gro_id=tbl_groups_gro_id');
+        return $this->db->get();
+    }
+    
+    function changePassword(){
+        
+        $user = $this->session->userdata('user');
+        $this->db->where('use_id',$user['use_id']);
+        $this->db->where('use_pass',get_password($this->input->post('password_old')));
+        
+        $data = $this->db->get(TABLE_PREFIX.'users');
+        if($data->num_rows() > 0){
+            $this->db->where('use_id',$user['use_id']);
+            $this->db->where('use_pass',get_password($this->input->post('password_old')));
+            $this->db->set('use_pass',get_password($this->input->post('use_pass')));
+            return $this->db->update(TABLE_PREFIX.'users');
+        }
+        return false;
+        
+        
+        
     }
 
 }
