@@ -21,8 +21,11 @@ class Accounts extends CI_Controller {
 
     function __construct() {
         parent::__construct();
-        $this->load->model(array('users/m_accounts'));
+        $this->load->model(array('users/m_accounts','users/m_groups'));
     }
+    
+    
+    
 
     /**
      * List user account
@@ -76,7 +79,7 @@ class Accounts extends CI_Controller {
 
         $this->data['title'] = 'Edit Group';
         $this->data['content'] = 'users/accounts/edit';
-        $this->data['data'] = $this->m_accounts->getGroupById($id);
+        $this->data['data'] = $this->m_accounts->getAccountById($id);
 
 //        $this->form_validation->set_error_delimiters('<div class="alert alert-error">', '</div>');
         $this->form_validation->set_rules('use_name', 'Group Name', 'required|max_length[50]|min_length[2]|callback_uniqueExcept[' . TABLE_PREFIX . 'accounts.use_name,use_id]');
@@ -97,7 +100,7 @@ class Accounts extends CI_Controller {
 
     // $id = segment(4)
     function delete($id) {
-        if ($this->m_accounts->deleteGroupById($id)) {
+        if ($this->m_accounts->deleteAccountById($id)) {
             $this->session->set_flashdata('message', alert("User account has been deleted!", 'success'));
             redirect('users/accounts/index/' . $this->uri->segment(5));
         } else {
@@ -108,12 +111,75 @@ class Accounts extends CI_Controller {
 
     function view($id = null) {
 
-        $this->data['title'] = 'View User Group';
+        $this->data['title'] = 'View User';
         $this->data['content'] = 'users/accounts/view';
-
-        $this->data['data'] = $this->m_accounts->getGroupById($id);
+        //$this->data['groups'] = $this->m_groups->getAllGroups();
+        $this->data['user_groups'] = $this->m_accounts->getGroupByAccountId($id);
+        $this->data['data'] = $this->m_accounts->getAccountById($id);
         $this->load->view(LAYOUT, $this->data);
     }
+    
+    
+    function profile() {
+        $user = $this->session->userdata('user');
+        $id = $user['use_id'];
+        
+        $this->data['title'] = 'Profile';
+        $this->data['content'] = 'users/accounts/profile';
+        $this->data['user_groups'] = $this->m_accounts->getGroupByAccountId($id);
+        $this->data['data'] = $this->m_accounts->getAccountById($id);
+        $this->load->view(LAYOUT, $this->data);
+    }
+    
+    
+    
+    function signin(){
+        // redirect if logged in
+        if($this->session->userdata('user')){
+            return redirect('dashboard/panel');exit();
+        }
+        $this->data['title'] = "Sign In";
+        if($this->input->post()){
+            if($this->m_accounts->signin()){
+                redirect('dashboard/panel');
+            }
+            else{
+                $this->session->set_flashdata('message', alert("Invalid Username or Password, try again", 'danger'));
+                redirect('users/accounts/signin');
+            }
+        }
+        else{
+            $this->load->view('users/accounts/signin', $this->data);
+        }
+    }
+    
+    function signout(){
+        $this->session->sess_destroy();
+        redirect('users/accounts/signin');
+    }
+    
+    function changePassword(){
+        
+        $this->data['title'] = 'Change password';
+        $this->data['content'] = 'users/accounts/changepassword';
+
+        $this->form_validation->set_rules('use_pass', 'Password', 'required|max_length[50]|min_length[6]');
+        if ($this->form_validation->run() == FALSE) {
+            $this->load->view(LAYOUT, $this->data);
+        } else {
+
+            if ($this->m_accounts->changepassword()) {
+                $this->session->set_flashdata('message', alert("Year password has been changed", 'success'));
+                redirect('users/accounts/profile');
+            } else {
+                $this->session->set_flashdata('message', alert("Current password invalid, please try again", 'danger'));
+                redirect('users/accounts/changepassword');
+            }
+        }
+    }
+    
+    
+    
 
     //====================== validation
     /**

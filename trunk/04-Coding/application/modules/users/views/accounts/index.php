@@ -37,7 +37,7 @@
         <div class="panel-body">
             <table class="table table-hover">
                 <tr>
-                    <th><input type="checkbox" class="checkall" /></th>
+                    <!--<th><input type="checkbox" class="checkall" /></th>-->
                     <th>Username</th>
                     <th>Email</th>
                     <th>Group</th>
@@ -50,7 +50,7 @@
                     <?php foreach ($data->result_array() as $row) { ?>
 
                         <tr>
-                            <td><input type="checkbox" name="id[]" value="<?php $row['use_id'] ?>" class="checkid" /></td>
+                            <!--<td><input type="checkbox" name="id[]" value="<?php $row['use_id'] ?>" class="checkid" /></td>-->
                             <td><?php echo $row['use_name']; ?></td>
                             <td><?php echo $row['use_email']; ?></td>
                             <td>--+</td>

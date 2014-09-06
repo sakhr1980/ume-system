@@ -293,10 +293,13 @@ dt, dd {
 /*=========== Coloer ============*/
 h1, h2, h3, h4, h5{
     color: #E6A437;
-    font-size: 20px;
+    /*font-size: 20px;*/
     padding: 0px;
     margin: 0px;
     padding-top: 4px;
+}
+.toolbar .right h1{
+    font-size: 20px;
 }
 
 /*Background color*/
@@ -311,4 +314,11 @@ h1, h2, h3, h4, h5{
 .error {
 	color: red;
 	padding-left: 10px;
+}
+
+.dashboard .thumbnail h3{
+    text-align: center;
+}
+.dashboard .thumbnail:hover{
+    text-decoration: none !important;
 }

@@ -66,7 +66,7 @@
                     <div class="panel-body">
                         <?php foreach ($groups as $key=>$value) { ?>
                         <div class="checkbox">
-                            <label><input type="checkbox" name="groups[]" value="<?php echo $key; ?>" <?php echo set_checkbox('groups[]', $key, FALSE); ?>> <?php echo $value; ?></label>
+                            <label><input type="checkbox" name="groups[]" value="<?php echo $key; ?>" <?php echo set_checkbox('groups[]', $key, FALSE); ?>><?php echo $value; ?></label>
                         </div>
                         <?php } ?>
                     </div>

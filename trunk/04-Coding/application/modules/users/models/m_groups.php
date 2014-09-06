@@ -80,4 +80,9 @@ class M_groups extends CI_Model {
         return $this->db->delete(TABLE_PREFIX . 'groups');
     }
 
+    function getAllGroups(){
+        
+        $this->db->where('gro_status',1);
+        return $this->db->get(TABLE_PREFIX.'groups');
+    }
 }

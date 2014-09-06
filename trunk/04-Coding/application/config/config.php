@@ -14,7 +14,8 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://system.ume.lan/';
+$config['base_url']	= 'http://localhost:8888/ume-system/04-Coding/';
+//$config['base_url']	= 'http://system.ume.lan/';
 
 /*
 |--------------------------------------------------------------------------
@@ -247,7 +248,7 @@ $config['encryption_key'] = '^&*(OPGLDJGDI';
 $config['sess_cookie_name']		= 'ci_session';
 $config['sess_expiration']		= 7200;
 $config['sess_expire_on_close']	= FALSE;
-$config['sess_encrypt_cookie']	= FALSE;
+$config['sess_encrypt_cookie']	= TRUE;
 $config['sess_use_database']	= FALSE;
 $config['sess_table_name']		= 'ci_sessions';
 $config['sess_match_ip']		= FALSE;

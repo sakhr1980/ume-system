@@ -1,3 +1,7 @@
+<?php
+$user = $this->session->userdata('user');
+?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -47,7 +51,7 @@
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-right">
-
+                        <li><a style="top: 11px;"><?php echo $user['use_name']; ?></a></li>
                         <li class="dropdown menu-left">
                             <a href="#" data-toggle="dropdown" class="icon-top">Menu</a>
                             <ul class="dropdown-menu">
@@ -65,17 +69,15 @@
                                 <li><a href="#"><i class="glyphicon glyphicon-ban-circle"></i> Report problems</a></li>
                             </ul>
                         </li>
-
                         <li class="dropdown">
                             <a href="#" data-toggle="dropdown" class="icon-top"><i class="glyphicon glyphicon-th"></i></a>
                             <ul class="dropdown-menu">
                                 <li class="dropdown-header">Account</li>
 
-                                <li><a href="#"><i class="glyphicon glyphicon-cog"></i> Account setting</a></li>
-                                <li><a href="#"><i class="glyphicon glyphicon-user"></i> Privacy setting</a></li>
-                                <li><a href="<?php echo site_url(); ?>/accounts/logout"><i class="glyphicon glyphicon-off"></i> Log Out</a></li>
+                                <li><a href="<?php echo site_url(); ?>users/accounts/changepassword"><i class="glyphicon glyphicon-lock"></i> Change Password</a></li>
+                                <li><a href="<?php echo site_url(); ?>users/accounts/profile"><i class="glyphicon glyphicon-user"></i> My Profile</a></li>
+                                <li><a href="<?php echo site_url(); ?>users/accounts/signout"><i class="glyphicon glyphicon-off"></i> Log Out</a></li>
 
-                                <li><a href="<?php echo site_url(); ?>/accounts"><i class="glyphicon glyphicon-log-in"></i> Log In</a></li>
 
                                 <li class="divider"></li>
                                 <li class="dropdown-header">Support</li>

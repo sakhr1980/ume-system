@@ -26,14 +26,17 @@
 
     <div class="container">
 
-        <form class="form-signin" role="form" action="<?php echo base_url(); ?>signin/access" method="post">
+        <form class="form-signin" role="form" action="<?php echo base_url(); ?>users/accounts/signin" method="post">
         <h3 class="form-signin-heading"><img style="top: -3px;width: 50px;" id="logo" src="<?php echo base_url(); ?>images/logo.png" title="UME"> Please sign in</h3>
-        <input type="email" class="form-control" placeholder="Username" required autofocus>
-        <input type="password" class="form-control" placeholder="Password" required>
-        <label class="checkbox">
-          <input type="checkbox" value="remember-me"> Remember me [Any account]
-        </label>
-        <button class="btn btn-lg btn-warning btn-block" type="submit">Sign in</button>
+        <input type="text" name="username" class="form-control" placeholder="Username" required autofocus>
+        <input type="password" name="password" class="form-control" placeholder="Password" required>
+<!--        <label class="checkbox">
+          <input type="checkbox" value="remember-me"> Remember Me
+        </label>-->
+        <button class="btn btn-lg btn-warning btn-block" type="submit">Sign In</button>
+        <br />
+        
+        <?php echo $this->session->flashdata('message'); ?>
       </form>
 
     </div> <!-- /container -->

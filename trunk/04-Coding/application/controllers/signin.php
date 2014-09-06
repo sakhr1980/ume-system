@@ -1,4 +1,7 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+if (!defined('BASEPATH'))
+    exit('No direct script access allowed');
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -11,17 +14,18 @@
  *
  * @author sochy.choeun
  */
-class Signin extends CI_Controller{
+class Signin extends CI_Controller {
+
     //put your code here
     var $data = null;
-    
-    
-    function index(){
+
+    function index() {
         $this->data['title'] = "Sign In";
-        $this->load->view('signin',  $this->data);
+        $this->load->view('signin', $this->data);
     }
-    
-    function access(){
+
+    function access() {
         redirect('users/groups');
     }
+
 }
