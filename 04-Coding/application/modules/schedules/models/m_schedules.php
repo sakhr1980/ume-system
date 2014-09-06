@@ -171,7 +171,7 @@ class M_Schedules extends CI_Model {
 	
 	function getAjaxData($tbl,$field_selecteds=array(),$fwhere='',$fselected='') {
 		$res = array();		
-		$field_wheres['tbl_classes_cla_id'] = $_POST['cla_id'];
+		//$field_wheres['tbl_classes_cla_id'] = $_POST['cla_id'];
 		$field_wheres['sch_year_number'] = $_POST['year'];
 		$field_wheres['sch_semester'] = $_POST['semester'];
 		$field_wheres['sch_academic_year'] = $_POST['academic'];
