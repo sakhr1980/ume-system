@@ -141,7 +141,7 @@
 			index++;
 			var tt = $('#timetable tbody');
 			var tr = '<tr id="row_'+index+'">';
-			tr += '<td><input type="text" id="time_'+index+'" class="form-control" name="times['+index+']"/></td>';
+			tr += '<td><input type="text" id="time_'+index+'" class="form-control required" name="times['+index+']"/></td>';
 			var num = 6;
 			if(isWeekend) num = 3;
 			for(var sind= 1; sind < num; sind++){
@@ -179,6 +179,12 @@
 			semester = $('#sch_semester').val();
 			academic = $('#sch_academic_year').val();
 			trs_id = '';
+			
+			$.each($('.required'),function(){
+				var th = $(this);
+				validateForm(th);
+			});
+			
 			if(cla_id!='' && year != '' && academic != '' && semester != '' && stime!=''){
 				var fn = 'ajax' + btn;
 				var url = '<?php echo site_url('schedules/');?>/' + fn;
@@ -281,15 +287,21 @@
 			}	
 		}
 		
-		$(document).on('change blur','.required',function(){
+		$(document).on('change blur keyup','.required',function(){
 			var th = $(this);
+			validateForm(th);
+		});
+		
+		function validateForm(th){			
 			var txt = th.val();
 			if(txt==''){
 				th.parent().addClass('has-error');
+				return false;
 			}else{
 				th.parent().removeClass('has-error');
+				return true;
 			}
-		});
+		}
 		
 		$("#schedule-form").submit(function(){
 			var clas = $('#tbl_classes_cla_id').val();
@@ -297,28 +309,13 @@
 			var semester = $('#sch_semester').val();
 			var academic = $('#sch_academic_year').val();
 			
-			if(clas==''){
-				$('#tbl_classes_cla_id').parent().addClass('has-error');
-			}else{
-				$('#tbl_classes_cla_id').parent().removeClass('has-error');
-			}
-			if(year==''){
-				$('#sch_year_number').parent().addClass('has-error');
-			}else{
-				$('#sch_year_number').parent().removeClass('has-error');
-			}			
-			if(semester==''){				
-				$('#sch_semester').parent().addClass('has-error');
-			}else{				
-				$('#sch_semester').parent().removeClass('has-error');
-			}			
-			if(academic==''){				
-				$('#sch_academic_year').parent().addClass('has-error');
-			}else{				
-				$('#sch_academic_year').parent().removeClass('has-error');
-			}
+			var cnt = 0;			
+			$.each($('.required'),function(){
+				var th = $(this);
+				if(!validateForm(th)) cnt++;
+			});
 			
-			if(clas!='' && year!='' && semester!='' && academic != ''){
+			if(clas!='' && year!='' && semester!='' && academic != '' && cnt==0){
 				var th = $(this); 
 				$.ajax({
 					type:'post',
