@@ -165,6 +165,7 @@ class M_Accounts extends CI_Model {
             $this->db->where('use_id',$user['use_id']);
             $this->db->where('use_pass',get_password($this->input->post('password_old')));
             $this->db->set('use_pass',get_password($this->input->post('use_pass')));
+            $this->db->set('use_modified',"NOW()",false);
             return $this->db->update(TABLE_PREFIX.'users');
         }
         return false;
