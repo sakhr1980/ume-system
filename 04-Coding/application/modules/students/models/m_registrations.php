@@ -65,6 +65,7 @@ class M_registrations extends CI_Model {
     function add() {
         $class_id = "";
         //var_dump($this->input->post());die();
+        $stu_card_id = "";
         $data = $this->input->post();
         $exp_date = $data['exp_date'];
         $exp_shift = $data['exp_shift'];
