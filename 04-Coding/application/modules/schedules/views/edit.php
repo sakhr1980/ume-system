@@ -141,7 +141,7 @@
 								foreach($times as $ind=>$time):
 									$index = $ind;
 								?>
-									<tr id="row_<?php echo $index; ?>">
+									<tr id="row_<?php echo $ind; ?>">
 										<td><input type="text" id="time_<?php echo $ind;?>" class="form-control required" value="<?php echo set_value('times[$ind]',$time);?>" name="times[<?php echo $ind;?>]"/></td>
 										<?php
 											$section = $sections[$ind];
@@ -156,9 +156,9 @@
 												$sname = $tmp['subject_name'];
 										?>
 										<td>
-											<input type="hidden" id="<?php echo 'Teacher_'.$id;?>" class="form-control" name="sections[<?php echo $ind;?>][<?php echo $j;?>][teacher]" value=""/>
-											<input type="hidden" id="<?php echo 'Room_'.$id;?>" class="form-control" name="sections[<?php echo $ind;?>][<?php echo $j;?>][room]" value=""/>
-											<input type="hidden" id="<?php echo 'Subject_'.$id;?>" class="form-control" name="sections[<?php echo $ind;?>][<?php echo $j;?>][subject]" value=""/>										
+											<input type="hidden" id="<?php echo 'Teacher_'.$id;?>" class="form-control" name="sections[<?php echo $ind;?>][<?php echo $j;?>][teacher]" value="<?php echo $teacher;?>"/>
+											<input type="hidden" id="<?php echo 'Room_'.$id;?>" class="form-control" name="sections[<?php echo $ind;?>][<?php echo $j;?>][room]" value="<?php echo $room;?>"/>
+											<input type="hidden" id="<?php echo 'Subject_'.$id;?>" class="form-control" name="sections[<?php echo $ind;?>][<?php echo $j;?>][subject]" value="<?php echo $subject;?>"/>										
 											<button type="button" data-label="Teacher" data-id="<?php echo $id;?>" data-day="<?php echo $j;?>" class="btn btn-default btn-xs btn-block myModal">
 												<?php
 													echo $tname==''?'Teacher':$tname;
