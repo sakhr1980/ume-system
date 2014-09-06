@@ -166,9 +166,15 @@ class Registrations extends CI_Controller {
         $major = $this->input->post('reMajor');
 
         $class_data = $this->m_registrations->getClassById($shift, $generation, $major);
+        echo $class_data;
+        $stu_card_id= $major['maj_abbriviation'];
         if ($class_data->num_rows() > 0) {
+            echo ' <input type="hidden" id="stu_card_id" name="stu_card_id" value="'.$stu_card_id.'" >';
+
             foreach ($class_data->result_array() as $class) {
-                echo ' <div class="col-md-3" >
+                echo '
+                    <div class="col-md-3" >
+                    
                     <label><input type="radio"  required="required" name="class" id="shift" value="' . $class["cla_id"] . '" >' . $class["cla_name"] . ' (' . $class["studnetNumber"] . ')' . '</label>
                 </div> ';
             }
