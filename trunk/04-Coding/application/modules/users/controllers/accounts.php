@@ -76,13 +76,16 @@ class Accounts extends CI_Controller {
 
     // $id = segment(4)
     function edit($id=0) {
-
-        $this->data['title'] = 'Edit Group';
+        
+        $this->data['title'] = 'Edit Account';
         $this->data['content'] = 'users/accounts/edit';
         $this->data['data'] = $this->m_accounts->getAccountById($id);
+        $this->data['groups'] = $this->m_groups->getAllGroups();
+        $this->data['user_groups'] = $this->m_accounts->getGroupByAccountId($id);
 
 //        $this->form_validation->set_error_delimiters('<div class="alert alert-error">', '</div>');
-        $this->form_validation->set_rules('use_name', 'Group Name', 'required|max_length[50]|min_length[2]|callback_uniqueExcept[' . TABLE_PREFIX . 'accounts.use_name,use_id]');
+        $this->form_validation->set_rules('use_pass', 'Password', 'max_length[50]|min_length[2]');
+        $this->form_validation->set_rules('use_passc', 'Password', 'match[use_pass]');
         if ($this->form_validation->run() == FALSE) {
             $this->load->view(LAYOUT, $this->data);
         } else {

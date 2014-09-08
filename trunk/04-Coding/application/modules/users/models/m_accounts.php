@@ -4,23 +4,21 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 class M_Accounts extends CI_Model {
-    
-    
-    function signin(){
-        
+
+    function signin() {
+
         $this->db->where('use_name', $this->input->post('username'));
         $this->db->where('use_pass', get_password($this->input->post('password')));
         $this->db->where('use_status', 1);
-        $data = $this->db->get(TABLE_PREFIX.'users');
-        if($data->num_rows() > 0){
+        $data = $this->db->get(TABLE_PREFIX . 'users');
+        if ($data->num_rows() > 0) {
             $data->result_array();
             $user = $data->result_array[0];
             unset($user['use_pass']);
-            $this->session->set_userdata('user',$user);
-            
+            $this->session->set_userdata('user', $user);
+
             return TRUE;
-        }
-        else{
+        } else {
             return false;
         }
     }
@@ -34,22 +32,22 @@ class M_Accounts extends CI_Model {
         if ($this->input->post('use_email') != '') {
             $this->db->like('use_email', $this->input->post('use_email'));
         }
-        
+
         // Keep pagination for filter status
-        if($this->input->post('use_status')!=''){
+        if ($this->input->post('use_status') != '') {
             $this->session->set_userdata('use_status', $this->input->post('use_status'));
         }
-        if($this->input->post('submit') && $this->input->post('use_status')==''){
+        if ($this->input->post('submit') && $this->input->post('use_status') == '') {
             $this->session->set_userdata('use_status', '');
         }
         if ($this->session->userdata('use_status') != '') {
             $this->db->where('use_status', $this->session->userdata('use_status'));
         }
         // Keep pagination for filter group
-        if($this->input->post('tbl_groups_gro_id') && $this->input->post('tbl_groups_gro_id')!=''){
+        if ($this->input->post('tbl_groups_gro_id') && $this->input->post('tbl_groups_gro_id') != '') {
             $this->session->set_userdata('tbl_groups_gro_id', $this->input->post('tbl_groups_gro_id'));
         }
-        if($this->input->post('submit') && $this->input->post('tbl_groups_gro_id')==''){
+        if ($this->input->post('submit') && $this->input->post('tbl_groups_gro_id') == '') {
             $this->session->set_userdata('tbl_groups_gro_id', '');
         }
         if ($this->session->userdata('tbl_groups_gro_id') && $this->session->userdata('tbl_groups_gro_id') != '') {
@@ -59,7 +57,7 @@ class M_Accounts extends CI_Model {
 
         $this->db->limit($num_row, $from_row);
         $this->db->from(TABLE_PREFIX . 'users');
-        $this->db->join(TABLE_PREFIX.'user_group','use_id=tbl_users_use_id','left');
+        $this->db->join(TABLE_PREFIX . 'user_group', 'use_id=tbl_users_use_id', 'left');
         $this->db->group_by('use_id');
         return $this->db->get();
     }
@@ -67,29 +65,29 @@ class M_Accounts extends CI_Model {
     function countAllAccounts() {
 
         // Keep pagination for filter status
-        if($this->input->post('use_status')!=''){
+        if ($this->input->post('use_status') != '') {
             $this->session->set_userdata('use_status', $this->input->post('use_status'));
         }
-        if($this->input->post('submit') && $this->input->post('use_status')==''){
+        if ($this->input->post('submit') && $this->input->post('use_status') == '') {
             $this->session->set_userdata('use_status', '');
         }
         if ($this->session->userdata('use_status') != '') {
             $this->db->where('use_status', $this->session->userdata('use_status'));
         }
         // Keep pagination for filter group
-        if($this->input->post('tbl_groups_gro_id') && $this->input->post('tbl_groups_gro_id')!=''){
+        if ($this->input->post('tbl_groups_gro_id') && $this->input->post('tbl_groups_gro_id') != '') {
             $this->session->set_userdata('tbl_groups_gro_id', $this->input->post('tbl_groups_gro_id'));
         }
-        if($this->input->post('submit') && $this->input->post('tbl_groups_gro_id')==''){
+        if ($this->input->post('submit') && $this->input->post('tbl_groups_gro_id') == '') {
             $this->session->set_userdata('tbl_groups_gro_id', '');
         }
         if ($this->session->userdata('tbl_groups_gro_id') && $this->session->userdata('tbl_groups_gro_id') != '') {
             $this->db->where('tbl_groups_gro_id', $this->session->userdata('tbl_groups_gro_id'));
         }
         //-----------------------
- 
+
         $this->db->from(TABLE_PREFIX . 'users');
-        $this->db->join(TABLE_PREFIX.'user_group','use_id=tbl_users_use_id','left');
+        $this->db->join(TABLE_PREFIX . 'user_group', 'use_id=tbl_users_use_id', 'left');
         $this->db->group_by('use_id');
         $data = $this->db->get();
         return $data->num_rows();
@@ -107,13 +105,13 @@ class M_Accounts extends CI_Model {
         $data['use_pass'] = get_password($data['use_pass']);
         $this->db->set('use_created', 'NOW()', false);
         $result = $this->db->insert(TABLE_PREFIX . 'users', $data);
-        
+
         $use_id = $this->db->insert_id();
-        if(count($groups) > 0){
+        if (count($groups) > 0) {
             foreach ($groups as $gro_id) {
                 $this->db->set('tbl_users_use_id', $use_id);
                 $this->db->set('tbl_groups_gro_id', $gro_id);
-                $this->db->insert(TABLE_PREFIX.'user_group');
+                $this->db->insert(TABLE_PREFIX . 'user_group');
             }
         }
         return $result;
@@ -125,13 +123,33 @@ class M_Accounts extends CI_Model {
      */
     function update() {
         $data = $this->input->post();
-        $this->db->where('use_id', $this->uri->segment(4));
+
+        // Reset Group for user
+        $user_id = $this->uri->segment(4);
+        $this->db->where('tbl_users_use_id', $user_id);
+        $this->db->delete(TABLE_PREFIX . 'user_group');
+        $group_batch = null;
+        foreach ($data['groups'] as $group) {
+            $group_batch[] = array(
+                'tbl_groups_gro_id' => $group,
+                'tbl_users_use_id' => $this->uri->segment(4)
+            );
+        }
+        $this->db->insert_batch(TABLE_PREFIX . 'user_group', $group_batch); 
+        
+        // Update user
+        $this->db->where('use_id', $user_id);
         $this->db->set('use_modified', 'NOW()', false);
+        if($data['use_pass']!='')
+        $this->db->set('use_pass', get_password($data['use_pass']));
         // if checkbox is not checked
         if (empty($data['use_status'])) {
             $this->db->set('use_status', 0);
         }
-        return $this->db->update(TABLE_PREFIX . 'users', $data);
+        else{
+            $this->db->set('use_status', 1);
+        }
+        return $this->db->update(TABLE_PREFIX . 'users');
     }
 
     function getAccountById($id) {
@@ -145,33 +163,30 @@ class M_Accounts extends CI_Model {
         $this->db->where('use_id', $id);
         return $this->db->delete(TABLE_PREFIX . 'users');
     }
-    
-    function getGroupByAccountId($id){
-        
+
+    function getGroupByAccountId($id) {
+
         $this->db->where('tbl_users_use_id', $id);
-        $this->db->from(TABLE_PREFIX.'groups');
-        $this->db->join(TABLE_PREFIX.'user_group','gro_id=tbl_groups_gro_id');
+        $this->db->from(TABLE_PREFIX . 'groups');
+        $this->db->join(TABLE_PREFIX . 'user_group', 'gro_id=tbl_groups_gro_id');
         return $this->db->get();
     }
-    
-    function changePassword(){
-        
+
+    function changePassword() {
+
         $user = $this->session->userdata('user');
-        $this->db->where('use_id',$user['use_id']);
-        $this->db->where('use_pass',get_password($this->input->post('password_old')));
-        
-        $data = $this->db->get(TABLE_PREFIX.'users');
-        if($data->num_rows() > 0){
-            $this->db->where('use_id',$user['use_id']);
-            $this->db->where('use_pass',get_password($this->input->post('password_old')));
-            $this->db->set('use_pass',get_password($this->input->post('use_pass')));
-            $this->db->set('use_modified',"NOW()",false);
-            return $this->db->update(TABLE_PREFIX.'users');
+        $this->db->where('use_id', $user['use_id']);
+        $this->db->where('use_pass', get_password($this->input->post('password_old')));
+
+        $data = $this->db->get(TABLE_PREFIX . 'users');
+        if ($data->num_rows() > 0) {
+            $this->db->where('use_id', $user['use_id']);
+            $this->db->where('use_pass', get_password($this->input->post('password_old')));
+            $this->db->set('use_pass', get_password($this->input->post('use_pass')));
+            $this->db->set('use_modified', "NOW()", false);
+            return $this->db->update(TABLE_PREFIX . 'users');
         }
         return false;
-        
-        
-        
     }
 
 }
