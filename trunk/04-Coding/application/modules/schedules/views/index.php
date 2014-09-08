@@ -80,7 +80,16 @@
 			<div class="panel panel-default" id="panel<?php echo $sch_id;?>">
                 <div class="panel-body">
 					<div class="btn-group">
-					<?php
+						<button type="button" class="btn btn-default" data-toggle="dropdown">
+						  Print
+						  <span class="caret"></span>
+						  <span class="sr-only">Toggle Dropdown</span>
+					   </button>
+					   <ul class="dropdown-menu" role="menu">
+						  <li><a href="<?php echo site_url('schedules/do_print/'.$sch_id); ?>" target="_blank">Print</a></li>
+						  <li><a href="<?php echo site_url('schedules/do_print'); ?>" target="_blank">Print All</a></li>
+					   </ul>
+					<?php						
 						echo anchor(site_url('schedules/edit/'.$sch_id),'Edit','class="btn btn-default"');
 						echo anchor(site_url('schedules/delete/'.$sch_id),'Delete',"class='btn btn-default schedule-delete' id='$sch_id'");
 					?>
