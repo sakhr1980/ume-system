@@ -45,6 +45,12 @@ class schedules extends CI_Controller {
 		//pagination_config(site_url('schedules/index'),$num , PAGINGATION_PERPAGE);
         $this->load->view(LAYOUT, $this->data);
     }
+	
+	function do_print($id=0){
+		$data['title'] = 'កាលវិភាគ';
+		$data['data'] = $this->m_schedules->printDocument($id);
+		$this->load->view('schedules/print',$data);
+	}
 
     /**
      * Add new user account

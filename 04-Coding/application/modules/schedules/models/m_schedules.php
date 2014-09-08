@@ -66,7 +66,78 @@ class M_Schedules extends CI_Model {
 		return $res;
     }
 	
-	
+	function printDocument($id=0) {
+		$res = array();
+        $this->db->from(TABLE_PREFIX . 'schadule sc');
+		$this->db->join(TABLE_PREFIX . 'classes cl', 'sc.tbl_classes_cla_id=cl.cla_id');
+        $this->db->join(TABLE_PREFIX . 'shift sh', 'cl.tbl_shift_shi_id=sh.shi_id','left');
+        $this->db->join(TABLE_PREFIX . 'majors m', 'cl.cla_maj_id=m.maj_id','left');
+		$this->db->join(TABLE_PREFIX . 'generation g', 'cl.tbl_generation_gen_id=g.gen_id','left');
+		
+		if($id>0) {
+            $this->db->where('sc.sch_id',$id);
+        }
+		
+        if($this->input->post('tbl_classes_cla_id') != '') {
+            $this->db->where('sc.tbl_classes_cla_id',$this->input->post('tbl_classes_cla_id'));
+        }
+		if($this->input->post('cla_maj_id') != '') {
+            $this->db->where('cl.cla_maj_id',$this->input->post('cla_maj_id'));
+        }
+		if($this->input->post('tbl_generation_gen_id') != '') {
+            $this->db->where('cl.tbl_generation_gen_id',$this->input->post('tbl_generation_gen_id'));
+        }
+		if($this->input->post('tbl_shift_shi_id') != '') {
+            $this->db->where('cl.tbl_shift_shi_id',$this->input->post('tbl_shift_shi_id'));
+        }
+		if($this->input->post('sch_year_number') != '') {
+            $this->db->where('sc.sch_year_number',$this->input->post('sch_year_number'));
+        }
+		if($this->input->post('sch_semester') != '') {
+            $this->db->where('sc.sch_semester',$this->input->post('sch_year_number'));
+        }
+		if($this->input->post('sch_academic_year') != '') {
+            $this->db->where('sc.sch_academic_year',$this->input->post('sch_academic_year'));
+        }
+		
+        $this->db->order_by('sc.sch_id', 'desc');
+		//$this->db->limit($num_row, $from_row);
+        $query = $this->db->get();
+		$data = array();
+		if($query->num_rows()>0){
+			foreach($query->result_array() as $row){
+				$data[] = $row;
+			}			
+		}
+		
+		$ind = 0;
+		foreach($data as $item){
+			$ind++;
+			$res[$ind]['header'] = $item;
+			
+			$this->db->from(TABLE_PREFIX . 'schadule_detail');
+			$this->db->join(TABLE_PREFIX . 'staff', 'tbl_staffs_sta_id=sta_id','left');
+			$this->db->join(TABLE_PREFIX . 'room', 'tbl_room_rom_id=rom_id','left');
+			$this->db->join(TABLE_PREFIX . 'subject', 'tbl_subject_sub_id=sub_id','left');
+			$this->db->where('tbl_schadule_sch_id',$item['sch_id']);
+			$query = $this->db->get();
+			$body = array();
+			if($query->num_rows()>0){
+				foreach($query->result_array() as $roww){
+					$time = $roww['scd_time'];
+					$sec = $roww['scd_section'];
+					$sday = $roww['scd_day'];
+					$body['times'][$sec] = $time; 
+					$body['sections'][$sec][$sday]['teacher'] = $roww['sta_name'];
+					$body['sections'][$sec][$sday]['room'] = $roww['rom_name'];
+					$body['sections'][$sec][$sday]['subject'] = $roww['sub_name'];
+				}
+			}
+			$res[$ind]['body'] = $body;
+		}
+		$query->free_result();		
+		return $res;
+    }
 
     function findAllSchedule($num_row, $from_row) {
 		$res = array();
