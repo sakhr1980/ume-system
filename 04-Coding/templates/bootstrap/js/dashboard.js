@@ -22,5 +22,19 @@ jQuery(document).ready(function() {
 	jQuery(".formValidator").validate({
 
 	});
+	
+	jQuery("#tbl_students_stu_id").blur(function() {
+		var url = location.protocol + '//' + location.host + '/payments/students/showStudent';
+		jQuery.ajax({
+			url: url,
+			type: 'post',
+			data: {'student_id': jQuery('#tbl_students_stu_id').val()},
+		}).done(function(data) {
+			var names = data.split(',');
+			jQuery('#student_name_in_latin').val(names[0]);
+			jQuery('#name_in_khmer').val(names[1]);
+			jQuery('#stu_sex').val(names[2]);
+		});
+	});
 
 });
