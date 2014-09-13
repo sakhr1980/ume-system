@@ -26,7 +26,7 @@ class M_Staffs extends CI_Model {
 			$this->db->like('s.sta_name_kh', $this->input->post('sta_name_kh'));
 		}
 		if ($this->input->post('sta_job_type') != '') {
-			$this->db->like('s.sta_job_type', $this->input->post('sta_job_type'));
+			$this->db->like('sta_job_type', $this->input->post('sta_job_type'));
 		}
 
 		// Keep pagination for filter status

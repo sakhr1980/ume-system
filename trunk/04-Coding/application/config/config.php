@@ -14,8 +14,8 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://localhost:8888/ume-system/04-Coding/';
-//$config['base_url']	= 'http://system.ume.lan/';
+//$config['base_url']	= 'http://localhost:8888/ume-system/04-Coding/';
+$config['base_url']	= 'http://system.ume.lan/';
 
 /*
 |--------------------------------------------------------------------------
