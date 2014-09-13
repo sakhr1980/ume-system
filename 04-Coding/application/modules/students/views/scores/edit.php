@@ -22,7 +22,7 @@ echo '/' . $this->uri->segment(5); // segment(5) for pagination
 			<div class="col-md-8">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h3 class="panel-title">Input Score for <strong><?php echo $data['student']; ?></strong></h3>
+						<h3 class="panel-title">Input Score for <strong><?php echo $data['student']; ?></strong> - Semester <?php echo $data['stu_sco_semester']; ?></h3>
 					</div>
 					<div class="panel-body">
 						<div class="form-group">
