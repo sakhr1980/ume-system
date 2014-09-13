@@ -15,15 +15,15 @@
             <?php
 				echo set_value('tbl_classes_cla_id');
 			?>
-			<div class="form-group">
-				<label class="sr-only" for="tbl_classes_cla_id">ថ្នាក់</label>
-				<?php
-					$data_dropdown = array('' => '  ថ្នាក់  ') + $class;
-					$selector = set_value('tbl_classes_cla_id');
-					$extra = 'class="form-control input-sm"';
-					echo form_dropdown('tbl_classes_cla_id',$data_dropdown, $selector, $extra); 
-				?>
-			</div>
+            <div class="form-group">
+                <label class="sr-only" for="tbl_classes_cla_id">ថ្នាក់</label>
+                <?php
+                $data_dropdown = array('' => '  ថ្នាក់  ') + $class;
+                $selector = set_value('tbl_classes_cla_id');
+                $extra = 'class="form-control input-sm"';
+                echo form_dropdown('tbl_classes_cla_id', $data_dropdown, $selector, $extra);
+                ?>
+            </div>
 			<div class="form-group">
 				<label class="sr-only" for="cla_maj_id">សកលវិទ្យាល័យ </label>
 				<?php
