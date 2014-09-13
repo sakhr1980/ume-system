@@ -20,6 +20,7 @@ class M_Scores extends CI_Model {
 			'maj.maj_abbriviation AS major',
 			'shi.shi_name AS shift',
 			'cla.cla_name AS class',
+			'sco.stu_sco_semester AS semester',
 			'sco.stu_sco_attendance AS attendance',
 			'sco.stu_sco_homework AS homework',
 			'sco.stu_sco_midterm_exam AS midterm',
@@ -33,17 +34,27 @@ class M_Scores extends CI_Model {
 		$this->db->order_by('sco.stu_sco_rank', 'ASC');
 
 		if ($this->input->post('tbl_generation_gen_id') != '') {
-			$this->db->where('sco.tbl_generation_gen_id', $this->input->post('tbl_generation_gen_id'));
+			$this->session->set_userdata('tbl_generation_gen_id', $this->input->post('tbl_generation_gen_id'));
+			$this->db->where('sco.tbl_generation_gen_id', $this->session->userdata('tbl_generation_gen_id'));
 		}
 		if ($this->input->post('tbl_majors_maj_id') != '') {
-			$this->db->where('sco.tbl_majors_maj_id', $this->input->post('tbl_majors_maj_id'));
+			$this->session->set_userdata('tbl_majors_maj_id', $this->input->post('tbl_majors_maj_id'));
+			$this->db->where('sco.tbl_majors_maj_id', $this->session->userdata('tbl_majors_maj_id'));
 		}
 		if ($this->input->post('tbl_shift_shi_id') != '') {
-			$this->db->where('sco.tbl_shift_shi_id', $this->input->post('tbl_shift_shi_id'));
+			$this->session->set_userdata('tbl_shift_shi_id', $this->input->post('tbl_shift_shi_id'));
+			$this->db->where('sco.tbl_shift_shi_id', $this->session->userdata('tbl_shift_shi_id'));
 		}
 		if ($this->input->post('tbl_classes_cla_id') != '') {
-			$this->db->where('sco.tbl_classes_cla_id', $this->input->post('tbl_classes_cla_id'));
+			$this->session->set_userdata('tbl_classes_cla_id', $this->input->post('tbl_classes_cla_id'));
+			$this->db->where('sco.tbl_classes_cla_id', $this->session->userdata('tbl_classes_cla_id'));
 		}
+		if ($this->input->post('stu_sco_semester')) {
+			$this->session->set_userdata('stu_sco_semester', $this->input->post('stu_sco_semester'));
+		} else {
+			$this->session->set_userdata('stu_sco_semester', 1);
+		}
+		$this->db->where('sco.stu_sco_semester', $this->session->userdata('stu_sco_semester'));
 		if ($this->input->post('stu_name') != '') {
 			$this->db->like('stu.stu_en_firstname', $this->input->post('stu_name'));
 			$this->db->or_like('stu.stu_kh_firstname', $this->input->post('stu_name'));
@@ -70,22 +81,6 @@ class M_Scores extends CI_Model {
 	 * @return integer
 	 */
 	function countAllScores() {
-		if ($this->input->post('tbl_generation_gen_id') != '') {
-			$this->session->set_userdata('tbl_generation_gen_id', $this->input->post('tbl_generation_gen_id'));
-		}
-		if ($this->input->post('tbl_majors_maj_id') != '') {
-			$this->session->set_userdata('tbl_majors_maj_id', $this->input->post('tbl_majors_maj_id'));
-		}
-		if ($this->input->post('tbl_shift_shi_id') != '') {
-			$this->session->set_userdata('tbl_shift_shi_id', $this->input->post('tbl_shift_shi_id'));
-		}
-		if ($this->input->post('tbl_classes_cla_id') != '') {
-			$this->session->set_userdata('tbl_classes_cla_id', $this->input->post('tbl_classes_cla_id'));
-		}
-		if ($this->input->post('tbl_students_stu_id') != '') {
-			$this->session->set_userdata('tbl_students_stu_id', $this->input->post('tbl_students_stu_id'));
-		}
-
 		if ($this->input->post('submit') && $this->input->post('tbl_generation_gen_id') == '') {
 			$this->session->set_userdata('tbl_generation_gen_id', '');
 		}
@@ -97,9 +92,6 @@ class M_Scores extends CI_Model {
 		}
 		if ($this->input->post('submit') && $this->input->post('tbl_classes_cla_id') == '') {
 			$this->session->set_userdata('tbl_classes_cla_id', '');
-		}
-		if ($this->input->post('submit') && $this->input->post('stu_name') == '') {
-			$this->session->set_userdata('stu_name', '');
 		}
 
 		if ($this->session->userdata('tbl_generation_gen_id') != '') {
@@ -114,8 +106,8 @@ class M_Scores extends CI_Model {
 		if ($this->session->userdata('tbl_classes_cla_id') != '') {
 			$this->db->where('tbl_classes_cla_id', $this->session->userdata('tbl_classes_cla_id'));
 		}
-		if ($this->session->userdata('stu_name') != '') {
-			$this->db->where('stu_name', $this->session->userdata('stu_name'));
+		if ($this->session->userdata('stu_sco_semester') != '') {
+			$this->db->where('stu_sco_semester', $this->session->userdata('stu_sco_semester'));
 		}
 
 		$this->db->from(TABLE_PREFIX . 'student_score');
@@ -152,7 +144,10 @@ class M_Scores extends CI_Model {
 					'tbl_classes_cla_id' => $row['tbl_classes_cla_id'],
 					'tbl_students_stu_id' => $row['tbl_students_stu_id']
 				);
+				$this->db->set('stu_sco_semester', 1);
 				$this->db->set('stu_sco_created', 'NOW()', false);
+				$this->db->insert(TABLE_PREFIX . 'student_score', $data);
+				$this->db->set('stu_sco_semester', 2);
 				$this->db->insert(TABLE_PREFIX . 'student_score', $data);
 				unset($data);
 

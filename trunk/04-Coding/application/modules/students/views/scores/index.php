@@ -16,6 +16,10 @@
 				<?php echo form_dropdown('tbl_generation_gen_id', array('' => '--Generation--') + $generations, set_value('tbl_generation_gen_id', $this->session->userdata('tbl_generation_gen_id')), 'class="form-control input-sm"') ?>
 			</div>
 			<div class="form-group">
+				<label class="sr-only" for="stu_sco_semester">Semester</label>
+				<?php echo form_dropdown('stu_sco_semester', array('1' => 'Semester I', '2' => 'Semester II') + $generations, set_value('stu_sco_semester', $this->session->userdata('stu_sco_semester')), 'class="form-control input-sm"') ?>
+			</div>
+			<div class="form-group">
 				<label class="sr-only" for="tbl_majors_maj_id">Major</label>
 				<?php echo form_dropdown('tbl_majors_maj_id', array('' => '--Major--') + $majors, set_value('tbl_majors_maj_id', $this->session->userdata('tbl_majors_maj_id')), 'class="form-control input-sm"') ?>
 			</div>
@@ -29,7 +33,7 @@
 			</div>
 			<div class="form-group">
 				<label class="sr-only" for="stu_name">Student</label>
-				<input type="text" class="form-control input-sm" id="stu_name" name="stu_name" value="<?php echo set_value('stu_name', $this->session->userdata('tbl_students_stu_id')); ?>" placeholder="Student">
+				<input type="text" class="form-control input-sm" id="stu_name" name="stu_name" value="<?php echo set_value('stu_name'); ?>" placeholder="Student">
 			</div>
 			<button type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"><i class="glyphicon glyphicon-filter"></i> Filter</button>
 		</form>
@@ -45,6 +49,7 @@
 						<th><input type="checkbox" class="checkall" /></th>
 						<th>Student</th>
 						<th>Generation</th>
+						<th>Semester</th>
 						<th>Major</th>
 						<th>Shift</th>
 						<th>Class</th>
@@ -66,6 +71,7 @@
 								<td><input type="checkbox" name="id[]" value="<?php $row['id'] ?>" class="checkid" /></td>
 								<td><?php echo $row['student']; ?></td>
 								<td><?php echo $row['generation']; ?></td>
+								<td><?php echo $row['semester']; ?></td>
 								<td><?php echo $row['major']; ?></td>
 								<td><?php echo $row['shift']; ?></td>
 								<td><?php echo $row['class']; ?></td>
