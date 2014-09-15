@@ -6,7 +6,7 @@ $selected_group = NULL;
 if($user_groups->num_rows() > 0){
     foreach ($user_groups->result_array() as $r){
         
-        $selected_group[$r['tbl_groups_gro_id']] = $r['tbl_groups_gro_id'];
+        $selected_group[$r['usegro_groupid']] = $r['usegro_groupid'];
     }
 }
 

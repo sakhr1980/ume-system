@@ -13,7 +13,7 @@ if (!defined('BASEPATH'))
  *
  * @author sochy.choeun
  */
-class Groups extends CI_Controller {
+class Groups extends Auth_Controller {
 
     //put your code here
     var $data = array('title' => null, 'content' => 'missing_view');

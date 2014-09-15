@@ -7,10 +7,12 @@ class M_Accounts extends CI_Model {
 
     function signin() {
 
+        $this->db->from(TABLE_PREFIX . 'users');
         $this->db->where('use_name', $this->input->post('username'));
         $this->db->where('use_pass', get_password($this->input->post('password')));
         $this->db->where('use_status', 1);
-        $data = $this->db->get(TABLE_PREFIX . 'users');
+        $this->db->join(TABLE_PREFIX.'user_group','use_id=usegro_userid');
+        $data = $this->db->get();
         if ($data->num_rows() > 0) {
             $data->result_array();
             $user = $data->result_array[0];
@@ -44,20 +46,20 @@ class M_Accounts extends CI_Model {
             $this->db->where('use_status', $this->session->userdata('use_status'));
         }
         // Keep pagination for filter group
-        if ($this->input->post('tbl_groups_gro_id') && $this->input->post('tbl_groups_gro_id') != '') {
-            $this->session->set_userdata('tbl_groups_gro_id', $this->input->post('tbl_groups_gro_id'));
+        if ($this->input->post('usegro_groupid') && $this->input->post('usegro_groupid') != '') {
+            $this->session->set_userdata('usegro_groupid', $this->input->post('usegro_groupid'));
         }
-        if ($this->input->post('submit') && $this->input->post('tbl_groups_gro_id') == '') {
-            $this->session->set_userdata('tbl_groups_gro_id', '');
+        if ($this->input->post('submit') && $this->input->post('usegro_groupid') == '') {
+            $this->session->set_userdata('usegro_groupid', '');
         }
-        if ($this->session->userdata('tbl_groups_gro_id') && $this->session->userdata('tbl_groups_gro_id') != '') {
-            $this->db->where('tbl_groups_gro_id', $this->session->userdata('tbl_groups_gro_id'));
+        if ($this->session->userdata('usegro_groupid') && $this->session->userdata('usegro_groupid') != '') {
+            $this->db->where('usegro_groupid', $this->session->userdata('usegro_groupid'));
         }
         //-----------------------
 
         $this->db->limit($num_row, $from_row);
         $this->db->from(TABLE_PREFIX . 'users');
-        $this->db->join(TABLE_PREFIX . 'user_group', 'use_id=tbl_users_use_id', 'left');
+        $this->db->join(TABLE_PREFIX . 'user_group', 'use_id=usegro_userid', 'left');
         $this->db->group_by('use_id');
         return $this->db->get();
     }
@@ -75,19 +77,19 @@ class M_Accounts extends CI_Model {
             $this->db->where('use_status', $this->session->userdata('use_status'));
         }
         // Keep pagination for filter group
-        if ($this->input->post('tbl_groups_gro_id') && $this->input->post('tbl_groups_gro_id') != '') {
-            $this->session->set_userdata('tbl_groups_gro_id', $this->input->post('tbl_groups_gro_id'));
+        if ($this->input->post('usegro_groupid') && $this->input->post('usegro_groupid') != '') {
+            $this->session->set_userdata('usegro_groupid', $this->input->post('usegro_groupid'));
         }
-        if ($this->input->post('submit') && $this->input->post('tbl_groups_gro_id') == '') {
-            $this->session->set_userdata('tbl_groups_gro_id', '');
+        if ($this->input->post('submit') && $this->input->post('usegro_groupid') == '') {
+            $this->session->set_userdata('usegro_groupid', '');
         }
-        if ($this->session->userdata('tbl_groups_gro_id') && $this->session->userdata('tbl_groups_gro_id') != '') {
-            $this->db->where('tbl_groups_gro_id', $this->session->userdata('tbl_groups_gro_id'));
+        if ($this->session->userdata('usegro_groupid') && $this->session->userdata('usegro_groupid') != '') {
+            $this->db->where('usegro_groupid', $this->session->userdata('usegro_groupid'));
         }
         //-----------------------
 
         $this->db->from(TABLE_PREFIX . 'users');
-        $this->db->join(TABLE_PREFIX . 'user_group', 'use_id=tbl_users_use_id', 'left');
+        $this->db->join(TABLE_PREFIX . 'user_group', 'use_id=usegro_userid', 'left');
         $this->db->group_by('use_id');
         $data = $this->db->get();
         return $data->num_rows();
@@ -109,8 +111,8 @@ class M_Accounts extends CI_Model {
         $use_id = $this->db->insert_id();
         if (count($groups) > 0) {
             foreach ($groups as $gro_id) {
-                $this->db->set('tbl_users_use_id', $use_id);
-                $this->db->set('tbl_groups_gro_id', $gro_id);
+                $this->db->set('usegro_userid', $use_id);
+                $this->db->set('usegro_groupid', $gro_id);
                 $this->db->insert(TABLE_PREFIX . 'user_group');
             }
         }
@@ -126,13 +128,13 @@ class M_Accounts extends CI_Model {
 
         // Reset Group for user
         $user_id = $this->uri->segment(4);
-        $this->db->where('tbl_users_use_id', $user_id);
+        $this->db->where('usegro_userid', $user_id);
         $this->db->delete(TABLE_PREFIX . 'user_group');
         $group_batch = null;
         foreach ($data['groups'] as $group) {
             $group_batch[] = array(
-                'tbl_groups_gro_id' => $group,
-                'tbl_users_use_id' => $this->uri->segment(4)
+                'usegro_groupid' => $group,
+                'usegro_userid' => $this->uri->segment(4)
             );
         }
         $this->db->insert_batch(TABLE_PREFIX . 'user_group', $group_batch); 
@@ -158,7 +160,7 @@ class M_Accounts extends CI_Model {
     }
 
     function deleteAccountById($id = null) {
-        $this->db->where('tbl_users_use_id', $id);
+        $this->db->where('usegro_userid', $id);
         $this->db->delete(TABLE_PREFIX . 'user_group');
         $this->db->where('use_id', $id);
         return $this->db->delete(TABLE_PREFIX . 'users');
@@ -166,9 +168,9 @@ class M_Accounts extends CI_Model {
 
     function getGroupByAccountId($id) {
 
-        $this->db->where('tbl_users_use_id', $id);
+        $this->db->where('usegro_userid', $id);
         $this->db->from(TABLE_PREFIX . 'groups');
-        $this->db->join(TABLE_PREFIX . 'user_group', 'gro_id=tbl_groups_gro_id');
+        $this->db->join(TABLE_PREFIX . 'user_group', 'gro_id=usegro_groupid');
         return $this->db->get();
     }
 
