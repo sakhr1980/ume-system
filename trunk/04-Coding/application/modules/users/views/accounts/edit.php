@@ -3,7 +3,7 @@ $data->result_array();
 $data = $data->result_array[0];
 $usergroup = NULL;
 foreach ($user_groups->result() as $row){
-    $usergroup[$row->tbl_groups_gro_id] = $row->tbl_groups_gro_id;
+    $usergroup[$row->usegro_groupid] = $row->usegro_groupid;
 }
 ?>
 

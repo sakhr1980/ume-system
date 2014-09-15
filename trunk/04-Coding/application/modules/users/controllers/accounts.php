@@ -14,6 +14,7 @@ if (!defined('BASEPATH'))
  *
  * @author sochy.choeun
  */
+
 class Accounts extends CI_Controller {
 
     //put your code here
@@ -161,7 +162,7 @@ class Accounts extends CI_Controller {
         redirect('users/accounts/signin');
     }
     
-    function changePassword(){
+    function changepassword(){
         
         $this->data['title'] = 'Change password';
         $this->data['content'] = 'users/accounts/changepassword';

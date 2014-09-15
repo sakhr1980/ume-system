@@ -20,8 +20,8 @@
                 <input type="text" class="form-control input-sm" id="use_name" name="use_email" value="<?php echo set_value('use_email'); ?>" placeholder="E-Mail">
             </div>
             <div class="form-group">
-                <label class="sr-only" for="tbl_groups_gro_id">Group</label>
-                <?php echo form_dropdown('tbl_groups_gro_id', array(''=>'--All Groups--')+$groups, set_value('tbl_groups_gro_id', $this->session->userdata('tbl_groups_gro_id')), 'class="form-control input-sm"') ?>
+                <label class="sr-only" for="usegro_groupid">Group</label>
+                <?php echo form_dropdown('usegro_groupid', array(''=>'--All Groups--')+$groups, set_value('usegro_groupid', $this->session->userdata('usegro_groupid')), 'class="form-control input-sm"') ?>
             </div>
             <div class="form-group">
                 <label class="sr-only" for="use_status">Status</label>
