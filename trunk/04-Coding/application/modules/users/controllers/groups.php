@@ -112,6 +112,7 @@ class Groups extends Auth_Controller {
      * 
      * @param type $str
      * @return boolean
+     * @param usage callback_uniqueExcept[tablename.fieldname,field_uniq_id]
      */
     function uniqueExcept($str, $table_field) {
         // $f1[0] : table name
