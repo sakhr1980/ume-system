@@ -190,6 +190,7 @@ class Accounts extends CI_Controller {
      * 
      * @param type $str
      * @return boolean
+     * @param usage callback_uniqueExcept[tablename.fieldname]
      */
     function uniqueExcept($str, $table_field) {
         // $f1[0] : table name
