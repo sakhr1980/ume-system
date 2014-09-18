@@ -11,8 +11,7 @@ if(!function_exists('rememberFilter')){
         if ($fields != NULL) {
             $ci = & get_instance();
             $ci->load->library(array('session'));
-            
-            
+                       
             foreach ($fields as $field) {
                 if ($ci->input->post($field) != '') {
                     $ci->session->set_userdata($field, $ci->input->post($field));
