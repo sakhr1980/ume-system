@@ -38,6 +38,9 @@ class m_auth extends CI_Model{
         $this->db->where('tas_functionname',$functionname);
         $this->db->where('con_controllername',$controllername);
         $this->db->where('mod_foldername',$modulename);
+        $this->db->where('mod_status',TRUE);
+        $this->db->where('con_status',TRUE);
+        $this->db->where('tas_status',TRUE);
         $this->db->join(TABLE_PREFIX.'user_group','use_id=usegro_userid');
         $this->db->join(TABLE_PREFIX.'groups','gro_id=usegro_groupid');
         $this->db->join(TABLE_PREFIX.'group_task','gro_id=grotas_groupid');

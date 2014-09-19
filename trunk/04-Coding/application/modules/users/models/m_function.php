@@ -12,7 +12,6 @@ class M_function extends CI_Model {
         if ($this->input->post('tas_functionname') != '') {
             $this->db->like('tas_functionname', $this->input->post('tas_functionname'));
         }
-
         // Keep pagination for filter status
         rememberFilter(array('tas_status', 'con_id', 'mod_id'), $this->db);
         //-----------------------

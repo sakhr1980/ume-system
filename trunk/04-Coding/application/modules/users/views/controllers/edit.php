@@ -1,4 +1,9 @@
-<form class="form-horizontal" role="form" method="post" action="<?php echo site_url(); ?>users/controllers/add">
+<?php
+$data = $data->result_array();
+$data = $data[0];
+?>
+
+<form class="form-horizontal" role="form" method="post" action="<?php echo site_url(); ?>users/controllers/edit/<?php echo $data['con_id']; echo '/'.$this->uri->segment(5); ?>">
     <div class="toolbar col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
         <div class="left">
             <!--For icon: http://getbootstrap.com/components/-->
@@ -20,21 +25,21 @@
                 <div class="form-group">
                     <label for="con_name" class="col-sm-2 control-label">Controller Name</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="con_name" placeholder="Controller Name" name="con_name" value="<?php echo set_value('con_name'); ?>"  pattern=".{2,50}" required title="Allow enter from 2 to 50 characters">
+                        <input type="text" class="form-control" id="con_name" placeholder="Controller Name" name="con_name" value="<?php echo set_value('con_name',$data['con_name']); ?>"  pattern=".{2,50}" required title="Allow enter from 2 to 50 characters">
                         <?php echo form_error('con_name'); ?>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="con_controllername" class="col-sm-2 control-label">Class name</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="con_controllername" placeholder="Enter controller name" name="con_controllername" value="<?php echo set_value('con_controllername'); ?>"  pattern=".{2,50}" required title="Allow enter from 2 to 50 characters">
+                        <input type="text" class="form-control" id="con_controllername" placeholder="Enter controller name" name="con_controllername" value="<?php echo set_value('con_controllername',$data['con_controllername']); ?>"  pattern=".{2,50}" required title="Allow enter from 2 to 50 characters">
                         <?php echo form_error('con_controllername'); ?>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="" class="col-sm-2 control-label">Modules</label>
                     <div class="col-sm-10">
-                        <?php echo form_dropdown('con_moduleid',array(''=>'--Select--')+$modules,set_value('con_moduleid'),"class='form-control'"); ?>
+                        <?php echo form_dropdown('con_moduleid',array(''=>'--Select--')+$modules,set_value('con_moduleid', $data['con_moduleid']),"class='form-control'"); ?>
                         <?php echo form_error('con_moduleid'); ?>
                     </div>
                 </div>
@@ -42,7 +47,7 @@
                     <label for="con_status" class="col-sm-2 control-label">Enable</label>
                     <div class="col-sm-10">
                         <div class="checkbox">
-                            <label><input type="checkbox" name="con_status" id="con_status" value="1" <?php echo set_checkbox('con_status', 1, TRUE); ?>> Check to enable this group</label>
+                            <label><input type="checkbox" name="con_status" id="con_status" value="1" <?php echo set_checkbox('con_status', 1, ($data['con_status']==1)?TRUE:FALSE); ?>> Check to enable this group</label>
                         </div>
                     </div>
                 </div>
