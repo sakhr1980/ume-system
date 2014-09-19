@@ -34,6 +34,10 @@ class Registrations extends CI_Controller {
 //        $this->form_validation->set_rules('gro_name','','trim');
 //        $this->form_validation->set_rules('gro_status','','trim');
 //        $this->form_validation->run();
+        $this->data['generation'] = $this->m_global->getDataArray(TABLE_PREFIX . 'generation', 'gen_id', 'gen_title', 'gen_status');
+         $this->data['arrayClasses'] = $this->m_global->getDataArray(TABLE_PREFIX . 'classes', 'cla_id', 'cla_name', 'cla_status');
+         $this->data['arrayMajor'] = $this->m_global->getDataArray(TABLE_PREFIX . 'majors', 'maj_id', 'maj_name', 'maj_status');
+         $this->data['arrayFaculties'] = $this->m_global->getDataArray(TABLE_PREFIX . 'faculties', 'fac_id', 'fac_name', 'fac_status');
         $this->data['data'] = $this->m_registrations->findAllRegistrations(PAGINGATION_PERPAGE, $this->uri->segment(4));
         pagination_config(base_url() . 'students/registrations/index', $this->m_registrations->countAllRegistrations(), PAGINGATION_PERPAGE);
         $this->load->view(LAYOUT, $this->data);
