@@ -23,4 +23,23 @@ class m_module extends CI_Model{
         $this->db->set('mod_created', 'NOW()', false);
         return $this->db->insert(TABLE_PREFIX . 'modules', $data);
     }
+    
+    function update(){
+        
+        $this->db->where('mod_id', $this->uri->segment(4));
+        $data = $this->input->post();
+        $data['mod_status'] = (!empty($data['mod_status']))?TRUE:FALSE;
+        return $this->db->update(TABLE_PREFIX.'modules',$data);
+    }
+    
+    /**
+     * 
+     * @param int $id
+     * @return data set object
+     */
+    function getModuleById($id=NULL){
+        $this->db->where('mod_id',$id);
+        $data = $this->db->get(TABLE_PREFIX.'modules');
+        return $data;
+    }
 }

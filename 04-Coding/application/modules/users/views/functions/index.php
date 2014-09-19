@@ -17,13 +17,14 @@
                 <input type="text" class="form-control input-sm" id="tas_functionname" name="tas_functionname" value="<?php echo set_value('tas_functionname',($this->session->userdata('tas_functionname')!='')?$this->session->userdata('tas_functionname'):''); ?>" placeholder="Function name">
             </div>
             <div class="form-group">
+                <label class="sr-only" for="mod_id">Module</label>
+                <?php echo form_dropdown('mod_id', array(''=>'--All Module--')+$modules, set_value('mod_id', ($this->session->userdata('mod_id'))?$this->session->userdata('mod_id'):''), 'class="form-control input-sm"') ?>
+            </div>
+            <div class="form-group">
                 <label class="sr-only" for="con_id">Controller</label>
                 <?php echo form_dropdown('con_id', array(''=>'--All Controller--')+$controllers, set_value('con_id', ($this->session->userdata('con_id'))?$this->session->userdata('con_id'):''), 'class="form-control input-sm"') ?>
             </div>
-            <div class="form-group">
-                <label class="sr-only" for="mod_id">Module</label>
-                <?php echo form_dropdown('mod_id', array(''=>'--All Controller--')+$modules, set_value('mod_id', ($this->session->userdata('mod_id'))?$this->session->userdata('mod_id'):''), 'class="form-control input-sm"') ?>
-            </div>
+            
             <div class="form-group">
                 <label class="sr-only" for="tas_status">Status</label>
                 <?php echo form_dropdown('tas_status', array(''=>'-- All Status --','1'=>'Enabled', '0'=>'Desabled'), set_value('tas_status', ($this->session->userdata('tas_status')!='')?$this->session->userdata('tas_status'):''), 'class="form-control input-sm"') ?>
@@ -49,8 +50,14 @@
                     <?php foreach ($data->result_array() as $row) { ?>
 
                         <tr>
-                            <td><?php echo $row['mod_foldername']; ?></td>
-                            <td><?php echo $row['con_controllername']; ?></td>
+                            <td>
+                                <?php echo $row['mod_foldername']; ?>
+                                [<a href="<?php echo base_url(); ?>users/module/edit/<?php echo $row['mod_id']; echo '/'.$this->uri->segment(4); ?>">Edit</a>]
+                            </td>
+                            <td>
+                                <?php echo $row['con_controllername']; ?>
+                                [<a href="<?php echo base_url(); ?>users/controllers/edit/<?php echo $row['con_id']; echo '/'.$this->uri->segment(4); ?>">Edit</a>]
+                            </td>
                             <td><?php echo $row['tas_functionname']; ?></td>
                             <td><?php echo status_string($row['tas_status']); ?></td>
                             <td><?php echo get_date_string($row['tas_created']); ?></td>
