@@ -12,15 +12,58 @@
         <form class="form-inline" role="form" method="post" action="<?php echo base_url(); ?>students/registrations/index">
             <div class="form-group">
                 <label class="sr-only" for="stu_name">Student Name</label>
-                <input type="text" class="form-control input-sm" id="stu_name" name="stu_en_firstname" value="<?php echo set_value('stu_en_firstname'); ?>" placeholder=" Student First Name">
-                <input type="text" class="form-control input-sm" id="stu_name" name="stu_en_lastname" value="<?php echo set_value('stu_en_lastname'); ?>" placeholder=" Student Last Name">
-                <input type="text" class="form-control input-sm" id="stu_name" name="cla_name" value="<?php echo set_value('cla_name'); ?>" placeholder=" Class Name">
-            </div>
-<!--            <div class="form-group">
-                <label class="sr-only" for="stu_status">Status</label>
-                <?php // echo form_dropdown('stu_status', array('' => '-- All Status --', '1' => 'Enabled', '0' => 'Desabled'), set_value('stu_status', $this->session->userdata('stu_status')), 'class="form-control input-sm"') ?>
-            </div>-->
+                <div class="form-group">
+                    <select name="gen_id" class="form-control" id="gen_id">
+                        <option value="">--All generation--</option>
+                        <?php
+                        foreach ($generation as $key => $value) {
+                            echo '<option value="' . $key . '" ' . set_select('gen_id', $key) . '>' . $value . '</option>';
+                        }
+                        ?>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select name="cla_id" class="form-control" id="cla_id">
+                        <option value="">--All classes--</option>
+                        <?php
+                        foreach ($arrayClasses as $key => $value) {
+                            echo '<option value="' . $key . '" ' . set_select('cla_id', $key) . '>' . $value . '</option>';
+                        }
+                        ?>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select name="fac_id" class="form-control" id="fac_id">
+                        <option value="">--All Faculties--</option>
+                        <?php
+                        foreach ($arrayFaculties as $key => $value) {
+                            echo '<option value="' . $key . '" ' . set_select('fac_id', $key) . '>' . $value . '</option>';
+                        }
+                        ?>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <select name="maj_id" class="form-control" id="maj_id">
+                        <option value="">--All major--</option>
+                        <?php
+                        foreach ($arrayMajor as $key => $value) {
+                            echo '<option value="' . $key . '" ' . set_select('maj_id', $key) . '>' . $value . '</option>';
+                        }
+                        ?>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control input-sm" id="stu_name" name="stu_en_firstname" value="<?php echo set_value('stu_en_firstname'); ?>" placeholder=" Student First Name">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control input-sm" id="stu_name" name="stu_en_lastname" value="<?php echo set_value('stu_en_lastname'); ?>" placeholder=" Student Last Name">
+                </div>
+            
+             <div class="form-group">
             <button type="submit" class="btn btn-<?php echo PRIMARY; ?> btn-sm" value="submit" name="submit"><i class="glyphicon glyphicon-filter"></i> Filter</button>
+             </div>
+            </div>
         </form>
     </div>
     <div class="panel panel-default">
@@ -50,27 +93,30 @@
                             <td><?php echo $row['cla_name']; ?></td>
                             <td><?php echo $row['maj_name']; ?></td>
                             <td><?php echo $row['stu_email']; ?></td>
-                            
+
                             <td>
-                                <a class="btn btn-<?php echo DEFAULTS; ?> btn-xs" href="<?php echo base_url(); ?>students/registrations/view/<?php echo $row['stu_id'];
-                echo '/' . $this->uri->segment(4);
-                        ?>" title="View"><i class="glyphicon glyphicon-eye-open"></i> View</a>
-                                <a class="btn btn-<?php echo DEFAULTS; ?> btn-xs" href="<?php echo base_url(); ?>students/registrations/edit/<?php echo $row['stu_id'];
-                           echo '/' . $this->uri->segment(4);
-                           ?>" title="Edit"><i class="glyphicon glyphicon-edit"></i> Edit</a>
-                                <a class="btn btn-<?php echo DANGER; ?> btn-xs" href="<?php echo base_url(); ?>students/registrations/delete/<?php echo $row['stu_id'];
-                           echo '/' . $this->uri->segment(4);
-                           ?>" title="Delete" onclick="return confirm('Are you sure you want to delete this group? This group will be deleted permanently.');"><i class="glyphicon glyphicon-remove-circle"></i> Delete</a>
+                                <a class="btn btn-<?php echo DEFAULTS; ?> btn-xs" href="<?php echo base_url(); ?>students/registrations/view/<?php
+                                echo $row['stu_id'];
+                                echo '/' . $this->uri->segment(4);
+                                ?>" title="View"><i class="glyphicon glyphicon-eye-open"></i> View</a>
+                                <a class="btn btn-<?php echo DEFAULTS; ?> btn-xs" href="<?php echo base_url(); ?>students/registrations/edit/<?php
+                                echo $row['stu_id'];
+                                echo '/' . $this->uri->segment(4);
+                                ?>" title="Edit"><i class="glyphicon glyphicon-edit"></i> Edit</a>
+                                <a class="btn btn-<?php echo DANGER; ?> btn-xs" href="<?php echo base_url(); ?>students/registrations/delete/<?php
+                                echo $row['stu_id'];
+                                echo '/' . $this->uri->segment(4);
+                                ?>" title="Delete" onclick="return confirm('Are you sure you want to delete this group? This group will be deleted permanently.');"><i class="glyphicon glyphicon-remove-circle"></i> Delete</a>
                             </td>
                         </tr>
 
                     <?php } ?>
-<?php } else { ?>
+                <?php } else { ?>
                     <tr><td colspan="7">Empty</td></tr>
-    <?php } ?>
+                <?php } ?>
             </table>
         </div>
     </div>
-<?php echo $this->pagination->create_links(); ?>
+    <?php echo $this->pagination->create_links(); ?>
 </div>
 

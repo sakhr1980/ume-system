@@ -34,8 +34,6 @@ class M_registrations extends CI_Model {
 
         $this->db->order_by('s.stu_id', 'desc');
         $this->db->limit($num_row, $from_row);
-//        		$this->db->where('s.sta_position !=', 'Teacher');
-        $this->db->limit($num_row, $from_row);
         $this->db->from(TABLE_PREFIX . 'students s');
         $this->db->join(TABLE_PREFIX . 'student_class sc', 's.stu_id = sc.tbl_students_stu_id');
         $this->db->join(TABLE_PREFIX . 'classes cl', 'cl.cla_id = sc.tbl_class_cla_id');
@@ -53,8 +51,11 @@ class M_registrations extends CI_Model {
 //        if ($this->session->userdata('gro_status') != '') {
 //            $this->db->where('gro_status', $this->session->userdata('gro_status'));
 //        }
-
-        $data = $this->db->get(TABLE_PREFIX . 'students');
+        $this->db->from(TABLE_PREFIX . 'students s');
+        $this->db->join(TABLE_PREFIX . 'student_class sc', 's.stu_id = sc.tbl_students_stu_id');
+        $this->db->join(TABLE_PREFIX . 'classes cl', 'cl.cla_id = sc.tbl_class_cla_id');
+        $this->db->join(TABLE_PREFIX . 'majors ma', 'ma.maj_id = cl.cla_maj_id');
+        $data = $this->db->get();
         return $data->num_rows();
     }
 
@@ -212,6 +213,7 @@ class M_registrations extends CI_Model {
         $this->db->group_by("sc.tbl_class_cla_id");
         return $this->db->get();
     }
+
     function getUdateClassById($classId = NULL, $studentId = NULL) {
         $array = array('tbl_shift_shi_id' => $studentId, 'tbl_class_cla_id' => $classId);
         $this->db->where($array);
