@@ -7,6 +7,8 @@ class M_function extends CI_Model {
 
     function findAllFunctions($num_row, $from_row) {
 
+        $this->db->order_by('mod_foldername', 'asc');
+        $this->db->order_by('con_controllername', 'asc');
         $this->db->order_by('tas_name', 'asc');
 
         if ($this->input->post('tas_functionname') != '') {
@@ -39,6 +41,24 @@ class M_function extends CI_Model {
         return $this->db->get()->num_rows();
     }
 
+    
+    /**
+     * Add new function
+     * @return boolean
+     */
+    function add() {
+        $data = $this->input->post();
+        $this->db->set('tas_created', 'NOW()', false);
+        $data['tas_status'] = (!empty($data['tas_status']))?1:0;
+        unset($data['tas_moduleid']);
+        return $this->db->insert(TABLE_PREFIX . 'tasks', $data);
+    }
+    
+    function deleteFunctionById($id=0){
+        
+        $this->db->where('tas_id',$id);
+        return $this->db->delete(TABLE_PREFIX.'tasks');
+    }
     
 
 }

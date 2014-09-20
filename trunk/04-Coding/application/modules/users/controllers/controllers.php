@@ -26,7 +26,7 @@ class controllers extends CI_Controller {
     /**
      * Add new user controllers
      */
-    function add() {
+    function add($pagination='') {
         $this->data['title'] = 'Add new controller';
         $this->data['content'] = 'users/controllers/add';
 
@@ -42,10 +42,10 @@ class controllers extends CI_Controller {
             
             if ($this->m_controller->add()) {
                 $this->session->set_flashdata('message', alert("User controllers has been saved!", 'success'));
-                redirect('users/functions');
+                redirect('users/functions/'.$pagination);
             } else {
                 $this->session->set_flashdata('message', alert("User controllers cannot be added, please try again", 'danger'));
-                redirect('users/controllers/add');
+                redirect('users/controllers/add/'.$pagination);
             }
         }
     }
@@ -79,6 +79,30 @@ class controllers extends CI_Controller {
         }
     }
     
+    
+    function ajaxGetControllerByModuleIdForDropdown(){
+        $data = $this->m_controller->getControllerByModuleId($this->input->post('mod_id'));
+        $dropdownList = '<option value="">--Select--</option>';
+        if($data->num_rows() > 0){
+            foreach ($data->result_array() as $row) {
+                $dropdownList .='<option value="'.$row['con_id'].'">'.$row['con_controllername'].'</option>';
+            }
+        }
+        echo $dropdownList;
+    }
+    
+    
+    function delete($id = 0, $pagination = '') {
+        if ($id != 0) {
+            if ($this->m_controller->deleteControllerById($id)) {
+                $this->session->set_flashdata('message', alert("Controller has been deleted.", 'success'));
+                redirect('users/functions/index/' . $pagination);
+            }
+        } else {
+            $this->session->set_flashdata('message', alert("Controller cannot be deleted, please try again", 'danger'));
+            redirect('users/functions/index/' .$pagination);
+        }
+    }
     
     
     /**

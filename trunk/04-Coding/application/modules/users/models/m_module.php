@@ -42,4 +42,9 @@ class m_module extends CI_Model{
         $data = $this->db->get(TABLE_PREFIX.'modules');
         return $data;
     }
+    
+    function deleteModuleById($id=0){
+        $this->db->where('mod_id',$id);
+        return $this->db->delete(TABLE_PREFIX.'modules');
+    }
 }
