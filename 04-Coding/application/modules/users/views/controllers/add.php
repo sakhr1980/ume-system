@@ -1,4 +1,4 @@
-<form class="form-horizontal" role="form" method="post" action="<?php echo site_url(); ?>users/controllers/add">
+<form class="form-horizontal" role="form" method="post" action="<?php echo site_url(); ?>users/controllers/add/<?php echo $this->uri->segment(4); ?>">
     <div class="toolbar col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
         <div class="left">
             <!--For icon: http://getbootstrap.com/components/-->
