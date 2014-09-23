@@ -23,7 +23,7 @@
                         <div class="form-group">
                             <label for="stu_kh_lastname" class="col-sm-2 control-label">គោត្តនាម</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control input-sm" id="gro_name" placeholder="គោត្តនាម" name="stu_kh_lastname" value="<?php echo set_value('stu_kh_lastname'); ?>"  pattern=".{2,50}" required title="Allow enter from 2 to 50 characters">
+                                <input type="text" class="form-control input-sm" id="gro_name" placeholder="គោត្តនាម" name="stu_kh_lastname" value="<?php echo set_value('stu_kh_lastname'); ?>"  pattern=".{2,50}"  title="Allow enter from 2 to 50 characters">
                                 <?php echo form_error('stu_kh_lastname'); ?>
                             </div>
                         </div>
@@ -39,7 +39,7 @@
                         <div class="form-group">
                             <label for="stu_kh_firstname" class="col-sm-2 control-label">នាម</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control input-sm" id="stu_kh_firstname" placeholder="នាម" name="stu_kh_firstname" value="<?php echo set_value('stu_kh_firstname'); ?>" required title="Allow enter from 2 to 50 characters">
+                                <input type="text" class="form-control input-sm" id="stu_kh_firstname" placeholder="នាម" name="stu_kh_firstname" value="<?php echo set_value('stu_kh_firstname'); ?>"  title="Allow enter from 2 to 50 characters">
                                 <?php echo form_error('stu_kh_firstname'); ?>
                             </div>
                         </div>
@@ -183,9 +183,9 @@
                 <div class="col-md-4">
                     <label for="stu_gender" class="col-sm-12">GENDER</label>
                     <div class="col-sm-12">
-                        <label><input type="radio" name="stu_gender" value="Male" <?php echo set_radio('stu_gender', 'Male', FALSE); ?> /> Male</label>
-                        <label><input type="radio" name="stu_gender" value="Female" <?php echo set_radio('stu_gender', 'Female', FALSE); ?> /> Female</label>
-                        <label><input type="radio" name="stu_gender" value="Others" <?php echo set_radio('stu_gender', 'Other', FALSE); ?> /> Others</label>
+                        <label><input type="radio" name="stu_gender"required value="Male" <?php echo set_radio('stu_gender', 'Male', FALSE); ?> /> Male</label>
+                        <label><input type="radio" name="stu_gender" required value="Female" <?php echo set_radio('stu_gender', 'Female', FALSE); ?> /> Female</label>
+                        <!--<label><input type="radio" name="stu_gender" value="Others" <?php echo set_radio('stu_gender', 'Other', FALSE); ?> /> Others</label>-->
                         <?php echo form_error('stu_gender'); ?>
                     </div>
                 </div>
@@ -377,8 +377,8 @@
                 <div class="col-md-4">
                     <label for="exp_shift0" class="col-sm-12">SHIFT</label>
                     <div class="col-sm-12">
-                        <label><input type="radio" name="exp_shift[0]" value="Full Time" <?php echo set_radio('exp_shift[0]', 'Full Time', FALSE); ?>> ពេញម៉ោង Full Time</label>
-                        <label><input type="radio" name="exp_shift[0]" value="Parth Time" <?php echo set_radio('majexp_shift[0]', 'Part Time', FALSE); ?>> មិនពេញម៉ោង Part Time</label>
+                        <label><input type="radio" name="exp_shift[0]" required value="Full Time" <?php echo set_radio('exp_shift[0]', 'Full Time', FALSE); ?>> ពេញម៉ោង Full Time</label>
+                        <label><input type="radio" name="exp_shift[0]"  required value="Parth Time" <?php echo set_radio('majexp_shift[0]', 'Part Time', FALSE); ?>> មិនពេញម៉ោង Part Time</label>
                         <?php echo form_error('exp_date'); ?>
                     </div>
                 </div>

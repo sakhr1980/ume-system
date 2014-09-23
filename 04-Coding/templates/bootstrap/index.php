@@ -15,11 +15,15 @@ $user = $this->session->userdata('user');
         <title><?php echo $title; ?></title>
 
         <!-- Bootstrap core CSS -->
-        <link href="<?php echo base_url(); ?>templates/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-		<link href="<?php echo base_url(); ?>templates/bootstrap/css/bootstrap-datepicker.css" rel="stylesheet">
+        <link href="<?php echo base_url(); ?>templates/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="all"/>
+        <!--<link href="<?php echo base_url(); ?>templates/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="print">-->
+        <link href="<?php echo base_url(); ?>templates/bootstrap/css/bootstrap-datepicker.css" rel="stylesheet">
 
         <!-- Custom styles for this template -->
-        <link href="<?php echo base_url(); ?>templates/bootstrap/css/dashboard.css" rel="stylesheet">
+        <link href="<?php echo base_url(); ?>templates/bootstrap/css/print_id_card.css" rel="stylesheet"/>
+        <link href="<?php echo base_url(); ?>templates/bootstrap/css/dashboard.css" rel="stylesheet" media="all"/>
+         <link href="<?php echo base_url(); ?>templates/bootstrap/css/student_record.css" rel="stylesheet"/>
+
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
           <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -32,9 +36,9 @@ $user = $this->session->userdata('user');
         <script src="<?php echo base_url(); ?>templates/bootstrap/js/jquery.min.js"></script>
         <script src="<?php echo base_url(); ?>templates/bootstrap/js/bootstrap.min.js"></script>
         <script src="<?php echo base_url(); ?>templates/bootstrap/js/docs.min.js"></script>
-		<script src="<?php echo base_url(); ?>templates/bootstrap/js/bootstrap-datepicker.js"></script>
-		<script src="<?php echo base_url(); ?>templates/bootstrap/js/jquery.validate.js"></script>
-		<script src="<?php echo base_url(); ?>templates/bootstrap/js/dashboard.js"></script>
+        <script src="<?php echo base_url(); ?>templates/bootstrap/js/bootstrap-datepicker.js"></script>
+        <script src="<?php echo base_url(); ?>templates/bootstrap/js/jquery.validate.js"></script>
+        <script src="<?php echo base_url(); ?>templates/bootstrap/js/dashboard.js"></script>
     </head>
 
     <body>
@@ -91,10 +95,10 @@ $user = $this->session->userdata('user');
         </div>
         <div class="container-fluid">
             <div class="row">
-				<?php $this->load->view('sidebar'); ?>
+                <?php $this->load->view('sidebar'); ?>
                 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main content">
-					<?php echo $this->session->flashdata('message'); ?>
-					<?php $this->load->view($content); ?>
+                    <?php echo $this->session->flashdata('message'); ?>
+                    <?php $this->load->view($content); ?>
                 </div>
             </div>
         </div>

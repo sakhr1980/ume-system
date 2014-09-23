@@ -8,7 +8,7 @@
     </div>
 </div>
 <div class="content">
-    <div class="filter">
+    <div class="filter student_form">
         <form class="form-inline" role="form" method="post" action="<?php echo base_url(); ?>students/registrations/index">
             <div class="form-group">
                 <label class="sr-only" for="stu_name">Student Name</label>
@@ -42,7 +42,7 @@
                         ?>
                     </select>
                 </div>
-                
+
                 <div class="form-group">
                     <select name="maj_id" class="form-control" id="maj_id">
                         <option value="">--All major--</option>
@@ -54,15 +54,16 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control input-sm" id="stu_name" name="stu_en_firstname" value="<?php echo set_value('stu_en_firstname'); ?>" placeholder=" Student First Name">
+                    <input type="text" class=" input-sm" id="stu_en_firstname" name="stu_en_firstname" value="<?php echo set_value('stu_en_firstname'); ?>" placeholder=" Student First Name">
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control input-sm" id="stu_name" name="stu_en_lastname" value="<?php echo set_value('stu_en_lastname'); ?>" placeholder=" Student Last Name">
+                    <input type="text" class="form-control input-sm" id="stu_en_lastname" name="stu_en_lastname" value="<?php echo set_value('stu_en_lastname'); ?>" placeholder=" Student Last Name">
                 </div>
-            
-             <div class="form-group">
-            <button type="submit" class="btn btn-<?php echo PRIMARY; ?> btn-sm" value="submit" name="submit"><i class="glyphicon glyphicon-filter"></i> Filter</button>
-             </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-<?php echo PRIMARY; ?> btn-sm" value="submit" name="submit"><i class="glyphicon glyphicon-filter"></i> Filter</button>
+                    <a class="btn btn-<?php echo DEFAULTS; ?> btn-xs" href="<?php echo base_url(); ?>students/registrations/print_card/" title="Pint Card"><i class="glyphicon glyphicon-print"></i> Print Card</a>
+                </div>
             </div>
         </form>
     </div>
@@ -74,8 +75,9 @@
             <table class="table table-hover">
                 <tr>
                     <th><input type="checkbox" class="checkall" /></th>
-                    <th>Name</th>
-                    <!--<th>Status</th>-->
+                    <th>ID Card</th>
+                    <th>En Name</th>
+                    <th>Khmer Name</th>
                     <th>ភេទ / Gander</th>
                     <th>ថ្នាក់ /Class</th>
                     <th>មុខជំនាញ់ / Major</th>
@@ -87,7 +89,9 @@
 
                         <tr>
                             <td><input type="checkbox" name="id[]" value="<?php $row['stu_id'] ?>" class="checkid" /></td>
-                            <td><?php echo $row['stu_en_lastname'] . ' ' . $row['stu_en_firstname'] . ' - ' . $row['stu_kh_lastname'] . ' ' . $row['stu_kh_firstname']; ?></td>
+                            <td><?php echo $row['stu_card_id'] ?></td>
+                            <td><?php echo $row['stu_en_lastname'] . ' ' . $row['stu_en_firstname'] ?></td>
+                            <td><?php $row['stu_kh_lastname'] . ' ' . $row['stu_kh_firstname']; ?></td>
                                     <!--<td><?php echo ($row['stu_status'] == 1) ? "Enabled" : "Disabled"; ?></td>-->
                             <td><?php echo $row['stu_gender']; ?></td>
                             <td><?php echo $row['cla_name']; ?></td>
