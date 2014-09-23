@@ -31,13 +31,19 @@ class Registrations extends CI_Controller {
         $this->data['title'] = 'Student Registration List';
         $this->data['content'] = 'students/registrations/index';
 
-//        $this->form_validation->set_rules('gro_name','','trim');
-//        $this->form_validation->set_rules('gro_status','','trim');
-//        $this->form_validation->run();
+        $this->form_validation->set_rules('gen_id', '', 'trim');
+        $this->form_validation->set_rules('fac_id', '', 'trim');
+        $this->form_validation->set_rules('cla_id', '', 'trim');
+        $this->form_validation->set_rules('maj_id', '', 'trim');
+        $this->form_validation->set_rules('stu_en_firstname', '', 'trim');
+        $this->form_validation->set_rules('stu_en_lastname', '', 'trim');
+
+
+        $this->form_validation->run();
         $this->data['generation'] = $this->m_global->getDataArray(TABLE_PREFIX . 'generation', 'gen_id', 'gen_title', 'gen_status');
-         $this->data['arrayClasses'] = $this->m_global->getDataArray(TABLE_PREFIX . 'classes', 'cla_id', 'cla_name', 'cla_status');
-         $this->data['arrayMajor'] = $this->m_global->getDataArray(TABLE_PREFIX . 'majors', 'maj_id', 'maj_name', 'maj_status');
-         $this->data['arrayFaculties'] = $this->m_global->getDataArray(TABLE_PREFIX . 'faculties', 'fac_id', 'fac_name', 'fac_status');
+        $this->data['arrayClasses'] = $this->m_global->getDataArray(TABLE_PREFIX . 'classes', 'cla_id', 'cla_name', 'cla_status');
+        $this->data['arrayMajor'] = $this->m_global->getDataArray(TABLE_PREFIX . 'majors', 'maj_id', 'maj_name', 'maj_status');
+        $this->data['arrayFaculties'] = $this->m_global->getDataArray(TABLE_PREFIX . 'faculties', 'fac_id', 'fac_name', 'fac_status');
         $this->data['data'] = $this->m_registrations->findAllRegistrations(PAGINGATION_PERPAGE, $this->uri->segment(4));
         pagination_config(base_url() . 'students/registrations/index', $this->m_registrations->countAllRegistrations(), PAGINGATION_PERPAGE);
         $this->load->view(LAYOUT, $this->data);
@@ -136,6 +142,28 @@ class Registrations extends CI_Controller {
         $this->load->view(LAYOUT, $this->data);
     }
 
+    function print_card($id = null) {
+
+        $this->data['title'] = 'Print Student ID Card';
+        $this->data['content'] = 'students/registrations/print_card';
+
+        $this->form_validation->set_rules('gen_id', '', 'trim');
+        $this->form_validation->set_rules('cla_id', '', 'trim');
+        $this->form_validation->set_rules('stu_en_firstname', '', 'trim');
+        $this->form_validation->set_rules('stu_en_lastname', '', 'trim');
+        $this->form_validation->run();
+
+        $this->data['generation'] = $this->m_global->getDataArray(TABLE_PREFIX . 'generation', 'gen_id', 'gen_title', 'gen_status');
+        $this->data['arrayClasses'] = $this->m_global->getDataArray(TABLE_PREFIX . 'classes', 'cla_id', 'cla_name', 'cla_status');
+        $this->data['studentNumber']="";
+//         $this->data['data']=array();
+        if ($this->form_validation->run() == TRUE) {
+            $this->data['data'] = $this->m_registrations->findAllRegistrations(PAGINGATION_PERPAGE, $this->uri->segment(4));
+             $this->data['studentNumber'] = $this->m_registrations->countAllRegistrations();
+        }
+        $this->load->view(LAYOUT, $this->data);
+    }
+
 //====================== validation
     /**
      * 
@@ -171,9 +199,9 @@ class Registrations extends CI_Controller {
 
         $class_data = $this->m_registrations->getClassById($shift, $generation, $major);
 //        echo $class_data;
-        $stu_card_id= $major['maj_abbriviation'];
+        $stu_card_id = $major['maj_abbriviation'];
         if ($class_data->num_rows() > 0) {
-            echo ' <input type="hidden" id="stu_card_id" name="stu_card_id" value="'.$stu_card_id.'" >';
+            echo ' <input type="hidden" id="stu_card_id" name="stu_card_id" value="' . $stu_card_id . '" >';
             foreach ($class_data->result_array() as $class) {
                 echo '
                     <div class="col-md-3" >

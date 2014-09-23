@@ -1,0 +1,53 @@
+/*@font-face {
+    font-family: NiDABayon;
+    src:url(../fonts/NiDABayon.ttf)  format("opentype");
+    unicode-range: U+00-FF;
+}
+*{
+    font-family: NiDABayon;
+}
+.id_card_en{
+    background: url(http://system.ume.lan/images/id_card/id-card-student-en.png) center no-repeat;
+}
+.id_card_kh{
+    background: url(http://system.ume.lan/images/id_card/id-card-student-kh.png) center no-repeat;
+}
+.id_card_en,.id_card_kh {
+    width: 345px;
+    height:500px;
+    border: solid 1px;
+}
+.stu_info,.stu_name,.stu_id{
+    position: absolute;
+    font-weight: bold;
+    font-size:14px;
+
+}
+.stu_name{
+    font-size: 22px;
+    margin-left: 155px;
+    margin-top: 122px;
+}
+.stu_id{
+    margin-top: 109px;
+    margin-left: 215px;
+    color: red;
+}
+.stu_info{
+    line-height: 22px;
+    margin-left: 228px;
+    margin-top: 198px;
+    color: #0257f2;
+}
+.id_card_kh .stu_info{
+   font-family: NiDABayon;
+    margin-left: 229px;
+    margin-top: 199px;;
+}
+.id_card_kh_img,.id_card_en_img{
+    float: left;
+    z-index: 20;
+}
+.print_card {
+    padding: auto auto;
+}*/

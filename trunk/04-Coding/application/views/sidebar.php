@@ -6,18 +6,22 @@
         <li class="sidebar-header">Student Management</li>
         <li class=""><a href="<?php echo site_url(); ?>students/registrations"><i class="glyphicon glyphicon-list"></i> Student List</a></li>
         <li class=""><a href="<?php echo site_url(); ?>students/registrations/add"><i class="glyphicon glyphicon-plus"></i> Student Registration</a></li>
-		<li class=""><a href="<?php echo site_url(); ?>students/scores"><i class="glyphicon glyphicon-plus"></i> Score Management</a></li>
+        <li class=""><a href="<?php echo site_url(); ?>students/scores"><i class="glyphicon glyphicon-plus"></i> Score Management</a></li>
         <li class="divider"></li>
-		<li class="sidebar-header">Education Management</li>
+        <li class="sidebar-header">Education Management</li>
         <li class=""><a href="<?php echo site_url(); ?>schedules/"><i class="glyphicon glyphicon-list"></i> Schedule classes</a></li>
-		<li class="divider"></li>
+        <li class="sidebar-header">Class Management</li>
+        <li class=""><a href="<?php echo site_url(); ?>classes/classes"><i class="glyphicon glyphicon-list"></i>Class list</a></li>
+        <li class=""><a href="<?php echo site_url(); ?>classes/classes/add"><i class="glyphicon glyphicon-plus"></i>Add New Class</a></li>
+   
+        <li class="divider"></li>
         <li class="sidebar-header">Staff Management</li>
         <li class=""><a href="<?php echo site_url(); ?>staffs/lectures/"><i class="glyphicon glyphicon-list"></i> Manage Lectures</a></li>
         <li class=""><a href="<?php echo site_url(); ?>staffs/staffs/"><i class="glyphicon glyphicon-list"></i> Manage Staffs</a></li>
         <li class=""><a href="<?php echo site_url(); ?>staffs/positions/"><i class="glyphicon glyphicon-list"></i> Manage Positions</a></li>
         <li class=""><a href="<?php echo site_url(); ?>staffs/jobtypes/"><i class="glyphicon glyphicon-list"></i> Manage Job Types</a></li>
         <li class=""><a href="<?php echo site_url(); ?>staffs/staffevaluation/"><i class="glyphicon glyphicon-list"></i> Manage Staff Evaluation</a></li>
-		<li class="divider"></li>
+        <li class="divider"></li>
         <li class="sidebar-header">Room Management</li>
         <li class=""><a href="<?php echo site_url(); ?>rooms/rooms/"><i class="glyphicon glyphicon-registration-mark"></i> Manage Rooms</a></li>
         <li class=""><a href="<?php echo site_url(); ?>rooms/roomtypes/"><i class="glyphicon glyphicon-tower"></i> Manage Room Types</a></li>
@@ -35,8 +39,5 @@
         <li class=""><a href="<?php echo site_url(); ?>payments/students"><i class="glyphicon glyphicon-lock"></i> Manage Students Payment</a></li>
         <li class=""><a href="<?php echo site_url(); ?>payments/teachers"><i class="glyphicon glyphicon-th-large"></i> Manage Teachers Payment </a></li>
         <li class="divider"></li>
-        <li class="sidebar-header">Class Management</li>
-        <li class=""><a href="<?php echo site_url(); ?>classes/classes"><i class="glyphicon glyphicon-list"></i>Class list</a></li>
-        <li class=""><a href="<?php echo site_url(); ?>classes/classes/add"><i class="glyphicon glyphicon-plus"></i>Add New Class</a></li>
     </ul>
 </div>

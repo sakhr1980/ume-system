@@ -21,7 +21,7 @@ $data = $data->result_array[0];
 		<div class="panel-body">
 			<dl class="dl-horizontal">
 				<dt>Student ID</dt>
-				<dd><?php echo ($data['stu_card_id'])?"":"xxxxxxx"; ?></dd>
+				<dd><?php echo ($data['stu_card_id']); ?></dd>
 				<dt>English Name:</dt>
 				<dd><?php echo $data['stu_en_firstname']." ".$data['stu_en_lastname']; ?></dd>
 				<dt>Name in Khmer</dt>

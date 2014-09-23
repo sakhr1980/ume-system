@@ -7,50 +7,57 @@ class M_registrations extends CI_Model {
 
     function findAllRegistrations($num_row, $from_row) {
 //
-//        if ($this->input->post('gro_name') != '') {
-//            $this->db->like('gro_name', $this->input->post('gro_name'));
-//        }
-//        
-//        if($this->input->post('gro_status')!=''){
-//            $this->session->set_userdata('gro_status', $this->input->post('gro_status'));
-//        }
-//        
-//        // if All status
-//        if($this->input->post('submit') && $this->input->post('gro_status')==''){
-//            $this->session->set_userdata('gro_status', '');
-//        }
-//        
-//        
-//        // Keep pagination for filter
+        if ($this->input->post('gen_id') != '') {
+            $this->db->like('tbl_generation_gen_id', $this->input->post('gen_id'));
+        }
+        if ($this->input->post('cla_id') != '') {
+            $this->db->where('cl.cla_id', $this->input->post('cla_id'));
+        }
+        if ($this->input->post('maj_id') != '') {
+            $this->db->like('cla_maj_id', $this->input->post('maj_id'));
+        }
+        if ($this->input->post('fac_id') != '') {
+            $this->db->like('fac_id', $this->input->post('fac_id'));
+        }
         if ($this->input->post('stu_en_firstname') != '') {
             $this->db->like('stu_en_firstname', $this->input->post('stu_en_firstname'));
         }
         if ($this->input->post('stu_en_lastname') != '') {
             $this->db->like('stu_en_lastname', $this->input->post('stu_en_lastname'));
         }
-        if ($this->input->post('cla_name') != '') {
-            $this->db->like('cla_name', $this->input->post('cla_name'));
-        }
+
 
         $this->db->order_by('s.stu_id', 'desc');
         $this->db->limit($num_row, $from_row);
         $this->db->from(TABLE_PREFIX . 'students s');
         $this->db->join(TABLE_PREFIX . 'student_class sc', 's.stu_id = sc.tbl_students_stu_id');
         $this->db->join(TABLE_PREFIX . 'classes cl', 'cl.cla_id = sc.tbl_class_cla_id');
+         $this->db->join(TABLE_PREFIX . 'generation ge', 'cl.tbl_generation_gen_id = ge.gen_id');
         $this->db->join(TABLE_PREFIX . 'majors ma', 'ma.maj_id = cl.cla_maj_id');
+        $this->db->join(TABLE_PREFIX . 'faculties fa', 'ma.maj_fac_id = fa.fac_id');
         return $this->db->get();
 //        return $this->db->get(TABLE_PREFIX . 'students');
     }
 
     function countAllRegistrations() {
-
-//        if ($this->input->post('gro_name') != '') {
-//            $this->db->like('gro_name', $this->input->post('gro_name'));
-//        }
-//        // Keep pagination for filter
-//        if ($this->session->userdata('gro_status') != '') {
-//            $this->db->where('gro_status', $this->session->userdata('gro_status'));
-//        }
+        if ($this->input->post('gen_id') != '') {
+            $this->db->like('tbl_generation_gen_id', $this->input->post('gen_id'));
+        }
+        if ($this->input->post('cla_id') != '') {
+            $this->db->where('cl.cla_id', $this->input->post('cla_id'));
+        }
+        if ($this->input->post('maj_id') != '') {
+            $this->db->like('cla_maj_id', $this->input->post('maj_id'));
+        }
+        if ($this->input->post('fac_id') != '') {
+            $this->db->like('fac_id', $this->input->post('fac_id'));
+        }
+        if ($this->input->post('stu_en_firstname') != '') {
+            $this->db->like('stu_en_firstname', $this->input->post('stu_en_firstname'));
+        }
+        if ($this->input->post('stu_en_lastname') != '') {
+            $this->db->like('stu_en_lastname', $this->input->post('stu_en_lastname'));
+        }
         $this->db->from(TABLE_PREFIX . 'students s');
         $this->db->join(TABLE_PREFIX . 'student_class sc', 's.stu_id = sc.tbl_students_stu_id');
         $this->db->join(TABLE_PREFIX . 'classes cl', 'cl.cla_id = sc.tbl_class_cla_id');
@@ -81,11 +88,32 @@ class M_registrations extends CI_Model {
         unset($data['exp_responsibility']);
         unset($data['stu_image']);
 
+//        ========Create studetn id card==============
+        $dataClass = $this->getAClassById($data['class']);
+        $dataClass->result_array();
+        $dataClass = $dataClass->result_array[0];
+
+        $dataStudent = $this->getStudentByClass($data['class']);
+//        $dataStudent = $this->getStudentByClass(3);
+        $dataStudent->result_array();
+        if ($dataStudent->num_rows() != NULL) {
+            $dataStudent = $dataStudent->result_array[0];
+            $idCard = substr($dataStudent['stu_card_id'], -3) + 1;  //get only 3 chars at end of id card
+        } else {
+            $idCard = 1;
+        }
+        $numStudent = sprintf("%03s", $idCard); // Number of student after count exiting student with format "001"
+        $stu_id_card = $dataClass['shi_abbriviation'] . "-" . $dataClass['maj_abbriviation'] . '-1-' . $numStudent; ///// to be chang for number of student
+        $data['stu_card_id'] = $stu_id_card;
+//        var_dump($stu_id_card);
+//              exit();
+//        ===============End student ID Card================
         unset($data['shift']);
         unset($data['major']);
         unset($data['degree']);
         $class_id = $data['class'];
         unset($data['class']);
+
 
         //$this->db->set('gro_created', 'NOW()', false);
         //var_dump($data);
@@ -177,6 +205,17 @@ class M_registrations extends CI_Model {
         return true;
     }
 
+    function getStudentByClass($id = NULL) { ///// select student in a class to cound number of student
+        $this->db->order_by('stu_card_id', 'desc');
+        $this->db->limit(1);
+        $this->db->select('stu_card_id');
+        $this->db->from(TABLE_PREFIX . 'students s');
+        $this->db->join(TABLE_PREFIX . 'student_class sc', 's.stu_id = sc.tbl_students_stu_id');
+        $this->db->join(TABLE_PREFIX . 'classes cl', 'cl.cla_id = sc.tbl_class_cla_id');
+        $this->db->where('cl.cla_id', $id);
+        return $this->db->get();
+    }
+
     function getStudentById($id = NULL) {
         $this->db->from(TABLE_PREFIX . 'students s');
         $this->db->join(TABLE_PREFIX . 'student_class sc', 's.stu_id = sc.tbl_students_stu_id');
@@ -211,6 +250,14 @@ class M_registrations extends CI_Model {
         $this->db->from(TABLE_PREFIX . 'classes cl');
         $this->db->join(TABLE_PREFIX . 'student_class sc', 'cl.cla_id=sc.tbl_class_cla_id', 'left');
         $this->db->group_by("sc.tbl_class_cla_id");
+        return $this->db->get();
+    }
+
+    function getAClassById($id = NULL) {
+        $this->db->where('cla_id', $id);
+        $this->db->join(TABLE_PREFIX . 'majors', 'cla_maj_id=maj_id');
+        $this->db->join(TABLE_PREFIX . 'shift', 'tbl_shift_shi_id=shi_id');
+        $this->db->from(TABLE_PREFIX . 'classes cl');
         return $this->db->get();
     }
 
