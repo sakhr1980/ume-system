@@ -45,9 +45,9 @@ class Registrations extends CI_Controller {
         $this->data['arrayMajor'] = $this->m_global->getDataArray(TABLE_PREFIX . 'majors', 'maj_id', 'maj_name', 'maj_status');
         $this->data['arrayFaculties'] = $this->m_global->getDataArray(TABLE_PREFIX . 'faculties', 'fac_id', 'fac_name', 'fac_status');
         $this->data['data'] = $this->m_registrations->findAllRegistrations(PAGINGATION_PERPAGE, $this->uri->segment(4));
-        $this->data['lastQuery'] =  $this->session->userdata('lastQuery');
+        $this->data['lastQuery'] = $this->session->userdata('lastQuery');
         pagination_config(base_url() . 'students/registrations/index', $this->m_registrations->countAllRegistrations(), PAGINGATION_PERPAGE);
-        
+
         $this->load->view(LAYOUT, $this->data);
     }
 
@@ -124,6 +124,21 @@ class Registrations extends CI_Controller {
         }
     }
 
+    function upgrade() {
+        if ($this->input->post('stu_id')) {
+            $array_id = $this->input->post('stu_id');
+            if ($this->m_registrations->upgradeClass()) {
+                $this->session->set_flashdata('message', alert("Student  has been upgrade!", 'success'));
+                redirect('students/registrations/index/' . $this->uri->segment(5));
+            } else {
+                $this->session->set_flashdata('message', alert("Student cannot be upgrade, please try again!", 'danger'));
+                redirect('students/registrations/index/' . $this->uri->segment(5));
+            }
+        } else {
+            redirect('students/registrations/index');
+        }
+    }
+
 // $id = segment(4)
     function delete($id) {
         if ($this->m_registrations->deleteStudentById($id)) {
@@ -157,11 +172,11 @@ class Registrations extends CI_Controller {
 
         $this->data['generation'] = $this->m_global->getDataArray(TABLE_PREFIX . 'generation', 'gen_id', 'gen_title', 'gen_status');
         $this->data['arrayClasses'] = $this->m_global->getDataArray(TABLE_PREFIX . 'classes', 'cla_id', 'cla_name', 'cla_status');
-        $this->data['studentNumber']="";
+        $this->data['studentNumber'] = "";
 //         $this->data['data']=array();
         if ($this->form_validation->run() == TRUE) {
             $this->data['data'] = $this->m_registrations->findAllRegistrations(PAGINGATION_PERPAGE, $this->uri->segment(4));
-             $this->data['studentNumber'] = $this->m_registrations->countAllRegistrations();
+            $this->data['studentNumber'] = $this->m_registrations->countAllRegistrations();
         }
         $this->load->view(LAYOUT, $this->data);
     }
@@ -188,6 +203,7 @@ class Registrations extends CI_Controller {
             return TRUE;
         }
     }
+
     // Fucntion to export to csv file with any selected query
     public function exportcsv() {
         $result = $this->m_registrations->exportcsv();
