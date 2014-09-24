@@ -1,4 +1,5 @@
 <?php
+
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 /*
@@ -20,12 +21,17 @@ class panel extends CI_Controller {
     function __construct() {
         parent::__construct();
     }
-    
-    function index(){
-        
+
+    function index() {
+
         $this->data['title'] = 'Dashboard';
-        $this->data['content'] = 'dashboard/index';
+        if ($this->session->userdata('userGroup') == "Manager") {
+             $this->data['content'] = 'dashboard/index_manager';
+        } else {
+            $this->data['content'] = 'dashboard/index';
+        }
+
         $this->load->view(LAYOUT, $this->data);
     }
-    
+
 }

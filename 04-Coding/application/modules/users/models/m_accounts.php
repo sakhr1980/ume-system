@@ -7,18 +7,19 @@ class M_Accounts extends CI_Model {
 
     function signin() {
 
-        $this->db->from(TABLE_PREFIX . 'users');
+        $this->db->from(TABLE_PREFIX . 'users us');
         $this->db->where('use_name', $this->input->post('username'));
         $this->db->where('use_pass', get_password($this->input->post('password')));
         $this->db->where('use_status', 1);
-        $this->db->join(TABLE_PREFIX.'user_group','use_id=usegro_userid');
+        $this->db->join(TABLE_PREFIX . 'user_group ug', 'us.use_id=ug.usegro_userid');
+        $this->db->join(TABLE_PREFIX . 'groups g', 'ug.usegro_groupid=g.gro_id');
         $data = $this->db->get();
         if ($data->num_rows() > 0) {
             $data->result_array();
             $user = $data->result_array[0];
             unset($user['use_pass']);
             $this->session->set_userdata('user', $user);
-
+            $this->session->set_userdata('userGroup', $user['gro_name']); ////============ For dusboard redirection==========
             return TRUE;
         } else {
             return false;
@@ -137,18 +138,17 @@ class M_Accounts extends CI_Model {
                 'usegro_userid' => $this->uri->segment(4)
             );
         }
-        $this->db->insert_batch(TABLE_PREFIX . 'user_group', $group_batch); 
-        
+        $this->db->insert_batch(TABLE_PREFIX . 'user_group', $group_batch);
+
         // Update user
         $this->db->where('use_id', $user_id);
         $this->db->set('use_modified', 'NOW()', false);
-        if($data['use_pass']!='')
-        $this->db->set('use_pass', get_password($data['use_pass']));
+        if ($data['use_pass'] != '')
+            $this->db->set('use_pass', get_password($data['use_pass']));
         // if checkbox is not checked
         if (empty($data['use_status'])) {
             $this->db->set('use_status', 0);
-        }
-        else{
+        } else {
             $this->db->set('use_status', 1);
         }
         return $this->db->update(TABLE_PREFIX . 'users');

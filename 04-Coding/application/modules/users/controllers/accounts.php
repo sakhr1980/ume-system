@@ -145,7 +145,9 @@ class Accounts extends CI_Controller {
         $this->data['title'] = "Sign In";
         if($this->input->post()){
             if($this->m_accounts->signin()){
+
                 redirect('dashboard/panel');
+               
             }
             else{
                 $this->session->set_flashdata('message', alert("Invalid Username or Password, try again", 'danger'));
