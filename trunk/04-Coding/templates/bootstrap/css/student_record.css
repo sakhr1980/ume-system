@@ -17,3 +17,7 @@
 .student_form .form-inline .form-control {
     width: 152px;
 }
+.achievements-wrapper { 
+    height: 500px; 
+    overflow:auto;
+overflow-wrap: break-word;}

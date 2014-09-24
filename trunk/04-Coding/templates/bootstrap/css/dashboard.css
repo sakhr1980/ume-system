@@ -322,3 +322,59 @@ h1, h2, h3, h4, h5{
 .dashboard .thumbnail:hover{
     text-decoration: none !important;
 }
+
+///==============Sophea,  Style for general dusboard ================
+
+.bs-glyphicons {
+    margin-left: 0;
+    margin-right: 0;
+}
+.bs-glyphicons {
+    margin: 0 -10px 20px;
+    overflow: hidden;
+}
+.bs-glyphicons-list {
+    list-style: none outside none;
+    padding-left: 0;
+}
+.bs-glyphicons .glyphicon-class {
+    display: block;
+    text-align: center;
+    word-wrap: break-word;
+}
+.bs-glyphicons .glyphicon {
+    font-size: 24px;
+    margin-bottom: 10px;
+    margin-top: 5px;
+}
+.bs-glyphicons li {
+    font-size: 12px;
+    width: 12.5%;
+}
+.bs-glyphicons li {
+    background-color: #F9F9F9;
+    border: 1px solid #FFFFFF;
+    float: left;
+    font-size: 14px;
+    height: 115px;
+    line-height: 1.4;
+    padding: 10px;
+    text-align: center;
+    width: 25%;
+}
+.bs-glyphicons li:hover {
+    background-color: #563D7C;
+    color: #FFFFFF;
+}
+.bs-glyphicons a:hover {
+    color: #FFFFFF;
+}
+.bs-glyphicons li:hover a {
+    color: #FFFFFF;
+}
+
+.filter .form-inline .form-group {
+    display: inline-block;
+    margin-bottom: 7 !important;
+    vertical-align: middle;
+}

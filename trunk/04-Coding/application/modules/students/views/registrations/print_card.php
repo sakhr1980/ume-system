@@ -65,10 +65,18 @@
         width: 172px;
     }
 </style>
+<div class="toolbar col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
+    <div class="left">
+        <!--For icon: http://getbootstrap.com/components/-->
+         <a href="<?php echo site_url(); ?>students/registrations<?php echo $this->uri->segment(5); ?>" class="btn btn-sm btn-default"><i class="glyphicon glyphicon-arrow-left"></i> Back</a><span style="padding:0 20px;"></span>
+            </div>
+    <div class="right">
+        <h1><?php echo $title; ?></h1>
+    </div>
+</div>
 <div class="content">
     <div class="filter">
          <form class="form-inline" role="form" method="post" action="<?php echo base_url(); ?>students/registrations/print_card">
-             <a href="<?php echo site_url(); ?>students/registrations<?php echo $this->uri->segment(5); ?>" class="btn btn-sm btn-default"><i class="glyphicon glyphicon-arrow-left"></i> Back</a><span style="padding:0 20px;"></span>
              <div class="form-group">
                 <label class="sr-only" for="stu_name">Student Name</label>
                 <div class="form-group">

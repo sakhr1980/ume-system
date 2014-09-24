@@ -45,7 +45,9 @@ class Registrations extends CI_Controller {
         $this->data['arrayMajor'] = $this->m_global->getDataArray(TABLE_PREFIX . 'majors', 'maj_id', 'maj_name', 'maj_status');
         $this->data['arrayFaculties'] = $this->m_global->getDataArray(TABLE_PREFIX . 'faculties', 'fac_id', 'fac_name', 'fac_status');
         $this->data['data'] = $this->m_registrations->findAllRegistrations(PAGINGATION_PERPAGE, $this->uri->segment(4));
+        $this->data['lastQuery'] =  $this->session->userdata('lastQuery');
         pagination_config(base_url() . 'students/registrations/index', $this->m_registrations->countAllRegistrations(), PAGINGATION_PERPAGE);
+        
         $this->load->view(LAYOUT, $this->data);
     }
 
@@ -184,6 +186,14 @@ class Registrations extends CI_Controller {
             return FALSE;
         } else {
             return TRUE;
+        }
+    }
+    // Fucntion to export to csv file with any selected query
+    public function exportcsv() {
+        $result = $this->m_registrations->exportcsv();
+//        echo $this->session->userdata('lastQuery2');        exit();
+        if (query_to_csv($result, TRUE, 'Student-List-' . date('Y-m-d', time()) . '.csv')) {
+            redirect('students/registrations/index');
         }
     }
 

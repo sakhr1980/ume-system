@@ -1,7 +1,10 @@
 <div class="toolbar col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
     <div class="left">
         <!--For icon: http://getbootstrap.com/components/-->
-        <a href="<?php echo site_url(); ?>students/registrations/add/<?php echo $this->uri->segment(4); ?>" class="btn btn-sm btn-<?php echo WARNING; ?>"><i class="glyphicon glyphicon-plus-sign"></i> Create</a>
+        <a href="<?php echo site_url(); ?>students/registrations/add/<?php echo $this->uri->segment(4); ?>" class="btn btn-sm btn-<?php echo WARNING; ?>"><i class="glyphicon glyphicon-plus-sign"></i> Register</a>
+        <?php // echo $lastQuery ?>
+        <a class="btn btn-primary btn-sm" href="<?php echo base_url(); ?>students/registrations/print_card/" title="Pint Card"><i class="glyphicon glyphicon-print"></i> Print Card</a>
+        <a class="btn btn-success btn-sm" href="<?php echo base_url(); ?>students/registrations/exportcsv/" title="Export"><i class="glyphicon glyphicon-export"></i> Export</a>
     </div>
     <div class="right">
         <h1><?php echo $title; ?></h1>
@@ -62,26 +65,35 @@
 
                 <div class="form-group">
                     <button type="submit" class="btn btn-<?php echo PRIMARY; ?> btn-sm" value="submit" name="submit"><i class="glyphicon glyphicon-filter"></i> Filter</button>
-                    <a class="btn btn-<?php echo DEFAULTS; ?> btn-xs" href="<?php echo base_url(); ?>students/registrations/print_card/" title="Pint Card"><i class="glyphicon glyphicon-print"></i> Print Card</a>
                 </div>
             </div>
         </form>
     </div>
-    <div class="panel panel-default">
+    <div class="panel panel-default ">
         <div class="panel-heading">
             <h3 class="panel-title">Group List</h3>
         </div>
-        <div class="panel-body">
+        <div class="panel-body achievements-wrapper">
             <table class="table table-hover">
                 <tr>
                     <th><input type="checkbox" class="checkall" /></th>
                     <th>ID Card</th>
-                    <th>En Name</th>
                     <th>Khmer Name</th>
+                    <th>En Name</th>
                     <th>ភេទ / Gander</th>
-                    <th>ថ្នាក់ /Class</th>
-                    <th>មុខជំនាញ់ / Major</th>
-                    <th>Email</th>
+                    <th>Date of birth</th>
+                    <th>Level</th>
+                    <th>Major</th>
+                   <!--<th>Class</th>-->
+                    <th>Phone </th>
+                    <th>Shift </th>
+                    <th>Hight School</th>
+                    <th>Study type</th>
+                    <th>Percentage</th>
+                    <th>Father</th>
+                    <th>Mother</th>
+                    <th>Address</th>
+                    <th>Parents Phone</th>
                     <th>Actions</th>
                 </tr>
                 <?php if ($data->num_rows() > 0) { ?>
@@ -90,13 +102,21 @@
                         <tr>
                             <td><input type="checkbox" name="id[]" value="<?php $row['stu_id'] ?>" class="checkid" /></td>
                             <td><?php echo $row['stu_card_id'] ?></td>
+                            <td><?php echo $row['stu_kh_lastname'] . ' ' . $row['stu_kh_firstname']; ?></td>
                             <td><?php echo $row['stu_en_lastname'] . ' ' . $row['stu_en_firstname'] ?></td>
-                            <td><?php $row['stu_kh_lastname'] . ' ' . $row['stu_kh_firstname']; ?></td>
-                                    <!--<td><?php echo ($row['stu_status'] == 1) ? "Enabled" : "Disabled"; ?></td>-->
                             <td><?php echo $row['stu_gender']; ?></td>
-                            <td><?php echo $row['cla_name']; ?></td>
+                            <td><?php echo $row['stu_dob']; ?></td>
+                            <td><?php echo $row['stu_degree']; ?></td>
                             <td><?php echo $row['maj_name']; ?></td>
-                            <td><?php echo $row['stu_email']; ?></td>
+                            <td><?php echo $row['stu_tel']; ?></td>  
+                            <td><?php echo $row['shi_name']; ?></td>
+                            <td><?php echo $row['stu_highschool_name']; ?></td>
+                            <td>study type to be view</td>
+                            <td>percentage to be view</td>
+                            <td><?php echo $row['stu_father_name']; ?></td>
+                            <td><?php echo $row['stu_mother_name']; ?></td>                            
+                            <td><?php echo $row['stu_father_current_address']; ?></td>
+                            <td><?php echo $row['stu_father_tel'] . " " . $row['stu_mother_tel']; ?></td>                            
 
                             <td>
                                 <a class="btn btn-<?php echo DEFAULTS; ?> btn-xs" href="<?php echo base_url(); ?>students/registrations/view/<?php
@@ -116,7 +136,7 @@
 
                     <?php } ?>
                 <?php } else { ?>
-                    <tr><td colspan="7">Empty</td></tr>
+                    <tr><td colspan="18">Empty</td></tr>
                 <?php } ?>
             </table>
         </div>
