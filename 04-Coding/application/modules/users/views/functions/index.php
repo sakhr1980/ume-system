@@ -117,8 +117,8 @@ foreach ($data->result_array() as $row) {
                               </td>
                               <td><?php echo $con['con_name']; ?></td>
                               <td><?php echo status_string($con['con_status']); ?></td>
-                              <td><?php echo get_date_string($row['con_created']); ?></td>
-                              <td><?php echo get_date_string($row['con_modified']); ?></td>
+                              <td><?php echo get_date_string($con['con_created']); ?></td>
+                              <td><?php echo get_date_string($con['con_modified']); ?></td>
                             </tr>
                             <!--Loop for functions-->
                             <?php if(!empty($tass[$con['con_id']])){ ?>
@@ -131,8 +131,8 @@ foreach ($data->result_array() as $row) {
                                       </td>
                                       <td><?php echo $tas['tas_name']; ?></td>
                                       <td><?php echo status_string($tas['tas_status']); ?></td>
-                                      <td><?php echo get_date_string($row['tas_created']); ?></td>
-                                      <td><?php echo get_date_string($row['tas_modified']); ?></td>
+                                      <td><?php echo get_date_string($tas['tas_created']); ?></td>
+                                      <td><?php echo get_date_string($tas['tas_modified']); ?></td>
                                     </tr>
                                 <?php endforeach; ?>
                             <?php } ?>

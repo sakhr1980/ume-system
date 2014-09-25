@@ -29,6 +29,7 @@ class m_module extends CI_Model{
         $this->db->where('mod_id', $this->uri->segment(4));
         $data = $this->input->post();
         $data['mod_status'] = (!empty($data['mod_status']))?TRUE:FALSE;
+        $this->db->set('mod_modified', 'NOW()', false);
         return $this->db->update(TABLE_PREFIX.'modules',$data);
     }
     

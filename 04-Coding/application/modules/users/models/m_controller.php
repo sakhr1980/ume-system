@@ -30,6 +30,7 @@ class m_controller extends CI_Model{
         $this->db->where('con_id', $this->uri->segment(4));
         $data = $this->input->post();
         $data['con_status'] = (!empty($data['con_status']))?1:0;
+        $this->db->set('con_modified', 'NOW()', false);
         return $this->db->update(TABLE_PREFIX.'controllers',$data);
     }
     
