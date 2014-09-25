@@ -80,13 +80,13 @@ foreach ($data->result_array() as $row) {
     </div>
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h3 class="panel-title">User Account List</h3>
+            <h3 class="panel-title">Manage module</h3>
         </div>
         <div class="panel-body">
             <table id="table-tree">
                 <thead>
                     <tr>
-                        <th>Key</th>
+                        <th>module/controller/function</th>
                         <th>Name</th>
                         <th>Status</th>
                         <th>Created</th>
