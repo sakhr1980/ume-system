@@ -17,6 +17,12 @@
             <div class="form-group">
                 <label class="sr-only" for="stu_name">Student Name</label>
                 <div class="form-group">
+                    <input type="text" class=" input-sm" id="stu_en_firstname" name="stu_en_firstname" value="<?php echo set_value('stu_en_firstname'); ?>" placeholder=" Student First Name">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control input-sm" id="stu_en_lastname" name="stu_en_lastname" value="<?php echo set_value('stu_en_lastname'); ?>" placeholder=" Student Last Name">
+                </div>
+                <div class="form-group">
                     <select name="gen_id" class="form-control" id="gen_id">
                         <option value="">--All generation--</option>
                         <?php
@@ -41,6 +47,10 @@
                     <?php echo form_dropdown('stucla_year_study', array('' => '-- All Year --', '1' => 'I', '2' => 'II', '3' => 'III', '4' => 'IV'), set_value('stucla_year_study', $this->session->userdata('stucla_year_study')), 'class="form-control input-sm"') ?>
                 </div>
                 <div class="form-group">
+                    <label class="sr-only" for="stucla_degree">Year</label>
+                    <?php echo form_dropdown('stucla_degree', array('' => '-- All Degree --', 'MS' => 'MS', 'BB' => 'BB', 'AD' => 'AD'), set_value('stucla_degree', $this->session->userdata('stucla_degree')), 'class="form-control input-sm"') ?>
+                </div>
+                <div class="form-group">
                     <select name="fac_id" class="form-control" id="fac_id">
                         <option value="">--All Faculties--</option>
                         <?php
@@ -61,12 +71,7 @@
                         ?>
                     </select>
                 </div>
-                <div class="form-group">
-                    <input type="text" class=" input-sm" id="stu_en_firstname" name="stu_en_firstname" value="<?php echo set_value('stu_en_firstname'); ?>" placeholder=" Student First Name">
-                </div>
-                <div class="form-group">
-                    <input type="text" class="form-control input-sm" id="stu_en_lastname" name="stu_en_lastname" value="<?php echo set_value('stu_en_lastname'); ?>" placeholder=" Student Last Name">
-                </div>
+                
 
                 <div class="form-group">
                     <button type="submit" class="btn btn-<?php echo PRIMARY; ?> btn-sm" value="submit" name="submit"><i class="glyphicon glyphicon-filter"></i> Filter</button>
@@ -86,7 +91,7 @@
                         <th>ID Card</th>
                         <th>Khmer Name</th>
                         <th>En Name</th>
-                        <th>ភេទ / Gander</th>
+                        <th>Gander</th>
                         <th>Date of birth</th>
                         <th>Level</th>
                         <th>Year</th>

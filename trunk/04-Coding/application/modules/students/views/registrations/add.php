@@ -12,9 +12,9 @@
     </div>
     <div class="content">
 
-        <div class="panel panel-<?php echo DEFAULTS; ?>">
+        <div class=" panel panel-<?php echo DEFAULTS; ?>">
             <div class="panel-heading">
-                <h3 class="panel-title">ឈ្មោះ Applicant Full Legal Name:</h3>
+                <h3 class="panel-title ">ឈ្មោះ Applicant Full Legal Name:</h3>
             </div>
             <div class="panel-body">
 
@@ -102,11 +102,11 @@
                             foreach ($faculties->result_array as $faculty) {
                                 $count++;
                                 ?>
-                                <div class="panel panel-<?php echo DEFAULTS; ?>">
-                                    <div class="panel-heading">
+                                <div class=" panel panel-<?php echo DEFAULTS; ?>">
+                                    <div class="click_colap panel-heading">
                                         <h3 class="panel-title"><?php echo $kh_num[$count] . '-ម. ' . $faculty['fac_name']; ?></h3>
                                     </div>
-                                    <div class="panel-body">
+                                    <div class="colap panel-body">
 
                                         <?php
                                         $m = $majors[$faculty['fac_id']];
@@ -146,7 +146,7 @@
         </div>
 
 
-        <div class="panel panel-<?php echo DEFAULTS; ?>">
+        <div class="head_colap panel panel-<?php echo DEFAULTS; ?>">
             <div class="panel-heading">
                 <h3 class="panel-title">II. ជីវប្រវត្តិសង្ខេប PERSONAL INFORMATION</h3>
             </div>
@@ -229,7 +229,7 @@
             </div>
         </div>
 
-        <div class="panel panel-<?php echo DEFAULTS; ?>">
+        <div class="click_colap panel panel-<?php echo DEFAULTS; ?>">
             <div class="panel-heading">
                 <h3 class="panel-title">III. FAMILY / NEXT OF KIN INFORMATION</h3>
             </div>
@@ -294,11 +294,11 @@
             </div>
         </div>
 
-        <div class="panel panel-<?php echo DEFAULTS; ?>">
-            <div class="panel-heading">
-                <h3 class="panel-title">IV. RECORD OF SECONDARY/HIGH SCHOOL/TERTIARY STUDIES</h3>
+        <div class=" panel panel-<?php echo DEFAULTS; ?>">
+            <div class=" click_colap panel-heading">
+                <h3 class="panel-title" >IV. RECORD OF SECONDARY/HIGH SCHOOL/TERTIARY STUDIES</h3>
             </div>
-            <div class="panel-body">
+            <div class="colap panel-body">
                 <div class="col-md-6">
                     <label for="stu_highschool_name" class="col-sm-12">Name of School/Institution/University</label>
                     <div class="col-sm-12">
@@ -361,11 +361,11 @@
             </div>
         </div>
 
-        <div class="panel panel-<?php echo DEFAULTS; ?>">
-            <div class="panel-heading">
+        <div class=" panel panel-<?php echo DEFAULTS; ?>">
+            <div class="click_colap panel-heading">
                 <h3 class="panel-title">V. RELEVANT EMPLOYMENT EXPERIENCE</h3>
             </div>
-            <div class="panel-body">
+            <div class="colap panel-body">
 
                 <div class="col-md-4">
                     <label for="exp_date1" class="col-sm-12">Date of Employment From-To</label>
@@ -377,8 +377,8 @@
                 <div class="col-md-4">
                     <label for="exp_shift0" class="col-sm-12">SHIFT</label>
                     <div class="col-sm-12">
-                        <label><input type="radio" name="exp_shift[0]" required value="Full Time" <?php echo set_radio('exp_shift[0]', 'Full Time', FALSE); ?>> ពេញម៉ោង Full Time</label>
-                        <label><input type="radio" name="exp_shift[0]"  required value="Parth Time" <?php echo set_radio('majexp_shift[0]', 'Part Time', FALSE); ?>> មិនពេញម៉ោង Part Time</label>
+                        <label><input type="radio" name="exp_shift[0]"  value="Full Time" <?php echo set_radio('exp_shift[0]', 'Full Time', FALSE); ?>> ពេញម៉ោង Full Time</label>
+                        <label><input type="radio" name="exp_shift[0]"   value="Parth Time" <?php echo set_radio('majexp_shift[0]', 'Part Time', FALSE); ?>> មិនពេញម៉ោង Part Time</label>
                         <?php echo form_error('exp_date'); ?>
                     </div>
                 </div>
@@ -537,5 +537,14 @@
         })
 
     }
+     $('.colap').hide();
+        $(function() {
+        $('.click_colap').click(function() {
+//            alert( $(this).children(".colap"));
+            var colap = $(this).parent();
+                    colap.children(".panel-body").slideToggle();
+        });
+    });
+   
 
 </script>
