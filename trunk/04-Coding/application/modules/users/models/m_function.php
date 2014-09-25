@@ -54,10 +54,38 @@ class M_function extends CI_Model {
         return $this->db->insert(TABLE_PREFIX . 'tasks', $data);
     }
     
+    /**
+     * 
+     * @return boolean
+     */
+    function update(){
+        
+        $this->db->where('tas_id', $this->uri->segment(4));
+        $data = $this->input->post();
+        $data['tas_status'] = (!empty($data['tas_status']))?1:0;
+        $this->db->set('tas_modified', 'NOW()', false);
+        unset($data['tas_moduleid']);
+        return $this->db->update(TABLE_PREFIX.'tasks',$data);
+    }
+    
+    /**
+     * 
+     * @param in $id
+     * @return DataObject
+     */
     function deleteFunctionById($id=0){
         
         $this->db->where('tas_id',$id);
         return $this->db->delete(TABLE_PREFIX.'tasks');
+    }
+    
+    function getFunctionById($id=0){
+        $this->db->where('tas_id',$id);
+        
+        $this->db->from(TABLE_PREFIX . 'modules');
+        $this->db->join(TABLE_PREFIX . 'controllers', 'mod_id=con_moduleid','left');
+        $this->db->join(TABLE_PREFIX . 'tasks', 'con_id=tas_controllerid','left');
+        return $this->db->get();
     }
     
 
