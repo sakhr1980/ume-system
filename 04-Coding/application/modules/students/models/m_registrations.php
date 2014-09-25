@@ -19,6 +19,9 @@ class M_registrations extends CI_Model {
         if ($this->input->post('maj_id') != '') {
             $this->db->like('cla_maj_id', $this->input->post('maj_id'));
         }
+        if ($this->input->post('stucla_degree') != '') {
+            $this->db->like('stucla_degree', $this->input->post('stucla_degree'));
+        }
         if ($this->input->post('fac_id') != '') {
             $this->db->like('fac_id', $this->input->post('fac_id'));
         }
@@ -59,6 +62,9 @@ class M_registrations extends CI_Model {
         }
         if ($this->input->post('maj_id') != '') {
             $this->db->like('cla_maj_id', $this->input->post('maj_id'));
+        }
+        if ($this->input->post('stucla_degree') != '') {
+            $this->db->like('stucla_degree', $this->input->post('stucla_degree'));
         }
         if ($this->input->post('fac_id') != '') {
             $this->db->like('fac_id', $this->input->post('fac_id'));
@@ -123,6 +129,7 @@ class M_registrations extends CI_Model {
 //        ===============End student ID Card================
         unset($data['shift']);
         unset($data['major']);
+        $degree = $data['degree'];
         unset($data['degree']);
         $class_id = $data['class'];
         unset($data['class']);
@@ -134,8 +141,10 @@ class M_registrations extends CI_Model {
         $stu_id = $this->db->insert_id();
         //Insert data to class of student
         $class_date = array(
-            'tbl_students_stu_id' => $stu_id,
-            'tbl_class_cla_id' => $class_id
+        'tbl_students_stu_id' => $stu_id,
+        'tbl_class_cla_id' => $class_id,
+        'stucla_degree' => $degree,
+        'stucla_year_study' => 1 ////// =========First register=============
         );
 
         $this->db->insert(TABLE_PREFIX . 'student_class', $class_date);
@@ -175,13 +184,33 @@ class M_registrations extends CI_Model {
         unset($data['exp_responsibility']);
         unset($data['stu_image']);
 
+//        ========Create studetn id card==============
+        $dataClass = $this->getAClassById($data['class']);
+        $dataClass->result_array();
+        $dataClass = $dataClass->result_array[0];
+        $dataStudent = $this->getStudentByClass($data['class']);
+        $dataStudent->result_array();
+        if ($dataStudent->num_rows() != NULL) {
+            $dataStudent = $dataStudent->result_array[0];
+            $idCard = substr($dataStudent['stu_card_id'], -3) + 1;  //get only 3 chars at end of id card
+        } else {
+            $idCard = 1;
+        }
+        $numStudent = sprintf("%03s", $idCard); // Number of student after count exiting student with format "001"
+        $stu_id_card = $dataClass['shi_abbriviation'] . "-" . $dataClass['maj_abbriviation'] . '-' . $data['stucla_year_study'] . '-' . $numStudent; ///// to be chang for number of student
+        $data['stu_card_id'] = $stu_id_card;
+//        ===============End student ID Card================
+
         unset($data['shift']);
         unset($data['major']);
+        $degree = $data['degree'];
         unset($data['degree']);
-        if ($data['class'] = !"") {
-            $class_id = $data['class'];
-        }
-
+        $stucla_year_study = $data['stucla_year_study'];
+        unset($data['stucla_year_study']);
+//        if ($data['class'] = !"") {
+//            $class_id = $data['class'];
+//        }
+        $class_id = $data['class'];
         unset($data['class']);
         $this->db->where('stu_id', $stu_id);
         $this->db->update(TABLE_PREFIX . 'students', $data);
@@ -191,11 +220,13 @@ class M_registrations extends CI_Model {
         //Insert data to class of student
         $class_data = array(
             'tbl_students_stu_id' => $stu_id,
-            'tbl_class_cla_id' => $class_id
+            'tbl_class_cla_id' => $class_id,
+            'stucla_degree' => $degree,
+            'stucla_year_study' => $stucla_year_study
         );
         $where_data = array(
             'tbl_students_stu_id' => $stu_id,
-            'tbl_class_cla_id' => $this->session->userdata('stu_class')
+            'tbl_class_cla_id' => $class_id
         );
         $this->db->where($where_data);
         $this->db->update(TABLE_PREFIX . 'student_class', $class_data);
@@ -220,16 +251,15 @@ class M_registrations extends CI_Model {
 
     function upgradeClass() {
         $data = $this->input->post();
-       $arraydata = array();
-            for ($i = 0; $i < count($data['stu_id']); $i++) {
-                $arraydata[$i] = array(
-                    'tbl_students_stu_id' => $data['stu_id'][$i],
-                    'stucla_year_study' => $data['stucla_year_study'][$i] + 1
-                );
-            }
-               $result = $this->db->update_batch(TABLE_PREFIX . 'student_class', $arraydata,"tbl_students_stu_id");
-            return TRUE;
-        
+        $arraydata = array();
+        for ($i = 0; $i < count($data['stu_id']); $i++) {
+            $arraydata[$i] = array(
+                'tbl_students_stu_id' => $data['stu_id'][$i],
+                'stucla_year_study' => $data['stucla_year_study'][$i] + 1
+            );
+        }
+        $result = $this->db->update_batch(TABLE_PREFIX . 'student_class', $arraydata, "tbl_students_stu_id");
+        return TRUE;
     }
 
     function getStudentByClass($id = NULL) { ///// select student in a class to cound number of student

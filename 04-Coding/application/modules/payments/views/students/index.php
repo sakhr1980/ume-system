@@ -25,10 +25,10 @@
 				<label class="sr-only" for="sp_year">Year</label>
 				<input type="text" class="form-control input-sm" id="sp_year" name="sp_year" value="<?php echo set_value('sp_year'); ?>" placeholder="Year">
 			</div>
-			<div class="form-group">
+<!--			<div class="form-group">
 				<label class="sr-only" for="sp_status">Status</label>
 				<?php echo form_dropdown('sp_status', array('' => '-- All Status --', '1' => 'Enabled', '0' => 'Disabled'), set_value('sp_status', $this->session->userdata('sp_status')), 'class="form-control input-sm"') ?>
-			</div>
+			</div>-->
 			<button type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"><i class="glyphicon glyphicon-filter"></i> Filter</button>
 		</form>
 	</div>

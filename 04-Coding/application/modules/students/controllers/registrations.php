@@ -35,6 +35,8 @@ class Registrations extends CI_Controller {
         $this->form_validation->set_rules('fac_id', '', 'trim');
         $this->form_validation->set_rules('cla_id', '', 'trim');
         $this->form_validation->set_rules('maj_id', '', 'trim');
+         $this->form_validation->set_rules('stucla_degree', '', 'trim');
+        $this->form_validation->set_rules('stucla_year_study', '', 'trim');
         $this->form_validation->set_rules('stu_en_firstname', '', 'trim');
         $this->form_validation->set_rules('stu_en_lastname', '', 'trim');
 
@@ -231,7 +233,7 @@ class Registrations extends CI_Controller {
             foreach ($class_data->result_array() as $class) {
                 echo '
                     <div class="col-md-3" >
-                    <label><input type="radio"  required="required" name="class" id="shift" value="' . $class["cla_id"] . '" >' . $class["cla_name"] . ' (' . $class["studnetNumber"] . ')' . '</label>
+                    <label><input type="radio"  required="required" name="class" id="cla_name" value="' . $class["cla_id"] . '" >' . $class["cla_name"] . ' (' . $class["studnetNumber"] . ')' . '</label>
                 </div> ';
             }
         } else {
