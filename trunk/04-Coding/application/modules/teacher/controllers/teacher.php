@@ -34,10 +34,10 @@ class Teacher extends CI_Controller {
 		$this->data['class'] = $this->m_global->getDataArray(TABLE_PREFIX . 'classes', 'cla_id', 'cla_name', 'cla_status');
         $this->data['major'] = $this->m_global->getDataArray(TABLE_PREFIX . 'majors', 'maj_id', 'maj_name', 'maj_status');
 		
-		$this->data['data'] = $this->m_teacher->findAllTeacher(1, $this->uri->segment(3));
+		$this->data['data'] = $this->m_teacher->findAllTeacher(PAGINGATION_PERPAGE, $this->uri->segment(3));
 		
 		$num = $this->m_teacher->countAllTeacher();
-		pagination_config(site_url('teacher/index'),$num , 1);
+		pagination_config(site_url('teacher/index'),$num , PAGINGATION_PERPAGE);
 		
 		$this->load->view(LAYOUT, $this->data);
     }
