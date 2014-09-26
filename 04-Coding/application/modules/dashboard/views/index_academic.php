@@ -15,7 +15,7 @@
                         <div class="bs-glyphicons">
                             <ul class="bs-glyphicons-list">
                                 <li>
-                                    <span class="glyphicon glyphicon-book"></span>
+                                    <span class="glyphicon glyphicon-user"></span>
                                     <span class="glyphicon-class">
                                         <a href="<?php echo base_url(); ?>students/registrations" >
                                             <?php // echo "Total book <br/>" . $AllBooks; ?>
@@ -24,29 +24,29 @@
                                     </span>
                                 </li>
                                 <li>
-                                    <span class="glyphicon glyphicon-ok"></span>
+                                    <span class="glyphicon glyphicon-calendar"></span>
                                     <span class="glyphicon-class">
-                                        <a href="<?php echo base_url(); ?>books/books" >
+                                        <a href="<?php echo base_url(); ?>schedules/schedules" >
                                             <?php // echo "Available book <br />" . $availableBook; ?>
-                                            Total student absent today
+                                            Schedules Classes
                                         </a>
                                     </span>
                                 </li>
                                 <li>
-                                    <span class="glyphicon glyphicon-stats"></span>
+                                    <span class="glyphicon glyphicon-file"></span>
                                     <span class="glyphicon-class">
-                                        <a href="<?php echo base_url(); ?>report/report" >
+                                        <a href="<?php echo base_url(); ?>subjects/subjects" >
                                             <?php // echo "Report <br />"  ?>
-                                            Total teacher absent today
+                                             Subjects View
                                         </a>
                                     </span>
                                 </li>
                                 <li>
-                                    <span class="glyphicon glyphicon-stats"></span>
+                                    <span class="glyphicon glyphicon-registration-mark"></span>
                                     <span class="glyphicon-class">
-                                        <a href="<?php echo base_url(); ?>report/report" >
+                                        <a href="<?php echo base_url(); ?>rooms/rooms" >
                                             <?php // echo "Report <br />"  ?>
-                                            Exam status
+                                            Room status
                                         </a>
                                     </span>
                                 </li>
@@ -60,7 +60,7 @@
     <div class="col-md-6">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">Staff report</h3>
+                <h3 class="panel-title">Teacher report</h3>
             </div>
             <div class="panel-body">
                 <div class="row">
@@ -68,24 +68,24 @@
                         <div class="bs-glyphicons">
                             <ul class="bs-glyphicons-list">
                                 <li>
-                                    <span class="glyphicon glyphicon-bold"></span>
+                                    <span class="glyphicon glyphicon-user"></span>
                                     <span class="glyphicon-class">
-                                        <a href="<?php echo base_url(); ?>borrows/borrows" >
+                                        <a href="<?php echo base_url(); ?>teachers/teachers" >
                                             <?php // echo "Borrowed book <br/>" . $borrowNumber; ?>
-                                            Total student working
+                                            Teacher on working
                                         </a>
                                     </span>
                                 </li>
                                 <li>
-                                    <span class="glyphicon glyphicon-warning-sign"></span>
+                                    <span class="glyphicon glyphicon-subtitles"></span>
                                     <span class="glyphicon-class">
-                                        <a href="<?php echo base_url(); ?>borrows/borrows/index/late" >
+                                        <a href="<?php echo base_url(); ?>classes/classes" >
                                             <?php // echo "Late return <br />" . $lateReturn; ?>
-                                            Total staff absent today
+                                           Classes list student on working
                                         </a>
                                     </span>
                                 </li>
-                                <li>
+<!--                                <li>
                                     <span class="glyphicon glyphicon-check"></span>
                                     <span class="glyphicon-class">
                                         <a href="<?php echo base_url(); ?>borrows/borrows/index/dateline" >
@@ -93,7 +93,7 @@
                                             Next event
                                         </a>
                                     </span>
-                                </li> 
+                                </li> -->
                             </ul>
                         </div>
                     </div>
