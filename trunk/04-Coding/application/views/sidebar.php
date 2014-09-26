@@ -43,7 +43,7 @@
             <li class=""><a href="<?php echo site_url(); ?>users/groups"><i class="glyphicon glyphicon-th-large"></i> Manage Groups</a></li>
             <li class=""><a href="<?php echo site_url(); ?>users/accounts"><i class="glyphicon glyphicon-user"></i> Manage Users</a></li>
         <?php } ?>      
-        <?php if ($user_Group == "Admin") { ?>
+        <?php if ($user_Group == "Finance") { ?>
             <li class="divider"></li>
             <li class="sidebar-header">Payment Management</li>
             <li class=""><a href="<?php echo site_url(); ?>payments/students"><i class="glyphicon glyphicon-lock"></i> Manage Students Payment</a></li>
