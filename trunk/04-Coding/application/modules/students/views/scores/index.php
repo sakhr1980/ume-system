@@ -17,7 +17,7 @@
 			</div>
 			<div class="form-group">
 				<label class="sr-only" for="stu_sco_semester">Semester</label>
-				<?php echo form_dropdown('stu_sco_semester', array('1' => 'Semester I', '2' => 'Semester II') + $generations, set_value('stu_sco_semester', $this->session->userdata('stu_sco_semester')), 'class="form-control input-sm"') ?>
+				<?php echo form_dropdown('stu_sco_semester', array('1' => 'Semester I', '2' => 'Semester II'), set_value('stu_sco_semester', $this->session->userdata('stu_sco_semester')), 'class="form-control input-sm"') ?>
 			</div>
 			<div class="form-group">
 				<label class="sr-only" for="tbl_majors_maj_id">Major</label>
