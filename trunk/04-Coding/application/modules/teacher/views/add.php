@@ -45,9 +45,9 @@
 					<td>
 						<?php
 							$data_dropdown = array('' => '  Subject  ') + $subject;
-							$selector = set_value('tbl_majors_maj_id');
-							$extra = 'class="form-control input-sm required" id="tbl_majors_maj_id"';
-							echo form_dropdown('tbl_majors_maj_id',$data_dropdown , $selector, $extra);
+							$selector = set_value('tbl_subject_sub_id');
+							$extra = 'class="form-control input-sm required" id="tbl_subject_sub_id"';
+							echo form_dropdown('tbl_subject_sub_id',$data_dropdown , $selector, $extra);
 						?>
 					</td>
 					<td>

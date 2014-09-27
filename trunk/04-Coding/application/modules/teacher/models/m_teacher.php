@@ -28,7 +28,7 @@ class M_Teacher extends CI_Model {
         $this->db->from(TABLE_PREFIX . 'teacher t');
 		$this->db->join(TABLE_PREFIX . 'staff st', 't.tbl_staff_sta_id = st.sta_id');
 		$this->db->join(TABLE_PREFIX . 'classes cl', 't.tbl_classes_cla_id = cl.cla_id');
-        $this->db->join(TABLE_PREFIX . 'majors m', 't.tbl_majors_maj_id = m.maj_id');
+        $this->db->join(TABLE_PREFIX . 'subject s', 't.tbl_subject_sub_id = s.sub_id');
 		
 		if($this->input->post('tbl_staff_sta_id') != '') {
             $this->db->where('t.tbl_staff_sta_id',$this->input->post('tbl_staff_sta_id'));
@@ -36,8 +36,8 @@ class M_Teacher extends CI_Model {
 		if($this->input->post('tbl_classes_cla_id') != '') {
             $this->db->where('t.tbl_classes_cla_id',$this->input->post('tbl_classes_cla_id'));
         }
-		if($this->input->post('tbl_majors_maj_id') != '') {
-            $this->db->where('t.tbl_majors_maj_id',$this->input->post('tbl_majors_maj_id'));
+		if($this->input->post('tbl_subject_sub_id') != '') {
+            $this->db->where('t.tbl_subject_sub_id',$this->input->post('tbl_subject_sub_id'));
         }
 		
 		if($this->input->post('tea_year') != '') {
@@ -66,7 +66,7 @@ class M_Teacher extends CI_Model {
         $this->db->from(TABLE_PREFIX . 'teacher t');
 		$this->db->join(TABLE_PREFIX . 'staff st', 't.tbl_staff_sta_id = st.sta_id');
 		$this->db->join(TABLE_PREFIX . 'classes cl', 't.tbl_classes_cla_id = cl.cla_id');
-        $this->db->join(TABLE_PREFIX . 'majors m', 't.tbl_majors_maj_id = m.maj_id');
+        $this->db->join(TABLE_PREFIX . 'subject s', 't.tbl_subject_sub_id = s.sub_id');
 		
 		if($this->input->post('tbl_staff_sta_id') != '') {
             $this->db->where('t.tbl_staff_sta_id',$this->input->post('tbl_staff_sta_id'));
@@ -74,8 +74,8 @@ class M_Teacher extends CI_Model {
 		if($this->input->post('tbl_classes_cla_id') != '') {
             $this->db->where('t.tbl_classes_cla_id',$this->input->post('tbl_classes_cla_id'));
         }
-		if($this->input->post('tbl_majors_maj_id') != '') {
-            $this->db->where('t.tbl_majors_maj_id',$this->input->post('tbl_majors_maj_id'));
+		if($this->input->post('tbl_subject_sub_id') != '') {
+            $this->db->where('t.tbl_subject_sub_id',$this->input->post('tbl_subject_sub_id'));
         }
 		
 		if($this->input->post('tea_year') != '') {
@@ -105,7 +105,7 @@ class M_Teacher extends CI_Model {
         $this->db->from(TABLE_PREFIX . 'teacher t');
 		$this->db->join(TABLE_PREFIX . 'staff st', 't.tbl_staff_sta_id = st.sta_id');
 		$this->db->join(TABLE_PREFIX . 'classes cl', 't.tbl_classes_cla_id = cl.cla_id');
-        $this->db->join(TABLE_PREFIX . 'majors m', 't.tbl_majors_maj_id = m.maj_id');
+        $this->db->join(TABLE_PREFIX . 'subject s', 't.tbl_subject_sub_id = s.sub_id');
 		
 		if($this->input->post('tbl_staff_sta_id') != '') {
             $this->db->where('t.tbl_staff_sta_id',$this->input->post('tbl_staff_sta_id'));
@@ -113,8 +113,8 @@ class M_Teacher extends CI_Model {
 		if($this->input->post('tbl_classes_cla_id') != '') {
             $this->db->where('t.tbl_classes_cla_id',$this->input->post('tbl_classes_cla_id'));
         }
-		if($this->input->post('tbl_majors_maj_id') != '') {
-            $this->db->where('t.tbl_majors_maj_id',$this->input->post('tbl_majors_maj_id'));
+		if($this->input->post('tbl_subject_sub_id') != '') {
+            $this->db->where('t.tbl_subject_sub_id',$this->input->post('tbl_subject_sub_id'));
         }
 		
 		if($this->input->post('tea_year') != '') {
@@ -214,7 +214,7 @@ class M_Teacher extends CI_Model {
 	
 	function save() {
 		$data['tbl_staff_sta_id'] = $this->input->post('tbl_staff_sta_id');
-        $data['tbl_majors_maj_id'] = $this->input->post('tbl_majors_maj_id');
+        $data['tbl_subject_sub_id'] = $this->input->post('tbl_subject_sub_id');
 		$data['tbl_classes_cla_id'] = $this->input->post('tbl_classes_cla_id');
 		$data['tea_academic_year'] = $this->input->post('tea_academic_year');
 		$data['tea_semester'] = $this->input->post('tea_semester');
@@ -264,7 +264,7 @@ class M_Teacher extends CI_Model {
      */
     function update($tea_id=0) {
 		$data['tbl_staff_sta_id'] = $this->input->post('tbl_staff_sta_id');
-        $data['tbl_majors_maj_id'] = $this->input->post('tbl_majors_maj_id');
+        $data['tbl_subject_sub_id'] = $this->input->post('tbl_subject_sub_id');
 		$data['tbl_classes_cla_id'] = $this->input->post('tbl_classes_cla_id');
 		$data['tea_academic_year'] = $this->input->post('tea_academic_year');
 		$data['tea_semester'] = $this->input->post('tea_semester');
