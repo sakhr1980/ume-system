@@ -22,6 +22,7 @@ class Auth extends CI_Controller {
 
     function __construct() {
         parent::__construct();
+        $this->load->model(array('users/m_accounts','users/m_groups'));
     }
     
     
@@ -29,5 +30,30 @@ class Auth extends CI_Controller {
         $this->data['title'] = 'No permission';
         $this->data['content'] = 'users/auth/index';
         $this->load->view(LAYOUT, $this->data);
+    }
+    
+    function signin(){
+        // redirect if logged in
+        if($this->session->userdata('user')){
+            return redirect('dashboard/panel');exit();
+        }
+        $this->data['title'] = "Sign In";
+        if($this->input->post()){
+            if($this->m_accounts->signin()){
+                redirect('dashboard/panel');
+            }
+            else{
+                $this->session->set_flashdata('message', alert("Invalid Username or Password, try again", 'danger'));
+                redirect('users/auth/signin');
+            }
+        }
+        else{
+            $this->load->view('users/auth/signin', $this->data);
+        }
+    }
+    
+    function signout(){
+        $this->session->sess_destroy();
+        redirect('users/auth/signin');
     }
 }

@@ -55,6 +55,9 @@ $user = $this->session->userdata('user');
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-right">
+                        <?php if(strtolower($user['use_name'])=='admin'): ?>
+                        <li><a style="top: 11px;" href="<?php echo base_url(); ?>users/functions"><i class="glyphicon glyphicon-cog"></i> Manage Task</a></li>
+                        <?php endif;?>
                         <li><a style="top: 11px;"><?php echo $user['use_name']; ?></a></li>
                         <li class="dropdown menu-left">
                             <a href="#" data-toggle="dropdown" class="icon-top">Menu</a>
@@ -80,13 +83,14 @@ $user = $this->session->userdata('user');
 
                                 <li><a href="<?php echo site_url(); ?>users/accounts/changepassword"><i class="glyphicon glyphicon-lock"></i> Change Password</a></li>
                                 <li><a href="<?php echo site_url(); ?>users/accounts/profile"><i class="glyphicon glyphicon-user"></i> My Profile</a></li>
-                                <li><a href="<?php echo site_url(); ?>users/accounts/signout"><i class="glyphicon glyphicon-off"></i> Log Out</a></li>
+                                <li><a href="<?php echo site_url(); ?>users/auth/signout"><i class="glyphicon glyphicon-off"></i> Log Out</a></li>
 
 
-                                <li class="divider"></li>
+<!--                                <li class="divider"></li>
                                 <li class="dropdown-header">Support</li>
                                 <li><a href="#"><i class="glyphicon glyphicon-info-sign"></i> Help</a></li>
-                                <li><a href="#"><i class="glyphicon glyphicon-ban-circle"></i> Report problems</a></li>
+                                <li><a href="#"><i class="glyphicon glyphicon-ban-circle"></i> Report problems</a></li>-->
+                                
                             </ul>
                         </li>
                     </ul>

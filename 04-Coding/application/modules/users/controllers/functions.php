@@ -12,7 +12,7 @@ if (!defined('BASEPATH'))
  *
  * @author sochy
  */
-class Functions extends CI_Controller{
+class Functions extends Auth_Controller{
     //put your code here
     
     function __construct(){
@@ -29,10 +29,10 @@ class Functions extends CI_Controller{
         $this->form_validation->set_rules('tas_function', '', 'trim|required');
 
         $this->form_validation->run();
-        $this->data['data'] = $this->m_function->findAllFunctions(PAGINGATION_PERPAGE, $this->uri->segment(4));
+        $this->data['data'] = $this->m_function->findAllFunctions();
         $this->data['controllers'] = $this->m_global->getDataArray(TABLE_PREFIX . 'controllers', 'con_id', 'con_name');
         $this->data['modules'] = $this->m_global->getDataArray(TABLE_PREFIX . 'modules', 'mod_id', 'mod_name');
-        pagination_config(base_url() . $this->data['content'], (int)$this->m_function->countAllFunctions(), (int)PAGINGATION_PERPAGE);
+        //pagination_config(base_url() . $this->data['content'], (int)$this->m_function->countAllFunctions(), (int)PAGINGATION_PERPAGE);
         $this->load->view(LAYOUT, $this->data);
     
     }
@@ -110,7 +110,7 @@ class Functions extends CI_Controller{
 
         $this->db->where('tas_functionname', $str);
         $this->db->where('tas_controllerid',  $this->input->post('tas_controllerid'));
-        $data = $this->db->get('tasks');
+        $data = $this->db->get(TABLE_PREFIX.'tasks');
         if ($data->num_rows() > 0) {
             $this->form_validation->set_message('uniqueAdd', '%s already exist, please another one');
             return FALSE;

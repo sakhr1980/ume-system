@@ -15,7 +15,7 @@ if (!defined('BASEPATH'))
  * @author sochy.choeun
  */
 
-class Accounts extends CI_Controller {
+class Accounts extends Auth_Controller {
 
     //put your code here
     var $data = array('title' => null, 'content' => 'missing_view');
@@ -134,36 +134,7 @@ class Accounts extends CI_Controller {
         $this->data['data'] = $this->m_accounts->getAccountById($id);
         $this->load->view(LAYOUT, $this->data);
     }
-    
-    
-    
-    function signin(){
-        // redirect if logged in
-        if($this->session->userdata('user')){
-            return redirect('dashboard/panel');exit();
-        }
-        $this->data['title'] = "Sign In";
-        if($this->input->post()){
-            if($this->m_accounts->signin()){
 
-                redirect('dashboard/panel');
-               
-            }
-            else{
-                $this->session->set_flashdata('message', alert("Invalid Username or Password, try again", 'danger'));
-                redirect('users/accounts/signin');
-            }
-        }
-        else{
-            $this->load->view('users/accounts/signin', $this->data);
-        }
-    }
-    
-    function signout(){
-        $this->session->sess_destroy();
-        redirect('users/accounts/signin');
-    }
-    
     function changepassword(){
         
         $this->data['title'] = 'Change password';

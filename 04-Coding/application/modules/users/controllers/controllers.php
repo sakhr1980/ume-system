@@ -14,7 +14,7 @@ if (!defined('BASEPATH'))
  *
  * @author sochy
  */
-class controllers extends CI_Controller {
+class controllers extends Auth_Controller {
     //put your code here
     //put your code here
     var $data = array('title' => null, 'content' => 'missing_view');

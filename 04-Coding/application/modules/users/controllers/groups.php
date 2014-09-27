@@ -47,9 +47,15 @@ class Groups extends Auth_Controller {
         $this->data['title'] = 'Add new user group';
         $this->data['content'] = 'users/groups/add';
 
-//        $this->form_validation->set_error_delimiters('<div class="alert alert-error">', '</div>');
         $this->form_validation->set_rules('gro_name', 'Group Name', 'required|max_length[50]|min_length[2]|is_unique[tbl_groups.gro_name]');
+        $this->form_validation->set_rules('gro_status', 'Status', 'trim');
+        $this->form_validation->set_rules('tas_id[]', 'Check', 'trim');
         if ($this->form_validation->run() == FALSE) {
+            
+            $this->data['functions'] = $this->m_groups->findAllFunctions();
+            $this->data['controllers'] = $this->m_global->getDataArray(TABLE_PREFIX . 'controllers', 'con_id', 'con_name');
+            $this->data['modules'] = $this->m_global->getDataArray(TABLE_PREFIX . 'modules', 'mod_id', 'mod_name');
+            
             $this->load->view(LAYOUT, $this->data);
         } else {
 
@@ -63,7 +69,7 @@ class Groups extends Auth_Controller {
         }
     }
 
-    function edit() {
+    function edit($id=0) {
 
         $this->data['title'] = 'Edit Group';
         $this->data['content'] = 'users/groups/edit';
@@ -71,11 +77,18 @@ class Groups extends Auth_Controller {
 
 //        $this->form_validation->set_error_delimiters('<div class="alert alert-error">', '</div>');
         $this->form_validation->set_rules('gro_name', 'Group Name', 'required|max_length[50]|min_length[2]|callback_uniqueExcept[' . TABLE_PREFIX . 'groups.gro_name,gro_id]');
+        $this->form_validation->set_rules('tas_id[]', 'Check', 'trim');
+        $this->form_validation->set_rules('gro_status', 'Status', 'trim');
         if ($this->form_validation->run() == FALSE) {
+            $this->data['grouptask'] = $this->m_groups->getTaskByGroupId($id);
+            $this->data['functions'] = $this->m_groups->findAllFunctions();
+            $this->data['controllers'] = $this->m_global->getDataArray(TABLE_PREFIX . 'controllers', 'con_id', 'con_name');
+            $this->data['modules'] = $this->m_global->getDataArray(TABLE_PREFIX . 'modules', 'mod_id', 'mod_name');
+            
             $this->load->view(LAYOUT, $this->data);
         } else {
 
-            if ($this->m_groups->update()) {
+            if ($this->m_groups->update($id)) {
                 $this->session->set_flashdata('message', alert("User group has been updated!", 'success'));
                 redirect('users/groups/index/' . $this->uri->segment(5));
             } else {
