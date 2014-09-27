@@ -14,7 +14,7 @@ if (!defined('BASEPATH'))
  *
  * @author sochy
  */
-class module extends CI_Controller {
+class module extends Auth_Controller {
 
     //put your code here
     //put your code here

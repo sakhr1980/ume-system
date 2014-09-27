@@ -22,7 +22,7 @@ $data = $data[0];
             </div>
             <div class="panel-body">
                 <div class="form-group">
-                    <label for="tas_name" class="col-sm-2 control-label">Task Name</label>
+                    <label for="tas_name" class="col-sm-2 control-label">Name</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="tas_name" placeholder="Task Name" name="tas_name" value="<?php echo set_value('tas_name',$data['tas_name']); ?>"  pattern=".{2,50}" required title="Allow enter from 2 to 50 characters">
                         <?php echo form_error('tas_name'); ?>

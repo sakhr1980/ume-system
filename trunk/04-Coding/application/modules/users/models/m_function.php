@@ -5,7 +5,7 @@ if (!defined('BASEPATH'))
 
 class M_function extends CI_Model {
 
-    function findAllFunctions($num_row, $from_row) {
+    function findAllFunctions() {
 
         $this->db->order_by('mod_foldername', 'asc');
         $this->db->order_by('con_controllername', 'asc');
@@ -18,7 +18,7 @@ class M_function extends CI_Model {
         rememberFilter(array('tas_status', 'con_id', 'mod_id'), $this->db);
         //-----------------------
 
-        $this->db->limit($num_row, $from_row);
+        //$this->db->limit($num_row, $from_row);
         $this->db->from(TABLE_PREFIX . 'modules');
         $this->db->join(TABLE_PREFIX . 'controllers', 'mod_id=con_moduleid','left');
         $this->db->join(TABLE_PREFIX . 'tasks', 'con_id=tas_controllerid','left');

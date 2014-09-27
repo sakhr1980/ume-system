@@ -37,11 +37,6 @@ foreach ($data->result_array() as $row) {
     );
     
 }
-
-//do_dump($mods); echo '<hr />';
-//do_dump($cons); echo '<hr />';
-//do_dump($tass); echo '<hr />';
-//die();
 ?>
 
 <div class="toolbar col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
@@ -78,11 +73,15 @@ foreach ($data->result_array() as $row) {
             <button type="submit" class="btn btn-<?php echo PRIMARY; ?> btn-sm" value="submit" name="submit"><i class="glyphicon glyphicon-filter"></i> Filter</button>
         </form>
     </div>
+    
     <div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title">Manage module</h3>
         </div>
         <div class="panel-body">
+            <a href="#" onclick="jQuery('#table-tree').treetable('expandAll'); return false;"><b>Expand all</b></a> | 
+            <a href="#" onclick="jQuery('#table-tree').treetable('collapseAll'); return false;"><b>Collapse all</b></a>
+                        
             <table id="table-tree">
                 <thead>
                     <tr>
@@ -145,7 +144,8 @@ foreach ($data->result_array() as $row) {
             
         </div>
     </div>
-    <?php echo $this->pagination->create_links(); ?>
+    
+    <?php //echo $this->pagination->create_links(); ?>
 </div>
 
 <link href="<?php echo base_url(); ?>dist/plugins/treetable/css/jquery.treetable.css" rel="stylesheet">

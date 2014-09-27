@@ -11,7 +11,7 @@
  *
  * @author sochy
  */
-class Auth_Controller extends MX_Controller{
+class Auth_Controller extends CI_Controller{
     //put your code here
     
     var $module = null;
@@ -36,7 +36,7 @@ class Auth_Controller extends MX_Controller{
             $this->getAuthorize();
         }
         else{
-            redirect('users/accounts/signin');
+            redirect('users/auth/signin');
         }
     }
     

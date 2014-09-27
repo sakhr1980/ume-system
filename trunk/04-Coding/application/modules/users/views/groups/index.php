@@ -2,7 +2,6 @@
     <div class="left">
         <!--For icon: http://getbootstrap.com/components/-->
         <a href="<?php echo site_url(); ?>users/groups/add/<?php echo $this->uri->segment(4); ?>" class="btn btn-sm btn-<?php echo WARNING; ?>"><i class="glyphicon glyphicon-plus-sign"></i> Create</a>
-        <a href="<?php echo site_url(); ?>users/permissions" class="btn btn-sm btn-default"><i class="glyphicon glyphicon-lock"></i> Permission</a>
     </div>
     <div class="right">
         <h1><?php echo $title; ?></h1>
@@ -27,9 +26,9 @@
             <h3 class="panel-title">Group List</h3>
         </div>
         <div class="panel-body">
+            <p>To change permission of group, we can click edit button to edit it.</p>
             <table class="table table-hover">
                 <tr>
-                    <th><input type="checkbox" class="checkall" /></th>
                     <th>Name</th>
                     <th>Status</th>
                     <th>Created</th>
@@ -41,9 +40,9 @@
                     <?php foreach ($data->result_array() as $row) { ?>
 
                         <tr>
-                            <td><input type="checkbox" name="id[]" value="<?php $row['gro_id'] ?>" class="checkid" /></td>
+                            
                             <td><?php echo $row['gro_name']; ?></td>
-                            <td><?php echo ($row['gro_status'] == 1) ? "Enabled" : "Disabled"; ?></td>
+                            <td><?php echo status_string($row['gro_status']); ?></td>
                             <td><?php echo date('M d, Y', strtotime($row['gro_created'])); ?></td>
                             <td><?php echo date('M d, Y', strtotime($row['gro_modified'])); ?></td>
                             <td><?php echo get_content_teaser($row['gro_description']); ?></td>
@@ -64,6 +63,7 @@
             </table>
         </div>
     </div>
+    
     <?php echo $this->pagination->create_links(); ?>
 </div>
 

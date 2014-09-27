@@ -18,7 +18,7 @@
             </div>
             <div class="panel-body">
                 <div class="form-group">
-                    <label for="tas_name" class="col-sm-2 control-label">Task Name</label>
+                    <label for="tas_name" class="col-sm-2 control-label">Name</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="tas_name" placeholder="Task Name" name="tas_name" value="<?php echo set_value('tas_name'); ?>"  pattern=".{2,50}" required title="Allow enter from 2 to 50 characters">
                         <?php echo form_error('tas_name'); ?>
@@ -50,7 +50,7 @@
                     <label for="tas_status" class="col-sm-2 control-label">Enable</label>
                     <div class="col-sm-10">
                         <div class="checkbox">
-                            <label><input type="checkbox" name="tas_status" id="tas_status" value="1" <?php echo set_checkbox('tas_status', 1, TRUE); ?>> Check to enable this task</label>
+                            <label><input type="checkbox" name="tas_status" id="tas_status" value="1" <?php echo set_checkbox('tas_status', 1, TRUE); ?> /> Check to enable this task</label>
                         </div>
                     </div>
                 </div>
