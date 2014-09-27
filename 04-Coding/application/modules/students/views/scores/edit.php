@@ -6,6 +6,7 @@ $data = $data->result_array[0];
 echo $data['stu_sco_id'];
 echo '/' . $this->uri->segment(5); // segment(5) for pagination
 ?>">
+		  <?php echo form_hidden('stu_sco_semester', $data['stu_sco_semester']); ?>
 	<div class="toolbar col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
 		<div class="left">
 			<!--For icon: http://getbootstrap.com/components/-->

@@ -31,7 +31,7 @@ class M_Scores extends CI_Model {
 			'sco.stu_sco_gpa AS gpa'
 		);
 		$this->db->select($fields);
-		$this->db->order_by('sco.stu_sco_rank', 'ASC');
+		$this->db->order_by('sco.stu_sco_average', 'DESC');
 
 		if ($this->input->post('tbl_generation_gen_id') != '') {
 			$this->session->set_userdata('tbl_generation_gen_id', $this->input->post('tbl_generation_gen_id'));
@@ -170,7 +170,7 @@ class M_Scores extends CI_Model {
 		$data = $this->input->post();
 
 		// Total average
-		$average = array_sum($data) / 4;
+		$average = (array_sum($data) - $this->input->post('stu_sco_semester')) / 4;
 		$this->db->set('stu_sco_average', $average);
 
 		// Mention
@@ -190,8 +190,70 @@ class M_Scores extends CI_Model {
 		$this->db->set('stu_sco_mention', $mention);
 
 		$this->db->where('stu_sco_id', $this->uri->segment(4));
+		$this->db->where('stu_sco_semester', $this->input->post('stu_sco_semester')); // optional
 		$this->db->set('stu_sco_modified', 'NOW()', false);
-		return $this->db->update(TABLE_PREFIX . 'student_score', $data) ? TRUE : FALSE;
+		$this->db->update(TABLE_PREFIX . 'student_score', $data);
+		// update rank
+		$this->updateRank($this->uri->segment(4), $this->input->post('stu_sco_semester'));
+		return TRUE;
+	}
+
+	public function updateRank($id, $semester) {
+		// get class id of last edit score
+		$fields = array(
+			'tbl_generation_gen_id generation',
+			'tbl_majors_maj_id AS major',
+			'tbl_shift_shi_id AS shift',
+			'tbl_classes_cla_id AS class'
+		);
+		$result = $this->db->select($fields)
+			->where('stu_sco_id', $id)
+			->where('stu_sco_semester', $semester)
+			->limit(1)
+			->get(TABLE_PREFIX . 'student_score');
+		$result->result_array();
+		$data = $result->result_array[0];
+
+		// get all averages from class
+		$averages = $this->db->select('stu_sco_average')
+			->where('tbl_generation_gen_id', $data['generation'])
+			->where('tbl_majors_maj_id', $data['major'])
+			->where('tbl_shift_shi_id', $data['shift'])
+			->where('tbl_classes_cla_id', $data['class'])
+			->where('stu_sco_semester', $semester)
+			->order_by('stu_sco_average', 'DESC')
+			->get(TABLE_PREFIX . 'student_score');
+
+		// update rank
+		$tmp_average = '';
+		$r = 1;
+		$k = '';
+		foreach ($averages->result() as $avg) {
+			if ($r == 1) {
+				$k = $r;
+				$tmp_average = $avg->stu_sco_average;
+			} else {
+				if ($tmp_average != $avg->stu_sco_average) {
+					$tmp_average = $avg->stu_sco_average;
+					$k = $r;
+				}
+			}
+
+			$this->db->where('tbl_generation_gen_id', $data['generation']);
+			$this->db->where('tbl_majors_maj_id', $data['major']);
+			$this->db->where('tbl_shift_shi_id', $data['shift']);
+			$this->db->where('tbl_classes_cla_id', $data['class']);
+			$this->db->where('stu_sco_average', $avg->stu_sco_average);
+			$this->db->where('stu_sco_average >', 0);
+			$this->db->where('stu_sco_semester', $semester);
+			$this->db->set('stu_sco_rank', $k);
+			$this->db->update(TABLE_PREFIX . 'student_score');
+			$r++;
+		}
+	}
+
+	public function updateGPA() {
+
 	}
 
 	/**
