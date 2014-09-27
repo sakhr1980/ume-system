@@ -26,7 +26,7 @@
 
     <div class="container">
 
-        <form class="form-signin" role="form" action="<?php echo base_url(); ?>users/accounts/signin" method="post">
+        <form class="form-signin" role="form" action="<?php echo base_url(); ?>users/auth/signin" method="post">
         <h3 class="form-signin-heading"><img style="top: -3px;width: 50px;" id="logo" src="<?php echo base_url(); ?>images/logo.png" title="UME"> Please sign in</h3>
         <input type="text" name="username" class="form-control" placeholder="Username" required autofocus>
         <input type="password" name="password" class="form-control" placeholder="Password" required>
