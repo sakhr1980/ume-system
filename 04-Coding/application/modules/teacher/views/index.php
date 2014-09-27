@@ -22,12 +22,12 @@
 				?>
 			</div>
 			<div class="form-group">
-				<label class="sr-only" for="cla_maj_id">Subject</label>
+				<label class="sr-only" for="">Subject</label>
 				<?php
-					$data_dropdown = array('' => '  Subject  ') + $major;
-					$selector = set_value('cla_maj_id');
+					$data_dropdown = array('' => '  Subject  ') + $subject;
+					$selector = set_value('tbl_subject_sub_id');
 					$extra = 'class="form-control input-sm"';
-					echo form_dropdown('cla_maj_id',$data_dropdown, $selector, $extra); 
+					echo form_dropdown('',$data_dropdown, $selector, $extra); 
 				?>
 			</div>
 			<div class="form-group">				
@@ -100,7 +100,7 @@
 						?>	
 							<tr>
 								<td><?php echo $row['sta_name']; ?></td>
-								<td><?php echo $row['maj_name']; ?></td>
+								<td><?php echo $row['sub_name']; ?></td>
 								<td><?php echo $row['cla_name']; ?></td>
 								<td><?php echo $row['tea_year']; ?></td>
 								<td><?php echo $row['tea_semester']; ?></td>

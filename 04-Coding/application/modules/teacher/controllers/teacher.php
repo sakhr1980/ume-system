@@ -32,7 +32,7 @@ class Teacher extends CI_Controller {
         
 		$this->data['staff'] = $this->m_teacher->getStaff();
 		$this->data['class'] = $this->m_global->getDataArray(TABLE_PREFIX . 'classes', 'cla_id', 'cla_name', 'cla_status');
-        $this->data['major'] = $this->m_global->getDataArray(TABLE_PREFIX . 'majors', 'maj_id', 'maj_name', 'maj_status');
+        $this->data['subject'] = $this->m_global->getDataArray(TABLE_PREFIX . 'subject', 'sub_id', 'sub_name', 'sub_status');
 		
 		$this->data['data'] = $this->m_teacher->findAllTeacher(PAGINGATION_PERPAGE, $this->uri->segment(3));
 		
@@ -49,7 +49,7 @@ class Teacher extends CI_Controller {
         $this->data['title'] = 'បង្កើតកាលវិភាគ';
         $this->data['content'] = 'teacher/add';
 		$this->data['staff'] = $this->m_teacher->getStaff();
-		$this->data['subject'] = $this->m_global->getDataArray(TABLE_PREFIX . 'majors', 'maj_id', 'maj_name', 'maj_status');
+		$this->data['subject'] = $this->m_global->getDataArray(TABLE_PREFIX . 'subject', 'sub_id', 'sub_name', 'sub_status');
 		$this->data['class'] = $this->m_global->getDataArray(TABLE_PREFIX . 'classes', 'cla_id', 'cla_name', 'cla_status');
 		$this->load->view(LAYOUT, $this->data);        
     }
@@ -78,31 +78,6 @@ class Teacher extends CI_Controller {
 		$this->data['data'] = $this->m_teacher->selectJoinSchedule($id);
 		$this->load->view(LAYOUT, $this->data);
 	}
-
-    //====================== validation
-    /**
-     * 
-     * @param type $str
-     * @return boolean
-     */
-    function uniqueExcept($str, $table_field) {
-        // $f1[0] : table name
-        // $f1[1] : field to insert
-        // $tf[1] : field id
-        $tf = explode(',', $table_field);
-        $f1 = explode('.', $tf[0]);
-        $this->db->where($f1[1], $str);
-        $this->db->where($tf[1] . " !=", $this->uri->segment(4));
-        $data = $this->db->get($f1[0]);
-        if ($data->num_rows() > 0) {
-            $this->form_validation->set_message('uniqueExcept', '%s already exist, please another one');
-            return FALSE;
-        } else {
-            return TRUE;
-        }
-        
-        
-    }
 
 }
 
