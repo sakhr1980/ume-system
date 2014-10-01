@@ -36,7 +36,7 @@
 												</div>-->
 
 						<div class="form-group">
-							<label class="col-sm-3 control-label" for="cla_maj_id">សកលវិទ្យាល័យ / Major::</label>
+							<label class="col-sm-3 control-label" for="cla_maj_id">សកលវិទ្យាល័យ / Major:</label>
                             <div class="col-md-5">
 
 								<?php echo form_dropdown('cla_maj_id', array('' => '--All Major--') + $major, set_value('cla_maj_id', $this->session->userdata('cla_maj_id')), 'class="form-control input-sm" required') ?>
@@ -48,13 +48,13 @@
 							<label class="col-sm-3 control-label" for="tbl_shift_shi_id">ម៉ោងសិក្សា / Shift:</label>
 							<div class="col-md-5">
 
-								<?php echo form_dropdown('tbl_shift_shi_id', array('' => '--All Faculty--') + $shift, set_value('tbl_shift_shi_id', $this->session->userdata('tbl_shift_shi_id')), 'class="form-control input-sm" required') ?>
+								<?php echo form_dropdown('tbl_shift_shi_id', array('' => '--All Shift--') + $shift, set_value('tbl_shift_shi_id', $this->session->userdata('tbl_shift_shi_id')), 'class="form-control input-sm" required') ?>
 							</div>
 						</div>
 
 
                         <div class="form-group">
-                            <label for="cla_name" class="col-sm-3 control-label">ឈ្មោះថ្នាក់ / Name</label>
+                            <label for="cla_name" class="col-sm-3 control-label">ឈ្មោះថ្នាក់ / Name:</label>
                             <div class="col-sm-5">
                                 <input type="text" class="form-control" id="class_name" placeholder="Classname" name="cla_name" value="<?php echo set_value('cla_name'); ?>"  pattern=".{3,50}"  title="Allow enter from 3 to 50 characters">
 								<?php echo form_error('cla_name'); ?>

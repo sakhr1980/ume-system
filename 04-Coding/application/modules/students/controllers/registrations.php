@@ -20,7 +20,7 @@ class Registrations extends CI_Controller {
 
     function __construct() {
         parent::__construct();
-        $this->load->model(array('students/m_registrations'));
+        $this->load->model(array('students/m_registrations')); 
     }
 
     /**
@@ -59,7 +59,6 @@ class Registrations extends CI_Controller {
     function add() {
         $this->data['title'] = 'Student registration';
         $this->data['content'] = 'students/registrations/add';
-
         $this->form_validation->set_rules('stu_kh_lastname', 'គោត្តនាមe', 'required]');
         if ($this->form_validation->run() == FALSE) {
 //            $this->data['master'] = $this->m_registrations->getMajorByMasterId(6);

@@ -1,4 +1,6 @@
-<form class="form-horizontal" role="form" method="post" action="<?php echo site_url(); ?>readpdf/do_upload">
+<?php echo $error; ?>
+<!--<form class="form-horizontal" role="form" method="post" action="<?php echo site_url(); ?>readpdf/do_upload">-->
+    <?php echo form_open_multipart('readpdf/do_upload'); ?>
     <div class="toolbar col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
         <div class="left">
             <!--For icon: http://getbootstrap.com/components/-->
@@ -26,9 +28,9 @@
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label" for="cla_maj_id">Upload::</label>
-                            <?php echo form_open_multipart('readpdf/do_upload'); ?>
+                            
                             <input type="file" name="userfile" size="20"/>
-                            </form>
+                          
                         </div>
 
                     </div>
