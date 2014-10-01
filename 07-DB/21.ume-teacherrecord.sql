@@ -11,11 +11,13 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
 -- Dumping database structure for ume_school_db
+DROP DATABASE IF EXISTS `ume_school_db`;
 CREATE DATABASE IF NOT EXISTS `ume_school_db` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `ume_school_db`;
 
 
 -- Dumping structure for table ume_school_db.tbl_teacher
+DROP TABLE IF EXISTS `tbl_teacher`;
 CREATE TABLE IF NOT EXISTS `tbl_teacher` (
   `tea_id` int(11) NOT NULL AUTO_INCREMENT,
   `tbl_staff_sta_id` int(11) DEFAULT NULL,
@@ -44,6 +46,7 @@ INSERT INTO `tbl_teacher` (`tea_id`, `tbl_staff_sta_id`, `tbl_subject_sub_id`, `
 
 
 -- Dumping structure for table ume_school_db.tbl_teacher_payment
+DROP TABLE IF EXISTS `tbl_teacher_payment`;
 CREATE TABLE IF NOT EXISTS `tbl_teacher_payment` (
   `pay_id` int(11) NOT NULL AUTO_INCREMENT,
   `tbl_staff_sta_id` int(11) DEFAULT NULL,
@@ -57,7 +60,7 @@ CREATE TABLE IF NOT EXISTS `tbl_teacher_payment` (
   CONSTRAINT `fk_tbl_teacher_payment_staff` FOREIGN KEY (`tbl_staff_sta_id`) REFERENCES `tbl_staff` (`sta_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
--- Dumping data for table ume_school_db.tbl_teacher_payment: ~1 rows (approximately)
+-- Dumping data for table ume_school_db.tbl_teacher_payment: ~3 rows (approximately)
 /*!40000 ALTER TABLE `tbl_teacher_payment` DISABLE KEYS */;
 INSERT INTO `tbl_teacher_payment` (`pay_id`, `tbl_staff_sta_id`, `rate`, `start_date`, `end_date`, `pay_status`, `created`) VALUES
 	(2, 3, 7.00, '2014-09-01', '2014-09-30', 1, NULL),
@@ -67,6 +70,7 @@ INSERT INTO `tbl_teacher_payment` (`pay_id`, `tbl_staff_sta_id`, `rate`, `start_
 
 
 -- Dumping structure for table ume_school_db.tbl_teacher_payment_record
+DROP TABLE IF EXISTS `tbl_teacher_payment_record`;
 CREATE TABLE IF NOT EXISTS `tbl_teacher_payment_record` (
   `pr_id` int(11) NOT NULL AUTO_INCREMENT,
   `tbl_teacher_payment_pay_id` int(11) DEFAULT NULL,
@@ -84,7 +88,7 @@ CREATE TABLE IF NOT EXISTS `tbl_teacher_payment_record` (
   CONSTRAINT `fk_tbl_teacher_payment_record_subject` FOREIGN KEY (`tbl_subject_sub_id`) REFERENCES `tbl_subject` (`sub_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
--- Dumping data for table ume_school_db.tbl_teacher_payment_record: ~2 rows (approximately)
+-- Dumping data for table ume_school_db.tbl_teacher_payment_record: ~4 rows (approximately)
 /*!40000 ALTER TABLE `tbl_teacher_payment_record` DISABLE KEYS */;
 INSERT INTO `tbl_teacher_payment_record` (`pr_id`, `tbl_teacher_payment_pay_id`, `tbl_subject_sub_id`, `hours`, `tbl_shift_shi_id`, `year`, `promotion`) VALUES
 	(1, 2, 2, 1.00, 1, 2, '11'),
@@ -95,6 +99,7 @@ INSERT INTO `tbl_teacher_payment_record` (`pr_id`, `tbl_teacher_payment_pay_id`,
 
 
 -- Dumping structure for table ume_school_db.tbl_teacher_record
+DROP TABLE IF EXISTS `tbl_teacher_record`;
 CREATE TABLE IF NOT EXISTS `tbl_teacher_record` (
   `rec_id` int(11) NOT NULL AUTO_INCREMENT,
   `tbl_teacher_tea_id` int(11) DEFAULT NULL,
