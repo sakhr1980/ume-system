@@ -19,7 +19,10 @@ class m_auth extends CI_Model{
      * @return BOOLEAN
      */
     function isSignin(){
-        return (!empty($this->session->userdata('user')))?TRUE:FALSE;
+        if(!empty($this->session->userdata('user'))){
+            return TRUE;
+        }
+        return FALSE;
     }
     
     /**
