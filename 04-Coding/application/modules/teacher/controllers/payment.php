@@ -14,69 +14,79 @@ if (!defined('BASEPATH'))
  *
  * @author sochy.choeun
  */
-class Teacher extends CI_Controller {
+class Payment extends CI_Controller {
     //put your code here
     var $data = array('title' => null, 'content' => 'missing_view');
 
     function __construct() {
         parent::__construct();
-        $this->load->model(array('teacher/m_teacher'));
+        $this->load->model(array('teacher/m_payment'));
     }
 
     /**
      * List classees
      */
     function index() {
-        $this->data['title'] = 'Teacher Record';
-        $this->data['content'] = 'teacher/index';
+        $this->data['title'] = 'Payment';
+        $this->data['content'] = 'teacher/payment';
         
-		$this->data['staff'] = $this->m_teacher->getStaff();
+		$this->data['staff'] = $this->m_payment->getStaff();
 		$this->data['class'] = $this->m_global->getDataArray(TABLE_PREFIX . 'classes', 'cla_id', 'cla_name', 'cla_status');
         $this->data['subject'] = $this->m_global->getDataArray(TABLE_PREFIX . 'subject', 'sub_id', 'sub_name', 'sub_status');
 		
-		$this->data['data'] = $this->m_teacher->findAllTeacher(PAGINGATION_PERPAGE, $this->uri->segment(3));
+		$this->data['data'] = $this->m_payment->findAllPayment(PAGINGATION_PERPAGE, $this->uri->segment(4));
 		
-		$num = $this->m_teacher->countAllTeacher();
-		pagination_config(site_url('teacher/index'),$num , PAGINGATION_PERPAGE);
+		$num = $this->m_payment->countAllPayment();
+		pagination_config(site_url('payment/index'),$num , PAGINGATION_PERPAGE);
 		
 		$this->load->view(LAYOUT, $this->data);
     }
-
+	
     /**
      * Add new user account
      */
     function add() {
         $this->data['title'] = 'បង្កើតកាលវិភាគ';
-        $this->data['content'] = 'teacher/add';
-		$this->data['staff'] = $this->m_teacher->getStaff();
+        $this->data['content'] = 'teacher/add-payment';
+		$this->data['staff'] = $this->m_payment->getStaff();
 		$this->data['subject'] = $this->m_global->getDataArray(TABLE_PREFIX . 'subject', 'sub_id', 'sub_name', 'sub_status');
 		$this->data['class'] = $this->m_global->getDataArray(TABLE_PREFIX . 'classes', 'cla_id', 'cla_name', 'cla_status');
 		$this->load->view(LAYOUT, $this->data);        
     }
 	
 	function ajaxSave(){
-		$res = $this->m_teacher->saveOrUpdate();
+		$res = $this->m_payment->save();
 		echo json_encode($res);
 	}
 	
-	function ajaxFilter(){
-		$data['tbl_staff_sta_id'] = $this->input->post('tbl_staff_sta_id');
-        $data['tbl_subject_sub_id'] = $this->input->post('tbl_subject_sub_id');
-		$data['tbl_classes_cla_id'] = $this->input->post('tbl_classes_cla_id');
-		$data['tea_academic_year'] = $this->input->post('tea_academic_year');
-		$data['tea_semester'] = $this->input->post('tea_semester');
-		$data['tea_year'] = $this->input->post('tea_year');
-		$res = $this->m_teacher->getDataFilter($data);
+	function ajaxTeacher(){
+		$res = $this->m_payment->getTeacher();
 		echo json_encode($res);
 	}
 	
-    // view a Schedule
-	function view($id = null) {
-		$this->data['title'] = 'View Schedule';
-		$this->data['content'] = 'teacher/view';
+	function ajaxPayment(){
+		$res = $this->m_payment->getPayment();
+		echo json_encode($res);
+	}
+	
+    // view a payment
+	function view($id = 0) {
+		$this->data['title'] = 'View Payment';
+		$this->data['content'] = 'teacher/view-payment';
 
-		$this->data['data'] = $this->m_teacher->selectJoinSchedule($id);
+		$this->data['data'] = $this->m_payment->getPaymentBy($id);
 		$this->load->view(LAYOUT, $this->data);
+	}
+	
+	function do_print($id=0){
+		$data['title'] = 'Teacher Payment';
+		$data['data'] = $this->m_payment->getPaymentBy($id);
+		$this->load->view('teacher/print-payment',$data);
+	}
+	
+	function delete($id=0){
+		$this->m_payment->update($id);
+		redirect('teacher/payment');
 	}
 
 }
