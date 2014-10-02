@@ -67,7 +67,7 @@ $autoload['libraries'] = array('database', 'session', 'form_validation');
   |	$autoload['helper'] = array('url', 'file');
  */
 
-$autoload['helper'] = array('url', 'html', 'form', 'messages', 'pagination_config', 'general', 'csv');
+$autoload['helper'] = array('url', 'html', 'form', 'messages', 'pagination_config', 'general', 'csv', 'cookie');
 
 
 /*
@@ -99,7 +99,7 @@ $autoload['config'] = array();
   |
  */
 
-$autoload['language'] = array();
+$autoload['language'] = array('my_form_validation');
 
 
 /*

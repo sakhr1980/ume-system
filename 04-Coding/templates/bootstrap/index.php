@@ -22,7 +22,7 @@ $user = $this->session->userdata('user');
         <!-- Custom styles for this template -->
         <link href="<?php echo base_url(); ?>templates/bootstrap/css/print_id_card.css" rel="stylesheet"/>
         <link href="<?php echo base_url(); ?>templates/bootstrap/css/dashboard.css" rel="stylesheet" media="all"/>
-         <link href="<?php echo base_url(); ?>templates/bootstrap/css/student_record.css" rel="stylesheet"/>
+		<link href="<?php echo base_url(); ?>templates/bootstrap/css/student_record.css" rel="stylesheet"/>
 
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
@@ -38,6 +38,7 @@ $user = $this->session->userdata('user');
         <script src="<?php echo base_url(); ?>templates/bootstrap/js/docs.min.js"></script>
         <script src="<?php echo base_url(); ?>templates/bootstrap/js/bootstrap-datepicker.js"></script>
         <script src="<?php echo base_url(); ?>templates/bootstrap/js/jquery.validate.js"></script>
+		<script src="<?php echo base_url(); ?>templates/bootstrap/js/jquery.cookie.js"></script>
         <script src="<?php echo base_url(); ?>templates/bootstrap/js/dashboard.js"></script>
     </head>
 
@@ -55,9 +56,9 @@ $user = $this->session->userdata('user');
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-right">
-                        <?php if(strtolower($user['use_name'])=='admin'): ?>
-                        <li><a style="top: 11px;" href="<?php echo base_url(); ?>users/functions"><i class="glyphicon glyphicon-cog"></i> Manage Task</a></li>
-                        <?php endif;?>
+						<?php if (strtolower($user['use_name']) == 'admin'): ?>
+							<li><a style="top: 11px;" href="<?php echo base_url(); ?>users/functions"><i class="glyphicon glyphicon-cog"></i> Manage Task</a></li>
+						<?php endif; ?>
                         <li><a style="top: 11px;"><?php echo $user['use_name']; ?></a></li>
                         <li class="dropdown menu-left">
                             <a href="#" data-toggle="dropdown" class="icon-top">Menu</a>
@@ -86,11 +87,11 @@ $user = $this->session->userdata('user');
                                 <li><a href="<?php echo site_url(); ?>users/auth/signout"><i class="glyphicon glyphicon-off"></i> Log Out</a></li>
 
 
-<!--                                <li class="divider"></li>
-                                <li class="dropdown-header">Support</li>
-                                <li><a href="#"><i class="glyphicon glyphicon-info-sign"></i> Help</a></li>
-                                <li><a href="#"><i class="glyphicon glyphicon-ban-circle"></i> Report problems</a></li>-->
-                                
+								<!--                                <li class="divider"></li>
+																<li class="dropdown-header">Support</li>
+																<li><a href="#"><i class="glyphicon glyphicon-info-sign"></i> Help</a></li>
+																<li><a href="#"><i class="glyphicon glyphicon-ban-circle"></i> Report problems</a></li>-->
+
                             </ul>
                         </li>
                     </ul>
@@ -99,10 +100,10 @@ $user = $this->session->userdata('user');
         </div>
         <div class="container-fluid">
             <div class="row">
-                <?php $this->load->view('sidebar'); ?>
+				<?php $this->load->view('sidebar'); ?>
                 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main content">
-                    <?php echo $this->session->flashdata('message'); ?>
-                    <?php $this->load->view($content); ?>
+					<?php echo $this->session->flashdata('message'); ?>
+					<?php $this->load->view($content); ?>
                 </div>
             </div>
         </div>
