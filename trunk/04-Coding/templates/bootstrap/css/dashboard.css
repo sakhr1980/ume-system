@@ -176,6 +176,24 @@ a{
 	position: absolute;
 }
 
+.content .tab-content {
+	padding-top: 10px;
+}
+
+.content .nav-tabs > li a {
+	font-weight: bold;
+	border-top: 1px solid #D58512;
+	border-right: 1px solid #D58512;
+	border-left: 1px solid #D58512;
+}
+
+.content .nav-tabs > li.active a,
+.content .nav-tabs > li:hover a{
+	background-color: #ED9C28;
+	color: #FFFFFF;
+	border-color: #D58512;
+}
+
 /*
  * Placeholder dashboard ideas
  */

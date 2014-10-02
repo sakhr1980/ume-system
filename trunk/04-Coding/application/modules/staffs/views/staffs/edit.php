@@ -129,7 +129,7 @@ echo '/' . $this->uri->segment(5); // segment(5) for pagination
 							<label for="sta_status" class="col-sm-3 control-label">Enable</label>
 							<div class="col-sm-9">
 								<div class="checkbox">
-									<label><input type="checkbox" name="sta_status" id="sta_status" value="1" <?php echo set_checkbox('sta_status', 1, ($data['sta_status'] == 1) ? TRUE : FALSE); ?>> Check to enable this lecture</label>
+									<label><input type="checkbox" name="sta_status" id="sta_status" value="1" <?php echo set_checkbox('sta_status', 1, ($data['sta_status'] == 1) ? TRUE : FALSE); ?>> Check to enable this staff</label>
 								</div>
 							</div>
 						</div>

@@ -35,19 +35,41 @@ class Scores extends CI_Controller {
 		$this->data['content'] = 'students/scores/index';
 
 		$this->form_validation->set_rules('tbl_generation_gen_id', '', 'trim');
+		$this->form_validation->set_rules('stu_sco_semester', '', 'trim');
 		$this->form_validation->set_rules('tbl_majors_maj_id', '', 'trim');
 		$this->form_validation->set_rules('tbl_shift_shi_id', '', 'trim');
 		$this->form_validation->set_rules('tbl_classes_cla_id', '', 'trim');
 		$this->form_validation->set_rules('tbl_student_stu_id', '', 'trim');
-
 		$this->form_validation->run();
-		$this->data['data'] = $this->m_scores->findAllScores(PAGINGATION_PERPAGE, $this->uri->segment(4));
+
 		$this->data['generations'] = $this->m_global->getDataArray(TABLE_PREFIX . 'generation', 'gen_id', 'gen_title', 'gen_status');
 		$this->data['majors'] = $this->m_global->getDataArray(TABLE_PREFIX . 'majors', 'maj_id', 'maj_abbriviation', 'maj_status');
 		$this->data['shifts'] = $this->m_global->getDataArray(TABLE_PREFIX . 'shift', 'shi_id', 'shi_name', 'shi_status');
 		$this->data['classes'] = $this->m_global->getDataArray(TABLE_PREFIX . 'classes', 'cla_id', 'cla_name', 'cla_status');
-		pagination_config(base_url() . 'studets/scores/index', $this->m_scores->countAllScores(), PAGINGATION_PERPAGE);
+
+		$this->data['data_subject'] = $this->resultBySubjects();
+		//$this->data['data_subject_label1'] = $this->m_scores->subjectLabelBySemester(1);
+		$this->data['data_semester1'] = $this->resultBySemester(1);
+		//$this->data['data_subject_label2'] = $this->m_scores->subjectLabelBySemester(2);
+		$this->data['data_semester2'] = $this->resultBySemester(2);
+		$this->data['data_final'] = $this->resultByFinal();
+
 		$this->load->view(LAYOUT, $this->data);
+	}
+
+	function resultBySubjects() {
+		pagination_config(base_url() . 'studets/scores/index', $this->m_scores->countAllScoresBySubject(), PAGINGATION_PERPAGE);
+		return $this->m_scores->findAllScoresBySubject(PAGINGATION_PERPAGE, $this->uri->segment(4));
+	}
+
+	function resultBySemester($semester) {
+		pagination_config(base_url() . 'studets/scores/index', $this->m_scores->countAllScoresBySemester($semester), PAGINGATION_PERPAGE);
+		return $this->m_scores->findAllScoresBySemester($semester, PAGINGATION_PERPAGE, $this->uri->segment(4));
+	}
+
+	function resultByFinal() {
+		pagination_config(base_url() . 'studets/scores/index', $this->m_scores->countAllScoresByFinal(), PAGINGATION_PERPAGE);
+		return $this->m_scores->findAllScoresByFinal(PAGINGATION_PERPAGE, $this->uri->segment(4));
 	}
 
 	/**
@@ -67,10 +89,10 @@ class Scores extends CI_Controller {
 		$this->data['content'] = 'students/scores/edit';
 		$this->data['data'] = $this->m_scores->getScoreById($id);
 
-		$this->form_validation->set_rules('stu_sco_attendance', 'Attendance', 'trim|max_length[5]|numeric');
-		$this->form_validation->set_rules('stu_sco_homework', 'Homework/Quiz', 'trim|max_length[5]|numeric');
-		$this->form_validation->set_rules('stu_sco_midterm_exam', 'Midterm/Assignment', 'trim|max_length[5]|numeric');
-		$this->form_validation->set_rules('stu_sco_final_exam', 'Final Exam', 'trim|max_length[5]|numeric');
+		$this->form_validation->set_rules('stu_sco_attendance', 'Attendance', 'trim|max_length[5]|numeric|less_or_equal[10]');
+		$this->form_validation->set_rules('stu_sco_homework', 'Homework/Quiz', 'trim|max_length[5]|numeric|less_or_equal[15]');
+		$this->form_validation->set_rules('stu_sco_midterm_exam', 'Midterm/Assignment', 'trim|max_length[5]|numeric|less_or_equal[25]');
+		$this->form_validation->set_rules('stu_sco_final_exam', 'Final Exam', 'trim|max_length[5]|numeric|less_or_equal[50]');
 		if ($this->form_validation->run() == FALSE) {
 			$this->load->view(LAYOUT, $this->data);
 		} else {
