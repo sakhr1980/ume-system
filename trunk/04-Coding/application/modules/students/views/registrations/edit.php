@@ -1,7 +1,7 @@
 <?php
 $data->result_array();
 $data = $data->result_array[0];
-$this->session->userdata('stu_class', $data['tbl_class_cla_id']);
+$this->session->userdata('stu_class', $data['stucla_cla_id']);
 ?>
 <form class="form-horizontal" role="form" method="post" action="<?php echo site_url(); ?>students/registrations/edit/<?php
 echo $data['stu_id'];

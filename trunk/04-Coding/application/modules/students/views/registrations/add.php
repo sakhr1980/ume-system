@@ -11,7 +11,6 @@
         </div>
     </div>
     <div class="content">
-
         <div class=" panel panel-<?php echo DEFAULTS; ?>">
             <div class="panel-heading">
                 <h3 class="panel-title ">ឈ្មោះ Applicant Full Legal Name:</h3>
@@ -87,11 +86,16 @@
                                     <div class="col-md-12"><label>តើអ្នកជ្រើសរើសជំនាញមួយនា? For which graduate program are you applying?</label></div>
                 <?php //foreach ($master->result_array() as $row) { ?>
                                         <div class="col-md-6">
-                                            <label><input type="radio" name="major" value="<?php //echo $row['maj_id'];         ?>" <?php //echo set_radio('major', $row['maj_id'], FALSE);         ?>> <?php //echo $row['maj_name'];         ?></label>
+                                            <label><input type="radio" name="major" value="<?php //echo $row['maj_id'];                      ?>" <?php //echo set_radio('major', $row['maj_id'], FALSE);                      ?>> <?php //echo $row['maj_name'];                      ?></label>
                                         </div>
                 <?php //} ?>
                                 </div>-->
-
+                <div class="form-group">
+                    <label for="tbl_generation_gen_id" class="col-sm-2 control-label">Academic Year:</label>
+                    <div class="col-md-2">
+                        <?php echo form_dropdown('tbl_generation_gen_id', array('' => '--All Generation--') + $generation, set_value('tbl_generation_gen_id', $this->session->userdata('tbl_generation_gen_id')), 'class="form-control input-sm gen_selected" required="required"') ?>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-md-12"><strong>តើមហាវិទ្យល័យ និង ឯកទេសមួយណា ដែលអ្នកចង់ជ្រើសរើស?</strong></div>
                     <div class="col-md-12">
@@ -103,10 +107,12 @@
                                 $count++;
                                 ?>
                                 <div class=" panel panel-<?php echo DEFAULTS; ?>">
-                                    <div class="click_colap panel-heading">
+                                    <!--<div class="click_colap panel-heading">-->
+                                    <div class=" panel-heading">
                                         <h3 class="panel-title"><?php echo $kh_num[$count] . '-ម. ' . $faculty['fac_name']; ?></h3>
                                     </div>
-                                    <div class="colap panel-body">
+                                    <div class=" panel-body">
+                                        <!--<div class="colap panel-body">-->
 
                                         <?php
                                         $m = $majors[$faculty['fac_id']];
@@ -485,10 +491,45 @@
                 <a href="<?php echo site_url(); ?>classes/add/" class=" warning"><i class="glyphicon glyphicon-plus-sign"></i> New Class</a>
             </div>
             <div class="panel-body" id="classDisplay">
+
             </div>
         </div>
-    </div><br/><br/>
-    <br/><br/>
+        <div class="panel panel-<?php echo DEFAULTS; ?>">
+            <div class="panel-heading">
+                <h3 class="panel-title">Study Fee</h3>
+            </div>
+            <div class="panel-body">
+                <div class="col-md-3">
+                    <label><input type="radio" required="required" name="pay_type" class="pay_fee" id="pay_type1" value="1"> Pay Fee</label>
+                </div>
+                <div class="col-md-3">
+                    <label><input type="radio" required="required"  name="pay_type"  class="pay_type" id="pay_type2" value="2"> UME Scholarship</label>
+                </div>
+                <div class="col-md-3">
+                    <label><input type="radio" name="pay_type" id="pay_type3"  class="pay_type" value="3"> Partner Scholarship</label>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-3">&nbsp;</div>
+                    <div class="col-md-3">
+                        <label for="pm_discount_value" class="col-sm-12">Discount Value</label>
+                        <div class="col-sm-9">
+                            <input maxlength='3'   class="form-control input-sm numbersOnly " id="pm_discount_value" placeholder="Scholaship value %" name="pm_discount_value" required disabled="disabled" value="<?php echo set_value('pm_discount_value'); ?>"/>
+                            <?php echo form_error('pm_discount_value'); ?>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="pm_discount_period" class="col-sm-12">Discount Period</label>
+                        <div class="col-sm-9">
+                            <input maxlength='1' class="form-control input-sm numbersOnly " id="pm_discount_period" placeholder="Number of year" name="pm_discount_period" required  disabled="disabled" value="<?php echo set_value('pm_discount_period'); ?>" />
+                            <?php echo form_error('pm_discount_period'); ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br/><br/>
+        <br/><br/>
+    </div>
 </form> 
 <script type="text/javascript">
     function readURL(input) {
@@ -505,24 +546,43 @@
         $("#stu_image").change(function() {
             readURL(this);
         });
+
+//        /===============Formvalidate number only===========
+        $('.numbersOnly').keyup(function(e) {
+            if (this.value != this.value.replace(/[^0-9\.]/g, '')) {
+                this.value = this.value.replace(/[^0-9\.]/g, '');
+            }
+            if (this.value > 100) {
+                alert('You have entered more than 100 as input');
+                this.value = "";
+            }
+        });
+        $('.pay_fee').on('click', function(e) {
+            $('.numbersOnly').prop('disabled', true);
+        });
+        $('.pay_type').on('click', function(e) {
+            $('.numbersOnly').prop('disabled', false);
+        });
     });
-    var major = 3;
-    var shift = generation = "1";
+    var major = "";
+    var shift = generation = "";
     $(function() {
 //          $('input[name="major"]:checked').val();
-        $('input[name="major"]').click(function() {
-            major = this.value;
-            getClass(major);
-        });
+//        $('input[name="major"]').click(function() {
+//            major = this.value;
+//        });
         $('input[name="shift"]').click(function() {
             shift = this.value;
-            getClass(shift);
+            getClass();
         });
     });
-    function getClass(key) {
+    function getClass() {
+        generation =$('.gen_selected option:selected').val();
+        major = $('input[name="major"]').val();
+//        alert("shift " + shift + " major: " +major + " gen: " + generation);return;
         var form_data = {
             reShift: shift,
-            reGeneration: generation,
+            reGeneration:generation,
             reMajor: major
         };
         $.ajax({
@@ -537,14 +597,13 @@
         })
 
     }
-     $('.colap').hide();
-        $(function() {
+    $('.colap').hide();
+    $(function() {
         $('.click_colap').click(function() {
 //            alert( $(this).children(".colap"));
             var colap = $(this).parent();
-                    colap.children(".panel-body").slideToggle();
+            colap.children(".panel-body").slideToggle();
         });
     });
-   
 
 </script>

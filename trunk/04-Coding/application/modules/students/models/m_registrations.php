@@ -36,8 +36,8 @@ class M_registrations extends CI_Model {
         $this->db->order_by('s.stu_id', 'desc');
         $this->db->limit($num_row, $from_row);
         $this->db->from(TABLE_PREFIX . 'students s');
-        $this->db->join(TABLE_PREFIX . 'student_class sc', 's.stu_id = sc.tbl_students_stu_id');
-        $this->db->join(TABLE_PREFIX . 'classes cl', 'cl.cla_id = sc.tbl_class_cla_id');
+        $this->db->join(TABLE_PREFIX . 'student_class sc', 's.stu_id = sc.stucla_stu_id');
+        $this->db->join(TABLE_PREFIX . 'classes cl', 'cl.cla_id = sc.stucla_cla_id');
         $this->db->join(TABLE_PREFIX . 'shift sh', 'cl.tbl_shift_shi_id = sh.shi_id');
         $this->db->join(TABLE_PREFIX . 'generation ge', 'cl.tbl_generation_gen_id = ge.gen_id');
         $this->db->join(TABLE_PREFIX . 'majors ma', 'ma.maj_id = cl.cla_maj_id');
@@ -76,8 +76,8 @@ class M_registrations extends CI_Model {
             $this->db->like('stu_en_lastname', $this->input->post('stu_en_lastname'));
         }
         $this->db->from(TABLE_PREFIX . 'students s');
-        $this->db->join(TABLE_PREFIX . 'student_class sc', 's.stu_id = sc.tbl_students_stu_id');
-        $this->db->join(TABLE_PREFIX . 'classes cl', 'cl.cla_id = sc.tbl_class_cla_id');
+        $this->db->join(TABLE_PREFIX . 'student_class sc', 's.stu_id = sc.stucla_stu_id');
+        $this->db->join(TABLE_PREFIX . 'classes cl', 'cl.cla_id = sc.stucla_cla_id');
         $this->db->join(TABLE_PREFIX . 'shift sh', 'cl.tbl_shift_shi_id = sh.shi_id');
         $this->db->join(TABLE_PREFIX . 'majors ma', 'ma.maj_id = cl.cla_maj_id');
         $this->db->join(TABLE_PREFIX . 'faculties fa', 'ma.maj_fac_id = fa.fac_id');
@@ -91,15 +91,31 @@ class M_registrations extends CI_Model {
      */
     function add() {
         $class_id = "";
+        $descount = 0; // === get descound 30% for any scholarship
         //var_dump($this->input->post());die();
         $stu_card_id = "";
         $data = $this->input->post();
         $exp_date = $data['exp_date'];
-        $exp_shift = $data['exp_shift'];
+        if ($data['exp_shift'] = !"") {
+            $exp_shift = $data['exp_shift'];
+        }
         $exp_position = $data['exp_position'];
         $exp_employer_tel = $data['exp_employer_tel'];
         $exp_responsibility = $data['exp_responsibility'];
-
+//        =====for payment info==========
+        $discount_value = 0;
+        $discount_period = 0;
+        if (isset($data['pm_discount_value'])) {
+            $discount_value = $data['pm_discount_value'];
+            $discount_period = $data['pm_discount_period'];
+            unset($data['pm_discount_value']);
+            unset($data['pm_discount_period']);
+        }
+        $pay_type = $data['pay_type'];
+        unset($data['pay_type']);
+//============end payment info===========
+        $acadamic = $data['tbl_generation_gen_id'];
+        unset($data['tbl_generation_gen_id']);
         unset($data['exp_date']);
         unset($data['exp_shift']);
         unset($data['exp_position']);
@@ -128,26 +144,74 @@ class M_registrations extends CI_Model {
 //              exit();
 //        ===============End student ID Card================
         unset($data['shift']);
+        $major = $data['major'];
+//        $acadamic_year_id = $data['acadamic_year_id'];
+//        unset($data['acadamic_year_id']);
         unset($data['major']);
         $degree = $data['degree'];
         unset($data['degree']);
         $class_id = $data['class'];
         unset($data['class']);
-
-
         //$this->db->set('gro_created', 'NOW()', false);
         //var_dump($data);
         $this->db->insert(TABLE_PREFIX . 'students', $data);
         $stu_id = $this->db->insert_id();
         //Insert data to class of student
         $class_date = array(
-        'tbl_students_stu_id' => $stu_id,
-        'tbl_class_cla_id' => $class_id,
-        'stucla_degree' => $degree,
-        'stucla_year_study' => 1 ////// =========First register=============
+            'stucla_stu_id' => $stu_id,
+            'stucla_cla_id' => $class_id,
+            'stucla_degree' => $degree,
+            'stucla_year_study' => 1 ////// =========First register=============
         );
-
         $this->db->insert(TABLE_PREFIX . 'student_class', $class_date);
+
+        //        ==============Insert payment info===========
+        $payment_info = array(
+            'spf_stu_id' => $stu_id,
+            'spf_spt_id' => $pay_type,
+            'spf_discount_value' => $discount_value,
+            'spf_discount_period' => $discount_period
+        );
+        $this->db->insert(TABLE_PREFIX . 'student_payment_fee', $payment_info);
+//        ========Fee for each year===============
+        //        ==============Payment fee============
+
+        $this->db->from(TABLE_PREFIX . 'majors ma');
+        $this->db->join(TABLE_PREFIX . 'major_fee maf', 'maf.maf_maj_id = ma.maj_id');
+        $this->db->where('maf_academic_year', $acadamic);   // ==========Whare seleted academic year======= to be update
+        $this->db->where('ma.maj_id', $major);  // ==========Whare seleted class===
+        $this->db->where('maf.maf_deg_id', $degree);  // ==========Whare seleted class===
+        $this->db->order_by('maf_year_number', 'asc');
+        $fee_info = $this->db->get(); //=====Get school free for each year==========
+        
+        $fee = 0;
+        $total_fee = array(0,0,0,0);
+        $payment_fee_data = array();
+        if ($fee_info->num_rows() > 0) {
+            $j = 0;
+            foreach ($fee_info->result_array() as $row) {
+                $fee = $row['maf_price'];
+                if ($j <= $discount_period) {
+                    $total_fee[$j] = $fee - ($fee * 0.01 * $discount_value);
+                } else {
+                    $total_fee[$j] = $fee;
+                }
+                $j++;
+            }
+        } 
+         $userid = $this->session->userdata('user');
+            for ($i = 0; $i < 4; $i++) {
+                $payment_fee_data[$i] = array(
+                    'sp_stu_id' => $stu_id,
+                    'sp_year' => $i+1,  ////// increate array index 0--->1 for year number
+                    'sp_fee' => $total_fee[$i],
+                    'sp_cla_id' => $class_id,
+                    'sp_balance' => $total_fee[$i],
+                    'tbl_users_id' => $userid['use_id']
+                );
+            }
+            $this->db->insert_batch(TABLE_PREFIX . 'student_payments', $payment_fee_data);
+//        ===========end peyment info==============
         $i = 0;
         foreach ($exp_date as $value) {
             $ext['exp_stu_id'] = $stu_id;
@@ -219,14 +283,14 @@ class M_registrations extends CI_Model {
 //        $stu_id = $this->db->insert_id();
         //Insert data to class of student
         $class_data = array(
-            'tbl_students_stu_id' => $stu_id,
-            'tbl_class_cla_id' => $class_id,
+            'stucla_stu_id' => $stu_id,
+            'stucla_cla_id' => $class_id,
             'stucla_degree' => $degree,
             'stucla_year_study' => $stucla_year_study
         );
         $where_data = array(
-            'tbl_students_stu_id' => $stu_id,
-            'tbl_class_cla_id' => $class_id
+            'stucla_stu_id' => $stu_id,
+            'stucla_cla_id' => $class_id
         );
         $this->db->where($where_data);
         $this->db->update(TABLE_PREFIX . 'student_class', $class_data);
@@ -254,11 +318,11 @@ class M_registrations extends CI_Model {
         $arraydata = array();
         for ($i = 0; $i < count($data['stu_id']); $i++) {
             $arraydata[$i] = array(
-                'tbl_students_stu_id' => $data['stu_id'][$i],
+                'stucla_stu_id' => $data['stu_id'][$i],
                 'stucla_year_study' => $data['stucla_year_study'][$i] + 1
             );
         }
-        $result = $this->db->update_batch(TABLE_PREFIX . 'student_class', $arraydata, "tbl_students_stu_id");
+        $result = $this->db->update_batch(TABLE_PREFIX . 'student_class', $arraydata, "stucla_stu_id");
         return TRUE;
     }
 
@@ -267,16 +331,16 @@ class M_registrations extends CI_Model {
         $this->db->limit(1);
         $this->db->select('stu_card_id');
         $this->db->from(TABLE_PREFIX . 'students s');
-        $this->db->join(TABLE_PREFIX . 'student_class sc', 's.stu_id = sc.tbl_students_stu_id');
-        $this->db->join(TABLE_PREFIX . 'classes cl', 'cl.cla_id = sc.tbl_class_cla_id');
+        $this->db->join(TABLE_PREFIX . 'student_class sc', 's.stu_id = sc.stucla_stu_id');
+        $this->db->join(TABLE_PREFIX . 'classes cl', 'cl.cla_id = sc.stucla_cla_id');
         $this->db->where('cl.cla_id', $id);
         return $this->db->get();
     }
 
     function getStudentById($id = NULL) {
         $this->db->from(TABLE_PREFIX . 'students s');
-        $this->db->join(TABLE_PREFIX . 'student_class sc', 's.stu_id = sc.tbl_students_stu_id');
-        $this->db->join(TABLE_PREFIX . 'classes cl', 'cl.cla_id = sc.tbl_class_cla_id');
+        $this->db->join(TABLE_PREFIX . 'student_class sc', 's.stu_id = sc.stucla_stu_id');
+        $this->db->join(TABLE_PREFIX . 'classes cl', 'cl.cla_id = sc.stucla_cla_id');
         $this->db->join(TABLE_PREFIX . 'majors ma', 'ma.maj_id = cl.cla_maj_id');
         $this->db->where('s.stu_id', $id);
         return $this->db->get();
@@ -303,10 +367,10 @@ class M_registrations extends CI_Model {
     function getClassById($shift = NULL, $generation = NULL, $major = NULL) {
         $array = array('tbl_shift_shi_id' => $shift, 'cla_maj_id' => $major, 'tbl_generation_gen_id' => $generation);
         $this->db->where($array);
-        $this->db->select('cl.cla_id,cl.cla_name,count("sc.tbl_students_stu_id") as "studnetNumber"');
+        $this->db->select('cl.cla_id,cl.cla_name,count("sc.stucla_stu_id") as "studnetNumber"');
         $this->db->from(TABLE_PREFIX . 'classes cl');
-        $this->db->join(TABLE_PREFIX . 'student_class sc', 'cl.cla_id=sc.tbl_class_cla_id', 'left');
-        $this->db->group_by("sc.tbl_class_cla_id");
+        $this->db->join(TABLE_PREFIX . 'student_class sc', 'cl.cla_id=sc.stucla_cla_id', 'left');
+        $this->db->group_by("sc.stucla_cla_id");
         return $this->db->get();
     }
 
@@ -319,12 +383,12 @@ class M_registrations extends CI_Model {
     }
 
     function getUdateClassById($classId = NULL, $studentId = NULL) {
-        $array = array('tbl_shift_shi_id' => $studentId, 'tbl_class_cla_id' => $classId);
+        $array = array('tbl_shift_shi_id' => $studentId, 'stucla_cla_id' => $classId);
         $this->db->where($array);
-        $this->db->select('cl.cla_id,cl.cla_name,count("sc.tbl_students_stu_id") as "studnetNumber"');
+        $this->db->select('cl.cla_id,cl.cla_name,count("sc.stucla_stu_id") as "studnetNumber"');
         $this->db->from(TABLE_PREFIX . 'classes cl');
-        $this->db->join(TABLE_PREFIX . 'student_class sc', 'cl.cla_id=sc.tbl_class_cla_id', 'left');
-        $this->db->group_by("sc.tbl_class_cla_id");
+        $this->db->join(TABLE_PREFIX . 'student_class sc', 'cl.cla_id=sc.stucla_cla_id', 'left');
+        $this->db->group_by("sc.stucla_cla_id");
         return $this->db->get();
     }
 
