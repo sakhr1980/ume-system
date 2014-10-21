@@ -46,7 +46,7 @@ class Payment extends CI_Controller {
      * Add new user account
      */
     function add() {
-        $this->data['title'] = 'បង្កើតកាលវិភាគ';
+        $this->data['title'] = 'New teacher payment';
         $this->data['content'] = 'teacher/add-payment';
 		$this->data['staff'] = $this->m_payment->getStaff();
 		$this->data['subject'] = $this->m_global->getDataArray(TABLE_PREFIX . 'subject', 'sub_id', 'sub_name', 'sub_status');
