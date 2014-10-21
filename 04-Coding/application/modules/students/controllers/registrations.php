@@ -59,7 +59,10 @@ class Registrations extends CI_Controller {
     function add() {
         $this->data['title'] = 'Student registration';
         $this->data['content'] = 'students/registrations/add';
-        $this->form_validation->set_rules('stu_kh_lastname', 'គោត្តនាមe', 'required]');
+        $this->form_validation->set_rules('stu_kh_lastname', 'គោត្តនាម', 'required]');
+          $this->form_validation->set_rules('class', 'Class must selected..!', 'required]');
+//        $this->form_validation->set_rules('pm_discount_value',"Discount Value", 'required|max_length[3]');
+        
         if ($this->form_validation->run() == FALSE) {
 //            $this->data['master'] = $this->m_registrations->getMajorByMasterId(6);
 //            $this->data['bachelor_economic'] = $this->m_registrations->getMajorByMasterId(1);
@@ -67,8 +70,11 @@ class Registrations extends CI_Controller {
 //            $this->data['bachelor_agriculture'] = $this->m_registrations->getMajorByMasterId(5);
 //            $this->data['bachelor_it'] = $this->m_registrations->getMajorByMasterId(3);
 //            $this->data['bachelor_law'] = $this->m_registrations->getMajorByMasterId(4);
+            
+            
             $majors = NULL;
             $faculties = $this->m_registrations->getFaculties();
+            $this->data['generation'] = $this->m_global->getDataArray(TABLE_PREFIX . 'generation', 'gen_id', 'gen_title', 'gen_status');
 //Debug::dump($faculties->result_array());die();
             foreach ($faculties->result_array() as $row) {
                 $majors[$row['fac_id']] = $this->m_registrations->getMajorByMasterId($row['fac_id']);
@@ -76,8 +82,8 @@ class Registrations extends CI_Controller {
             $this->data['faculties'] = $faculties;
             $this->data['majors'] = $majors;
             $this->load->view(LAYOUT, $this->data);
-        } else {
-
+        } else { 
+//            echo "good validation";exit();
             if ($this->m_registrations->add()) {
                 $this->session->set_flashdata('message', alert("Student registration has been saved!", 'success'));
                 redirect('students/registrations');
@@ -229,14 +235,18 @@ class Registrations extends CI_Controller {
         $stu_card_id = $major['maj_abbriviation'];
         if ($class_data->num_rows() > 0) {
             echo ' <input type="hidden" id="stu_card_id" name="stu_card_id" value="' . $stu_card_id . '" >';
+//            echo ' <input type="hidden" id="acadamic_year_id" name="acadamic_year_id" value="' . $generation . '" >';
             foreach ($class_data->result_array() as $class) {
                 echo '
                     <div class="col-md-3" >
-                    <label><input type="radio"  required="required" name="class" id="cla_name" value="' . $class["cla_id"] . '" >' . $class["cla_name"] . ' (' . $class["studnetNumber"] . ')' . '</label>
+                    <label><input type="radio"  required="required" name="class" id="cla_name" value="' . $class["cla_id"] . '" > ' . $class["cla_name"] . ' (' . $class["studnetNumber"] . ')' . '</label>
                 </div> ';
             }
         } else {
-            echo "<span class=''>Don't have class for you selected major and shift...!</span>";
+            
+            echo '<div class="col-md-3" >
+                    <label><input type="radio"  required="required" /><span class="error"> Don\'t have class for your selected major and shift...!</span></label>
+                </div>';
         }
     }
 

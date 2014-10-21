@@ -11,10 +11,10 @@
 </script>
 <style type="text/css">
     .id_card_en{
-        background: url(http://system.ume.lan/images/id_card/id-card-student-en.png)  center no-repeat;
+        background: url(<?php echo site_url(); ?>images/id_card/id-card-student-en.png)  center no-repeat;
     }
     .id_card_kh{
-        background: url(http://system.ume.lan/images/id_card/id-card-student-kh.png) center no-repeat;
+        background: url(<?php echo site_url(); ?>images/id_card/id-card-student-kh.png) center no-repeat;
     }
     .id_card_en,.id_card_kh {
         width: 345px;
@@ -164,7 +164,7 @@
                                     <tr> <td  class="card_name"><?php echo $row['stu_en_firstname'] . " " . $row['stu_en_lastname'] ?></td> </tr>
                                     <tr><td  class="card_info">
                                             <table>
-                                                <tr> <td><?php echo $row['cla_generation_number'] ?></td></tr>
+                                                <tr> <td><?php echo $row['cla_promotion'] ?></td></tr>
                                                 <tr> <td>II</td></tr>
                                                 <tr><td><?php echo $row['gen_title'] ?></td></tr>
                                             </table>
