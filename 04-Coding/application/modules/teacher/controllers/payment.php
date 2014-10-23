@@ -79,6 +79,23 @@ class Payment extends CI_Controller {
 	}
 	
 	function do_print($id=0){
+		$this->m_payment->to_excel($id);
+	}
+	
+	function do_print3($id=0){
+		//$this->m_payment->to_excel($id);
+		$this->load->library('parser');
+		$data['data'] = $this->m_payment->getPaymentBy($id);
+		$filename = 'testing';
+		header('Content-Disposition: attachment; filename='.$filename.'.xls');
+		header('Content-type: APPLICATION/force-download');
+		header('Content-Transfer-Encoding: binary');
+		header('Pragma: public');
+		print "\xEF\xBB\xBF"; // UTF-8 BOM
+		echo $this->parser->parse('payment-xls', $data, true);
+	}
+	
+	function do_print2($id=0){
 		$data['title'] = 'Teacher Payment';
 		$data['data'] = $this->m_payment->getPaymentBy($id);
 		$this->load->view('teacher/print-payment',$data);
