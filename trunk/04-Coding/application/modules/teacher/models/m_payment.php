@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
@@ -246,5 +246,107 @@ class M_Payment extends CI_Model {
 		$data = array('pay_status'=>0);
 		$this->db->where('pay_id',$id);
 		return $this->db->update(TABLE_PREFIX . 'teacher_payment',$data);
+	}
+	
+	function getStaffBy($id){
+		$res = array();
+		$this->db->where('sta_id',$id);
+		$query = $this->db->get(TABLE_PREFIX.'staff');
+		if($query->num_rows()>0){
+			$res = $query->row();
+		}
+		$query->free_result();
+		
+		return $res;
+	}
+	
+	function to_excel($id=0) {
+		$staff = $this->getStaffBy($id);
+		$filename = $staff->sta_name;
+		header('Content-Disposition: attachment; filename='.$filename.'_payment.xls');
+		header('Content-type: APPLICATION/force-download');
+		header('Content-Transfer-Encoding: binary');
+		header('Pragma: public');
+		print "\xEF\xBB\xBF"; // UTF-8 BOM
+		
+		echo '<table>
+				<tr>
+					<td colspan="5">
+						<p style="text-align:center;">
+							<img style="margin-left:20px;" src="'.base_url().'images/logo.png" alt="" width="70"/>
+							<br><br><br><br>
+							សាខាសាកលវិទ្យាល័យគ្រប់គ្រង និងសេដ្ឋកិច្ច<br>
+							ខេត្តកំពង់ចាម						
+						</p>
+					</td>
+					<td colspan="5">
+						<p style="text-align:center;">
+							ព្រះរាជាណាចក្រកម្ពុជា<br>
+							ជាតិ សាសនា ព្រះមហាក្សត្រ
+						</p>			
+					</td>
+				</tr>
+				<tr>
+					<td colspan="10" style="text-align:center;font-size:20pt;">Account Payable of Teacher</td>
+				</tr>
+			</table>';
+		echo br(1);
+		$h = array ("No.", "Name of Lecture", "Sex", "Subject", "Hours", "Rate", "Total Amount","Year","Shift","Promotion");
+		
+		echo '<table border="1"><tr>';
+		foreach($h as $key) {
+			$key = ucwords($key);
+			echo '<th>'.$key.'</th>';
+		}
+		echo '</tr>';
+		
+		$data = $this->getPaymentBy($id);
+		$indx = 0;
+		$total_amount = 0;
+		$total_hours = 0;
+		$total_rate = 0;
+		foreach($data as $row){
+			$indx++;
+			$hours = $row['hours'];
+			$rate = $row['rate'];
+			$amount = $hours * $rate;
+			$total_hours += $hours;
+			$total_amount += $amount;
+			$total_rate = $rate;
+			echo "<tr>";
+				echo $this->writeCol($indx);
+				echo $this->writeCol($row['sta_name']);
+				echo $this->writeCol($row['sta_sex']=='m'?'Male':'Female');
+				echo $this->writeCol($row['sub_name']);
+				echo $this->writeCol($hours);
+				echo $this->writeCol("$ ".number_format($rate,2));
+				echo $this->writeCol("$ ".number_format($amount,2));
+				echo $this->writeCol($row['year']);
+				echo $this->writeCol($row['shi_name']);
+				echo $this->writeCol($row['promotion']);
+			echo "</tr>";
+		}
+		echo '</table>';
+		echo br(1);
+		echo '<table>
+				<tr>
+					<td colspan="5">
+						<p style="text-align:center;">
+							បានឃើញ និងឯកភាព<br>
+							អ្នកយល់ព្រម						
+						</p>
+					</td>
+					<td colspan="5">
+						<p style="text-align:center;">
+							កំពង់ចាម,ថ្ងៃទី.........ខែ...............ឆ្នាំ២០១៤<br>
+							អ្នកទទួល
+						</p>			
+					</td>
+				</tr>
+			</table>';
+	}
+	
+	function writeCol($txt){
+		return "<td>".ucwords($txt)."</td>";
 	}
 }
