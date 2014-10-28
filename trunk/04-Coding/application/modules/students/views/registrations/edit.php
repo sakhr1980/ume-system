@@ -1,6 +1,8 @@
 <?php
 $data->result_array();
+$payment->result_array();
 $data = $data->result_array[0];
+$payment = $payment->result_array[0];
 $this->session->userdata('stu_class', $data['stucla_cla_id']);
 ?>
 <form class="form-horizontal" role="form" method="post" action="<?php echo site_url(); ?>students/registrations/edit/<?php
@@ -31,12 +33,12 @@ echo '/' . $this->uri->segment(5); // segment(5) for pagination
                         <div class="form-group">
                             <label for="stu_kh_lastname" class="col-sm-2 control-label">គោត្តនាម</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control input-sm" id="gro_name" placeholder="គោត្តនាម" name="stu_kh_lastname" value="<?php echo $data['stu_en_firstname']; ?>"  pattern=".{2,50}"  title="Allow enter from 2 to 50 characters">
+                                <input type="text" class="form-control input-sm" id="gro_name" placeholder="គោត្តនាម" name="stu_kh_lastname" value="<?php echo $data['stu_kh_firstname']; ?>"  pattern=".{2,50}"  title="Allow enter from 2 to 50 characters">
                                 <?php echo form_error('stu_kh_lastname'); ?>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="stu_en_lastname" class="col-sm-2 control-label">Last name</label>
+                            <label for="stu_en_lastname" class="col-sm-2 control-label">Surname</label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control input-sm" id="gro_name" placeholder="Surname" name="stu_en_lastname" value="<?php echo $data['stu_en_lastname']; ?>"  pattern=".{2,50}" required title="Allow enter from 2 to 50 characters">
                                 <?php echo form_error('stu_en_lastname'); ?>
@@ -47,7 +49,7 @@ echo '/' . $this->uri->segment(5); // segment(5) for pagination
                         <div class="form-group">
                             <label for="stu_kh_firstname" class="col-sm-2 control-label">នាម</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control input-sm" id="stu_kh_firstname" placeholder="នាម" name="stu_kh_firstname" value="<?php echo $data['stu_kh_firstname']; ?>"  title="Allow enter from 2 to 50 characters">
+                                <input type="text" class="form-control input-sm" id="stu_kh_firstname" placeholder="នាម" name="stu_kh_firstname" value="<?php echo $data['stu_kh_lastname']; ?>"  title="Allow enter from 2 to 50 characters">
                                 <?php echo form_error('stu_kh_firstname'); ?>
                             </div>
                         </div>
@@ -65,7 +67,7 @@ echo '/' . $this->uri->segment(5); // segment(5) for pagination
 
                         </div> 
                         <div class="col-sm">
-                            <input type="file" accept=".png, .gif, .jpg, .jpeg" class="form-control input-sm" id="stu_image" name="stu_image" value="<?php echo $data['stu_en_firstname']; ?>"  title="Allow enter from 2 to 50 characters" />
+                            <input type="file" accept=".png, .gif, .jpg, .jpeg" class="form-control input-sm" id="stu_image" name="stu_image" value="<?php echo $data['stu_en_lastname']; ?>"  title="Allow enter from 2 to 50 characters" />
                         </div>
                         <?php echo form_error('stu_image'); ?>
                     </div>
@@ -76,8 +78,8 @@ echo '/' . $this->uri->segment(5); // segment(5) for pagination
 
 
 
-        <label><input type="radio"  name="stu_job" id="stu_job" value="មានការងារធ្វើ"<?php echo ($data['stu_job']=="មានការងារធ្វើ")?"checked=checked":"" ?>  <?php echo set_radio('job', 1, ($data['stu_job'] > 0) ? TRUE : FALSE); ?> > មានការងារធ្វើ</label>&nbsp;&nbsp;
-        <label><input type="radio" name="stu_job" id="" value="ជានិស្សិត"<?php echo ($data['stu_job']=="ជានិស្សិត")?"checked=checked":"" ?>  <?php echo set_radio('job', 2, ($data['stu_job'] > 0) ? TRUE : FALSE); ?>> ជានិស្សិត</label>
+        <label><input type="radio"  name="stu_job" id="stu_job" value="មានការងារធ្វើ"<?php echo ($data['stu_job'] == "មានការងារធ្វើ") ? "checked=checked" : "" ?>  <?php echo set_radio('job', 1, ($data['stu_job'] > 0) ? TRUE : FALSE); ?> > មានការងារធ្វើ</label>&nbsp;&nbsp;
+        <label><input type="radio" name="stu_job" id="" value="ជានិស្សិត"<?php echo ($data['stu_job'] == "ជានិស្សិត") ? "checked=checked" : "" ?>  <?php echo set_radio('job', 2, ($data['stu_job'] > 0) ? TRUE : FALSE); ?>> ជានិស្សិត</label>
 
 
 
@@ -86,20 +88,37 @@ echo '/' . $this->uri->segment(5); // segment(5) for pagination
                 <h3 class="panel-title">I. កមរិតសញ្ញាប័ត្រ និងជំនាញ PROGRAM OF STUDY AND MAJOR</h3>
             </div>
             <div class="panel-body">
-                <label><input type="radio" required="required" name="degree" value="MS" <?php echo ($data['stucla_degree']=="MS")?"checked=checked":"" ?>> បរិញ្ញបត្រជាន់ខ្ពស់ Master Degree Program</label>&nbsp;&nbsp;
-                <label><input type="radio" required="required" name="degree" value="BB" <?php echo ($data['stucla_degree']=="BB")?"checked=checked":"" ?>> បរិញ្ញាបត្រ Bachelor Degree Program</label>
-                <label><input type="radio" required="required" name="degree" value="AD" <?php echo ($data['stucla_degree']=="AD")?"checked=checked":"" ?>> បរិញ្ញាបត្ររង Association Degree Program</label>
+                <label><input type="radio" required="required" name="degree" value="MS" <?php echo ($data['stucla_degree'] == "MS") ? "checked=checked" : "" ?><?php echo set_radio('stucla_degree', 1, ($data['stucla_degree'] ==1) ? TRUE : FALSE); ?> > បរិញ្ញបត្រជាន់ខ្ពស់ Master Degree Program</label>&nbsp;&nbsp;
+                <label><input type="radio" required="required" name="degree" value="BB" <?php echo ($data['stucla_degree'] == "BB") ? "checked=checked" : "" ?><?php echo set_radio('stucla_degree', 1, ($data['stucla_degree'] == 2) ? TRUE : FALSE); ?> > បរិញ្ញាបត្រ Bachelor Degree Program</label>
+                <label><input type="radio" required="required" name="degree" value="AD" <?php echo ($data['stucla_degree'] == "AD") ? "checked=checked" : "" ?><?php echo set_radio('stucla_degree', 1, ($data['stucla_degree'] == 3) ? TRUE : FALSE); ?> > បរិញ្ញាបត្ររង Association Degree Program</label>
                 <div class="divider"></div>
                 <?php //Debug::dump($faculties); ?>
                 <!--                <div class="row">
                                     <div class="col-md-12"><label>តើអ្នកជ្រើសរើសជំនាញមួយនា? For which graduate program are you applying?</label></div>
                 <?php //foreach ($master->result_array() as $row) { ?>
                                         <div class="col-md-6">
-                                            <label><input type="radio" name="major" value="<?php //echo $row['maj_id'];           ?>" <?php //echo set_radio('major', $row['maj_id'], FALSE);           ?>> <?php //echo $row['maj_name'];           ?></label>
+                                            <label><input type="radio" name="major" value="<?php //echo $row['maj_id'];             ?>" <?php //echo set_radio('major', $row['maj_id'], FALSE);             ?>> <?php //echo $row['maj_name'];             ?></label>
                                         </div>
                 <?php //} ?>
                                 </div>-->
-
+                <div class="form-group">
+                    <label for="tbl_generation_gen_id" class="col-sm-2 control-label">Academic Year:</label>
+                    <div class="col-md-2">
+                        <select name="tbl_generation_gen_id" class="form-control gen_selected" id="sta_position">
+                            <option value="'"'>-All Generation--</option>
+                            <?php
+                            foreach ( $generation as $key => $value) {
+                                if ($key == $data['sta_position']) {
+                                    echo '<option value="' . $key . '" ' . set_select('tbl_generation_gen_id', $key, TRUE) . '>' . $value . '</option>';
+                                } else {
+                                    echo '<option value="' . $key . '" ' . set_select('tbl_generation_gen_id', $key) . '>' . $value . '</option>';
+                                }
+                            }
+                            ?>
+                        </select>
+                        <?php // echo form_dropdown('tbl_generation_gen_id', array('' => '--All Generation--') + $generation, set_value('tbl_generation_gen_id', $this->session->userdata('tbl_generation_gen_id')), 'class="form-control input-sm gen_selected" required="required"') ?>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-md-12"><strong>តើមហាវិទ្យល័យ និង ឯកទេសមួយណា ដែលអ្នកចង់ជ្រើសរើស?</strong></div>
                     <div class="col-md-12">
@@ -111,10 +130,10 @@ echo '/' . $this->uri->segment(5); // segment(5) for pagination
                                 $count++;
                                 ?>
                                 <div class="panel panel-<?php echo DEFAULTS; ?>">
-                                    <div class="click_colap panel-heading">
+                                    <div class=" panel-heading">
                                         <h3 class="panel-title"><?php echo $kh_num[$count] . '-ម. ' . $faculty['fac_name']; ?></h3>
                                     </div>
-                                    <div class="colap panel-body">
+                                    <div class="panel-body">
 
                                         <?php
                                         $m = $majors[$faculty['fac_id']];
@@ -122,7 +141,7 @@ echo '/' . $this->uri->segment(5); // segment(5) for pagination
                                             foreach ($m->result_array() as $major) {
                                                 ?>
                                                 <div class="col-md-4">
-                                                    <label><input type="radio" required="required"  name="major" id="maj_id_<?php echo $major['maj_id']; ?>" value="<?php echo $major['maj_id']; ?>"<?php echo ($data['maj_id']== $major['maj_id'])?"checked=checked":"" ?>> <?php echo $major['maj_name']; ?></label>
+                                                    <label><input type="radio" required="required"  name="major" id="maj_id_<?php echo $major['maj_id']; ?>" value="<?php echo $major['maj_id']; ?>"<?php echo ($data['maj_id'] == $major['maj_id']) ? "checked=checked" : "" ?>> <?php echo $major['maj_name']; ?></label>
                                                 </div>
                                                 <?php
                                             }
@@ -191,8 +210,8 @@ echo '/' . $this->uri->segment(5); // segment(5) for pagination
                 <div class="col-md-4">
                     <label for="stu_gender" class="col-sm-12">GENDER</label>
                     <div class="col-sm-12">
-                        <label><input type="radio" name="stu_gender" value="Male" <?php echo ($data['stu_gender']=="Male")?"checked=checked":"" ?> /> Male</label>
-                        <label><input type="radio" name="stu_gender" value="Female" <?php echo ($data['stu_gender']=="Female")?"checked=checked":"" ?>/> Female</label>
+                        <label><input type="radio" name="stu_gender" value="Male" <?php echo ($data['stu_gender'] == "Male") ? "checked=checked" : "" ?> /> Male</label>
+                        <label><input type="radio" name="stu_gender" value="Female" <?php echo ($data['stu_gender'] == "Female") ? "checked=checked" : "" ?>/> Female</label>
                         <!--<label><input type="radio" name="stu_gender" value="Others" <?php echo set_radio('stu_gender', 'Other', FALSE); ?> /> Others</label>-->
                         <?php echo form_error('stu_gender'); ?>
                     </div>
@@ -200,9 +219,9 @@ echo '/' . $this->uri->segment(5); // segment(5) for pagination
                 <div class="col-md-4">
                     <label for="stu_marital_status" class="col-sm-12">MARITAL STATUS</label>
                     <div class="col-sm-12">
-                        <label><input type="radio" name="stu_marital_status" value="Single" <?php echo ($data['stu_marital_status']=="Single")?"checked=checked":"" ?> /> Single</label>
-                        <label><input type="radio" name="stu_marital_status" value="Married" <?php echo ($data['stu_marital_status']=="Married")?"checked=checked":"" ?> /> Married</label>
-                        <label><input type="radio" name="stu_marital_status" value="Others"<?php echo ($data['stu_marital_status']=="Others")?"checked=checked":"" ?> /> Others</label>
+                        <label><input type="radio" name="stu_marital_status" value="Single" <?php echo ($data['stu_marital_status'] == "Single") ? "checked=checked" : "" ?> /> Single</label>
+                        <label><input type="radio" name="stu_marital_status" value="Married" <?php echo ($data['stu_marital_status'] == "Married") ? "checked=checked" : "" ?> /> Married</label>
+                        <label><input type="radio" name="stu_marital_status" value="Others"<?php echo ($data['stu_marital_status'] == "Others") ? "checked=checked" : "" ?> /> Others</label>
                         <?php echo form_error('stu_gender'); ?>
                     </div>
                 </div>
@@ -378,7 +397,7 @@ echo '/' . $this->uri->segment(5); // segment(5) for pagination
                 <div class="col-md-4">
                     <label for="exp_date1" class="col-sm-12">Date of Employment From-To</label>
                     <div class="col-sm-12">
-                        <input type="text" class="form-control input-sm" id="exp_date1" placeholder="" name="exp_date[]" value="<?php // echo $data['exp_date[]']; ?>" />
+                        <input type="text" class="form-control input-sm" id="exp_date1" placeholder="" name="exp_date[]" value="<?php // echo $data['exp_date[]'];   ?>" />
                         <?php echo form_error('exp_date[]'); ?>
                     </div>
                 </div>
@@ -393,7 +412,7 @@ echo '/' . $this->uri->segment(5); // segment(5) for pagination
                 <div class="col-md-4">
                     <label for="exp_position1" class="col-sm-12">Position</label>
                     <div class="col-sm-12">
-                        <input type="text" class="form-control input-sm" id="exp_position1" placeholder="" name="exp_position[]" value="<?php // echo $data['exp_position']; ?>" />
+                        <input type="text" class="form-control input-sm" id="exp_position1" placeholder="" name="exp_position[]" value="<?php // echo $data['exp_position'];   ?>" />
                         <?php echo form_error('exp_position[]'); ?>
                     </div>
                 </div>
@@ -401,14 +420,14 @@ echo '/' . $this->uri->segment(5); // segment(5) for pagination
                 <div class="col-md-4">
                     <label for="exp_employer_tel1" class="col-sm-12">Employer Telephone No</label>
                     <div class="col-sm-12">
-                        <input type="text" class="form-control input-sm" id="exp_employer_tel1" placeholder="" name="exp_employer_tel[]" value="<?php // echo $data['exp_employer_tel[]']; ?>" />
+                        <input type="text" class="form-control input-sm" id="exp_employer_tel1" placeholder="" name="exp_employer_tel[]" value="<?php // echo $data['exp_employer_tel[]'];   ?>" />
                         <?php echo form_error('exp_employer_tel[]'); ?>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <label for="exp_responsibility1" class="col-sm-12">CURRENT ADDRESS</label>
                     <div class="col-sm-12">
-                        <textarea class="form-control input-sm" id="exp_responsibility1" placeholder="Current Address" name="exp_responsibility[]" value=""><?php // echo $data['exp_responsibility[]']; ?></textarea>
+                        <textarea class="form-control input-sm" id="exp_responsibility1" placeholder="Current Address" name="exp_responsibility[]" value=""><?php // echo $data['exp_responsibility[]'];   ?></textarea>
                         <?php echo form_error('exp_responsibility[]'); ?>
                     </div>
                 </div>
@@ -418,12 +437,12 @@ echo '/' . $this->uri->segment(5); // segment(5) for pagination
                 <div class="col-md-4">
                     <label for="exp_date2" class="col-sm-12">Date of Employment From-To</label>
                     <!--                    <div class="col-sm-12">
-                                            <input type="text" class="form-control input-sm" id="exp_date2" placeholder="" name="exp_date[]" value="<?php // echo $data['exp_date[]']; ?>" />
+                                            <input type="text" class="form-control input-sm" id="exp_date2" placeholder="" name="exp_date[]" value="<?php // echo $data['exp_date[]'];   ?>" />
                     <?php echo form_error('exp_date[]'); ?>
                                         </div>-->
 
                     <div class="col-sm-12 input-group date" data-datepicker="true">
-                        <input type="text" class="form-control" id="exp_date2" placeholder="yyyy-mm-dd" name="exp_date[]" value="<?php // echo $data['exp_date[]']; ?>" >
+                        <input type="text" class="form-control" id="exp_date2" placeholder="yyyy-mm-dd" name="exp_date[]" value="<?php // echo $data['exp_date[]'];   ?>" >
                         <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span>
                         </span>
                         <?php echo form_error('exp_date[]'); ?>
@@ -440,7 +459,7 @@ echo '/' . $this->uri->segment(5); // segment(5) for pagination
                 <div class="col-md-4">
                     <label for="exp_position2" class="col-sm-12">Position</label>
                     <div class="col-sm-12">
-                        <input type="text" class="form-control input-sm" id="exp_position2" placeholder="" name="exp_position[]" value="<?php // echo $data['exp_position[]']; ?>" />
+                        <input type="text" class="form-control input-sm" id="exp_position2" placeholder="" name="exp_position[]" value="<?php // echo $data['exp_position[]'];   ?>" />
                         <?php echo form_error('exp_position[]'); ?>
                     </div>
                 </div>
@@ -448,14 +467,14 @@ echo '/' . $this->uri->segment(5); // segment(5) for pagination
                 <div class="col-md-4">
                     <label for="exp_employer_tel2" class="col-sm-12">Employer Telephone No</label>
                     <div class="col-sm-12">
-                        <input type="text" class="form-control input-sm" id="exp_employer_tel2" placeholder="" name="exp_employer_tel[]" value="<?php // echo $data['exp_employer_tel[]']; ?>" />
+                        <input type="text" class="form-control input-sm" id="exp_employer_tel2" placeholder="" name="exp_employer_tel[]" value="<?php // echo $data['exp_employer_tel[]'];   ?>" />
                         <?php echo form_error('exp_employer_tel[]'); ?>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <label for="exp_responsibility2" class="col-sm-12">CURRENT ADDRESS</label>
                     <div class="col-sm-12">
-                        <textarea class="form-control input-sm" id="exp_responsibility2" placeholder="Current Address" name="exp_responsibility[]" value=""><?php // echo $data['exp_responsibility[]']; ?></textarea>
+                        <textarea class="form-control input-sm" id="exp_responsibility2" placeholder="Current Address" name="exp_responsibility[]" value=""><?php // echo $data['exp_responsibility[]'];   ?></textarea>
                         <?php echo form_error('exp_responsibility[]'); ?>
                     </div>
                 </div>
@@ -471,16 +490,16 @@ echo '/' . $this->uri->segment(5); // segment(5) for pagination
             </div>
             <div class="panel-body">
                 <div class="col-md-3">
-                    <label><input type="radio" required="required" name="shift" id="shift" value="1" <?php echo ($data['tbl_shift_shi_id']=="1")?"checked=checked":"" ?>> MORNING</label>
+                    <label><input type="radio" required="required" name="shift" id="shift" value="1" <?php echo ($data['tbl_shift_shi_id'] == "1") ? "checked=checked" : "" ?>> MORNING</label>
                 </div>
                 <div class="col-md-3">
-                    <label><input type="radio" required="required"  name="shift" id="shift" value="2" <?php echo ($data['tbl_shift_shi_id']=="2")?"checked=checked":"" ?>> AFTERNOON</label>
+                    <label><input type="radio" required="required"  name="shift" id="shift" value="2" <?php echo ($data['tbl_shift_shi_id'] == "2") ? "checked=checked" : "" ?>> AFTERNOON</label>
                 </div>
                 <div class="col-md-3">
-                    <label><input type="radio" name="shift" id="shift" value="3" <?php echo ($data['tbl_shift_shi_id']=="3")?"checked=checked":"" ?>> EVENING</label>
+                    <label><input type="radio" name="shift" id="shift" value="3" <?php echo ($data['tbl_shift_shi_id'] == "3") ? "checked=checked" : "" ?>> EVENING</label>
                 </div>
                 <div class="col-md-3">
-                    <label><input type="radio" name="shift" id="shift" value="4" <?php echo ($data['tbl_shift_shi_id']=="4")?"checked=checked":"" ?>> WEEKEN</label>
+                    <label><input type="radio" name="shift" id="shift" value="4" <?php echo ($data['tbl_shift_shi_id'] == "4") ? "checked=checked" : "" ?>> WEEKEN</label>
                 </div>
             </div>
         </div>
@@ -492,28 +511,20 @@ echo '/' . $this->uri->segment(5); // segment(5) for pagination
                 <br/>
                 <a href="<?php echo site_url(); ?>classes/add/" class=" warning"><i class="glyphicon glyphicon-plus-sign"></i> New Class</a>
             </div>
-            
+
             <div class="panel-body" id="classDisplay">
                 <div class="col-md-3">
                     <label><input type="radio" value="<?php echo $data['cla_id']; ?>" checked='checked' id="class" name="class" required="required"><?php echo $data['cla_name']; ?></label>
                 </div>
             </div>
         </div>
-<!--        <div class="panel panel-<?php echo DEFAULTS; ?>">
-                <div class="col-md-4">
-                    <label for="stu_tel" class="col-sm-12">PHONE NUMBER</label>
-                    <div class="col-sm-12">
-                        <input type="text" class="form-control input-sm" id="stu_tel" placeholder="" name="stu_tel" value="<?php echo $data['stu_tel']; ?>" />
-                        <?php echo form_error('stu_tel'); ?>
-                    </div>
-                </div>
-        </div>-->
-          <div class="panel panel-<?php echo DEFAULTS; ?>">
+
+        <div class="panel panel-<?php echo DEFAULTS; ?>">
             <div class="panel-heading">
                 <h3 class="panel-title">Class of Study</h3>
             </div>
             <div class="panel-body">
-               <div class="col-md-4">
+                <div class="col-md-4">
                     <label for="stu_tel" class="col-sm-12">Year</label>
                     <div class="col-sm-12">
                         <input type="text" class="form-control input-sm" id="stucla_year_study" placeholder="" name="stucla_year_study" value="<?php echo $data['stucla_year_study']; ?>" />
@@ -522,7 +533,41 @@ echo '/' . $this->uri->segment(5); // segment(5) for pagination
                 </div>
             </div>
         </div>
-        
+
+        <div class="panel panel-<?php echo DEFAULTS; ?>">
+            <div class="panel-heading">
+                <h3 class="panel-title">Study Fee</h3>
+            </div>
+            <div class="panel-body">
+                <div class="col-md-3">
+                    <label><input type="radio" required="required" name="pay_type" class="pay_fee" id="pay_type1" value="1" <?php echo set_radio('spf_spt_id', 1, ($payment['spf_spt_id'] == 1) ? TRUE : FALSE); ?>> Pay Fee</label>
+                </div>
+                <div class="col-md-3">
+                    <label><input type="radio" required="required"  name="pay_type"  class="pay_type" id="pay_type2" value="2" <?php echo set_radio('spf_spt_id', 1, ($payment['spf_spt_id'] == 2) ? TRUE : FALSE); ?>> UME Scholarship</label>
+                </div>
+                <div class="col-md-3"> 
+                    <label><input type="radio" name="pay_type" id="pay_type3"  class="pay_type" value="3" <?php echo set_radio('spf_spt_id', 1, ($payment['spf_spt_id'] == 3) ? TRUE : FALSE); ?>> Partner Scholarship</label>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-3">&nbsp;</div>
+                    <div class="col-md-3">
+                        <label for="pm_discount_value" class="col-sm-12">Discount Value</label>
+                        <div class="col-sm-9">
+                            <input maxlength='3'   class="form-control input-sm numbersOnly " id="pm_discount_value" placeholder="Scholaship value %" name="pm_discount_value" required disabled="disabled" value="<?php echo set_value('pm_discount_value'); ?>"/>
+                            <?php echo form_error('pm_discount_value'); ?>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="pm_discount_period" class="col-sm-12">Discount Period</label>
+                        <div class="col-sm-9">
+                            <input maxlength='1' class="form-control input-sm numbersOnly " id="pm_discount_period" placeholder="Number of year" name="pm_discount_period" required  disabled="disabled" value="<?php echo set_value('pm_discount_period'); ?>" />
+                            <?php echo form_error('pm_discount_period'); ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div><br/><br/>
     <br/><br/>
 </form> 
@@ -541,21 +586,40 @@ echo '/' . $this->uri->segment(5); // segment(5) for pagination
         $("#stu_image").change(function() {
             readURL(this);
         });
+
+//        /===============Formvalidate number only===========
+        $('.numbersOnly').keyup(function(e) {
+            if (this.value != this.value.replace(/[^0-9\.]/g, '')) {
+                this.value = this.value.replace(/[^0-9\.]/g, '');
+            }
+            if (this.value > 100) {
+                alert('You have entered more than 100 as input');
+                this.value = "";
+            }
+        });
+        $('.pay_fee').on('click', function(e) {
+            $('.numbersOnly').prop('disabled', true);
+        });
+        $('.pay_type').on('click', function(e) {
+            $('.numbersOnly').prop('disabled', false);
+        });
     });
-    var major = 3;
-    var shift = generation = "1";
+    var major = "";
+    var shift = generation = "";
     $(function() {
 //          $('input[name="major"]:checked').val();
-        $('input[name="major"]').click(function() {
-            major = this.value;
-            getClass(major);
-        });
+//        $('input[name="major"]').click(function() {
+//            major = this.value;
+//        });
         $('input[name="shift"]').click(function() {
             shift = this.value;
-            getClass(shift);
+            getClass();
         });
     });
-    function getClass(key) {
+    function getClass() {
+        generation = $('.gen_selected option:selected').val();
+        major = $('input[name="major"]').val();
+//        alert("shift " + shift + " major: " +major + " gen: " + generation);return;
         var form_data = {
             reShift: shift,
             reGeneration: generation,
@@ -581,4 +645,5 @@ echo '/' . $this->uri->segment(5); // segment(5) for pagination
             colap.children(".panel-body").slideToggle();
         });
     });
+
 </script>

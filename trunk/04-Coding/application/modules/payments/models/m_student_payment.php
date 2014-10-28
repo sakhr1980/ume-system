@@ -18,14 +18,11 @@ class M_Student_payment extends CI_Model {
         $this->db->from(TABLE_PREFIX . 'student_payments sp');
         $this->db->join(TABLE_PREFIX . 'students s', 's.stu_id = sp.sp_stu_id');
         $this->db->join(TABLE_PREFIX . 'classes cl', 'cl.cla_id = sp.sp_cla_id');
-        $this->db->join(TABLE_PREFIX . 'stu_payment_detail pd', 'sp.sp_id= pd.spd_sp_id','left');
+        $this->db->join(TABLE_PREFIX . 'stu_payment_detail pd', 'sp.sp_id= pd.spd_sp_id', 'left');
         $this->db->join(TABLE_PREFIX . 'shift sh', 'cl.tbl_shift_shi_id = sh.shi_id');
         $this->db->join(TABLE_PREFIX . 'generation ge', 'cl.tbl_generation_gen_id = ge.gen_id');
         $this->db->join(TABLE_PREFIX . 'majors ma', 'ma.maj_id = cl.cla_maj_id');
         $this->db->join(TABLE_PREFIX . 'faculties fa', 'ma.maj_fac_id = fa.fac_id');
-        $this->db->group_by('pd.spd_sp_id');
-        $this->db->limit($num_row, $from_row);
-
         $this->db->order_by('stu_id');
         if ($this->input->post('stu_id') != '') {
             $this->db->like('sp_stu_id', $this->input->post('stu_id'));
@@ -41,10 +38,16 @@ class M_Student_payment extends CI_Model {
         if ($this->input->post('sp_year') != '') {
             $this->db->like('sp_year', $this->input->post('sp_year'));
         }
+        if ($this->input->post('tbl_generation_gen_id') != '') {
+            $gen_id = $this->input->post('tbl_generation_gen_id');
+            $this->db->like('tbl_generation_gen_id', $gen_id);
+//            $this->getAcademic($gen_id);
+        }
+        $this->db->group_by('pd.spd_sp_id');
+        $this->db->limit($num_row, $from_row);
 //        else {
 //            $this->db->like('sp.sp_year', 1);
 //        }
-
         // Keep pagination for filter status
 //        if ($this->input->post('sp_status') != '') {
 //            $this->session->set_userdata('sp_status', $this->input->post('sp_status'));
@@ -55,16 +58,40 @@ class M_Student_payment extends CI_Model {
 //        if ($this->session->userdata('sp_status') != '') {
 //            $this->db->where('sp_status', $this->session->userdata('sp_status'));
 //        }
-        return $this->db->get();
+        $payMent = $this->db->get();
+        if ($payMent->num_rows() > 0) {
+            $this->db->from(TABLE_PREFIX . 'generationd gen');
+            $this->db->where('gen_id', $gen_id);
+            $gen_info = $this->db->get();
+            if ($gen_info->num_rows() > 0) {
+                foreach ($gen_info->result_array() as $row) {
+                    $this->session->set_userdata('spay', $row['gen_spay']);
+                    $this->session->set_userdata('epay', $row['gen_epay']);
+                }
+            }
+        }
+        return $payMent;
     }
 
-    function getPaymentInfoById($id){
+    function getAcademic($id = NULL) {
+        $this->db->from(TABLE_PREFIX . 'generation gen');
+        $this->db->where('gen_id', $id);
+        $gen_info = $this->db->get();
+        if ($gen_info->num_rows() > 0) {
+            foreach ($gen_info->result_array() as $row) {
+                $this->session->set_userdata('spay', $row['gen_spay']);
+                $this->session->set_userdata('epay', $row['gen_epay']);
+            }
+        }
+    }
+
+    function getPaymentInfoById($id) {
 //        $this->db->select("*,sum('pd.spd_amountd')");
         $this->db->select("*,sum(spd_amount) as paid_fee");
         $this->db->from(TABLE_PREFIX . 'student_payments sp');
         $this->db->join(TABLE_PREFIX . 'students s', 's.stu_id = sp.sp_stu_id');
         $this->db->join(TABLE_PREFIX . 'classes cl', 'cl.cla_id = sp.sp_cla_id');
-        $this->db->join(TABLE_PREFIX . 'stu_payment_detail pd', 'sp.sp_id= pd.spd_sp_id','left');
+        $this->db->join(TABLE_PREFIX . 'stu_payment_detail pd', 'sp.sp_id= pd.spd_sp_id', 'left');
         $this->db->join(TABLE_PREFIX . 'shift sh', 'cl.tbl_shift_shi_id = sh.shi_id');
         $this->db->join(TABLE_PREFIX . 'generation ge', 'cl.tbl_generation_gen_id = ge.gen_id');
         $this->db->join(TABLE_PREFIX . 'majors ma', 'ma.maj_id = cl.cla_maj_id');
@@ -73,6 +100,7 @@ class M_Student_payment extends CI_Model {
 //        $this->db->group_by('pd.spd_sp_id');
         return $this->db->get();
     }
+
     /**
      * Count all student payments record
      *
@@ -109,13 +137,16 @@ class M_Student_payment extends CI_Model {
         } else {
             $this->db->like('sp_year', 1);
         }
+        if ($this->input->post('tbl_generation_gen_id') != '') {
+            $this->db->like('tbl_generation_gen_id', $this->input->post('tbl_generation_gen_id'));
+        }
 
 //        $this->db->select('*');
         $this->db->select("*,sum(spd_amount) as paid_fee");
         $this->db->from(TABLE_PREFIX . 'student_payments sp');
         $this->db->join(TABLE_PREFIX . 'students s', 's.stu_id = sp.sp_stu_id');
         $this->db->join(TABLE_PREFIX . 'classes cl', 'cl.cla_id = sp.sp_cla_id');
-        $this->db->join(TABLE_PREFIX . 'stu_payment_detail pd', 'sp.sp_id= pd.spd_sp_id','left');
+        $this->db->join(TABLE_PREFIX . 'stu_payment_detail pd', 'sp.sp_id= pd.spd_sp_id', 'left');
         $this->db->join(TABLE_PREFIX . 'shift sh', 'cl.tbl_shift_shi_id = sh.shi_id');
         $this->db->join(TABLE_PREFIX . 'generation ge', 'cl.tbl_generation_gen_id = ge.gen_id');
         $this->db->join(TABLE_PREFIX . 'majors ma', 'ma.maj_id = cl.cla_maj_id');
@@ -124,12 +155,14 @@ class M_Student_payment extends CI_Model {
         $data = $this->db->get();
         return $data->num_rows();
     }
-function add_paymentl(){
-    $data = $this->input->post();
-    $this->db->set('spd_cdate', 'NOW()', false);
-     $result = $this->db->insert(TABLE_PREFIX . 'stu_payment_detail', $data);
-     return $result;
-}
+
+    function add_paymentl() {
+        $data = $this->input->post();
+        $this->db->set('spd_cdate', 'NOW()', false);
+        $result = $this->db->insert(TABLE_PREFIX . 'stu_payment_detail', $data);
+        return $result;
+    }
+
     /**
      * Create student Payments
      *
@@ -291,6 +324,12 @@ function add_paymentl(){
         $this->db->join(TABLE_PREFIX . 'student_class sc', 'cl.cla_id = stucla_cla_id ');
         $this->db->where('cl.cla_status', 1);
         $this->db->group_by('stucla_cla_id');
+        return $this->db->get();
+    }
+
+    function findAllAcademic() {
+        $this->db->from(TABLE_PREFIX . 'generation gen');
+        $this->db->where('gen.gen_status', 1);
         return $this->db->get();
     }
 
