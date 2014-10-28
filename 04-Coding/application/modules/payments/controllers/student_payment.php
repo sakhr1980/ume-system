@@ -8,7 +8,7 @@ if (!defined('BASEPATH'))
  *
  * @author OU Sophea  <ousopheal@gmail.com>
  */
-class Student_payment extends Auth_Controller {
+class Student_payment extends CI_Controller {
 
     /**
      * @var array
@@ -20,7 +20,7 @@ class Student_payment extends Auth_Controller {
      */
     function __construct() {
         parent::__construct();
-        $this->load->model(array('payments/m_student_payment','users/m_groups'));
+        $this->load->model(array('payments/m_student_payment', 'users/m_groups'));
     }
 
     /**
@@ -38,8 +38,10 @@ class Student_payment extends Auth_Controller {
         $this->form_validation->set_rules('stu_kh_name', '', 'trim');
         $this->form_validation->set_rules('sp_year', '', 'trim');
         $this->form_validation->set_rules('sp_status', '', 'trim');
-
+          $this->form_validation->set_rules('tbl_generation_gen_id', '', 'trim');
         $this->form_validation->run();
+//        $this->data['academic'] = $this->m_student_payment->findAllAcademic();
+        $this->data['academic'] = $this->m_global->getDataArray(TABLE_PREFIX . 'generation', 'gen_id', 'gen_title', 'gen_status');
         $this->data['studentPayments'] = $this->m_student_payment->findAllStudentPayments(PAGINGATION_PERPAGE, $this->uri->segment(4));
         pagination_config(base_url() . 'payments/student_payment/index', $this->m_student_payment->countAll(), PAGINGATION_PERPAGE);
         $this->load->view(LAYOUT, $this->data);
@@ -56,7 +58,7 @@ class Student_payment extends Auth_Controller {
         $this->data['content'] = 'payments/student_payment/add';
         $id = $this->uri->segment(4);
         $this->data['data'] = $this->m_student_payment->getPaymentInfoById($id);
-        $this->form_validation->set_rules('spd_amount','Payment amount', 'trim');
+        $this->form_validation->set_rules('spd_amount', 'Payment amount', 'trim');
         if ($this->form_validation->run() == FALSE) {
             $this->load->view(LAYOUT, $this->data);
         } else {

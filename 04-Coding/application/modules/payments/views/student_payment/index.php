@@ -1,6 +1,8 @@
 <?php
-$startDate = '16-Jun-14';
-$endDate = "22-Jun-14";
+//$startDate = '16-Jun-14';
+//$endDate = "22-Jun-14";
+$startDate =  $this->session->userdata('spay');
+$endDate = $this->session->userdata('epay');
 ?>
 <div class="toolbar col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
     <div class="left">
@@ -28,6 +30,11 @@ $endDate = "22-Jun-14";
             <div class="form-group">
                 <label class="sr-only" for="sp_year">Year</label>
                 <input type="text" class="form-control input-sm" id="sp_year" name="sp_year" value="<?php echo set_value('sp_year'); ?>" placeholder="Year">
+            </div>
+            <div class="form-group">
+                <label class="sr-only" for="">Subject</label>
+                <?php echo form_dropdown('tbl_generation_gen_id', array('' => '===Academic Year===') + $academic, set_value('tbl_generation_gen_id', $this->session->userdata('tbl_generation_gen_id')), 'class="form-control input-sm" required') ?>
+
             </div>
             <!--			<div class="form-group">
                                             <label class="sr-only" for="sp_status">Status</label>
@@ -61,9 +68,9 @@ $endDate = "22-Jun-14";
                     </tr>
                     <tr >
                         <th class="fix1"><?php echo $startDate ?></th>
-                        <th class="fix1" style="text-align: center;"><?php echo $startDate ." to ". $endDate?></th>
+                        <th class="fix1" style="text-align: center;"><?php echo $startDate . " to " . $endDate ?></th>
                         <th class="fix1"><?php echo $endDate ?></th>
-                        
+
                     </tr>
                 </table>
                 </th>
@@ -84,20 +91,22 @@ $endDate = "22-Jun-14";
                                 <td><?php echo $row['maj_name']; ?></td>
                                 <td><?php echo $row['stu_dob']; ?></td>
                                 <td style="text-align: center"><?php echo $row['sp_year']; ?></td>
-                                <td><?php echo '$ '. $row['sp_fee']; ?></td>
-                                <td><?php echo '$ ';
-                                echo (($row['paid_fee'] !=null)? $row['paid_fee']:"0"); ?></td>
+                                <td><?php echo '$ ' . $row['sp_fee']; ?></td>
+                                <td><?php
+                                    echo '$ ';
+                                    echo (($row['paid_fee'] != null) ? $row['paid_fee'] : "0");
+                                    ?></td>
                                 <td><?php echo '$ ' . $row['sp_fee']; ?></td>
                                 <td><?php echo '$ ' . $row['sp_fee']; ?></td>
                                 <td><?php echo '$ ' . $row['sp_fee']; ?></td>
-                                <!--<td><?php // echo status_string($row['sp_status']); ?></td>-->
+                                <!--<td><?php // echo status_string($row['sp_status']);   ?></td>-->
                                 <td>
-                                    <a class="btn btn-default btn-xs" href="<?php echo site_url().'payments/student_payment/add/'.$row['sp_id'] ?>" title="Add"><i class="glyphicon glyphicon-plus-sign"></i>Add</a>
+                                    <a class="btn btn-default btn-xs" href="<?php echo site_url() . 'payments/student_payment/add/' . $row['sp_id'] ?>" title="Add"><i class="glyphicon glyphicon-plus-sign"></i>Add</a>
                                     <a class="btn btn-default btn-xs" href="<?php echo base_url(); ?>payments/students/edit/<?php
                                     echo $row['sp_id'];
                                     echo '/' . $this->uri->segment(4);
                                     ?>" title="Edit"><i class="glyphicon glyphicon-edit"></i> Edit</a>
-<!--                                    <a class="btn btn-danger btn-xs" href="<?php echo base_url(); ?>payments/students/delete/<?php
+        <!--                                    <a class="btn btn-danger btn-xs" href="<?php echo base_url(); ?>payments/students/delete/<?php
                                     echo $row['sp_id'];
                                     echo '/' . $this->uri->segment(4);
                                     ?>" title="Delete" onclick="return confirm('Are you sure you want to delete this staff record? This staff record will be deleted permanently.');"><i class="glyphicon glyphicon-remove-circle"></i> Delete</a>-->
@@ -106,10 +115,10 @@ $endDate = "22-Jun-14";
                         <?php } ?>
                     <?php } else { ?>
                         <tr><td colspan="7">Empty</td></tr>
-                    <?php } ?>
+<?php } ?>
                 </tbody>
             </table>
         </div>
     </div>
-    <?php echo $this->pagination->create_links(); ?>
+<?php echo $this->pagination->create_links(); ?>
 </div>

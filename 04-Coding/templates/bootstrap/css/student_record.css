@@ -18,6 +18,26 @@
     width: 152px;
 }
 .achievements-wrapper { 
-    height: 500px; 
+    height: auto; 
     overflow:auto;
 overflow-wrap: break-word;}
+.achievements-wrapper .fix1{
+    word-wrap: break-word;
+    min-width: 50px;
+}
+.achievements-wrapper .fix2{
+    word-wrap: break-word;
+    min-width: 100px;
+}
+.achievements-wrapper .fix3{
+    word-wrap: break-word;
+    min-width: 150px;
+}
+.achievements-wrapper .fix4{
+    word-wrap: break-word;
+    min-width: 250px;
+}
+.overflow-h{
+    overflow: no;
+    overflow-x: scroll;
+}
