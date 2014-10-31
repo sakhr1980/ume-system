@@ -38,10 +38,17 @@ class M_Student_payment extends CI_Model {
         if ($this->input->post('sp_year') != '') {
             $this->db->like('sp_year', $this->input->post('sp_year'));
         }
+         if ($this->session->userdata('spay')!="") {
+            $this->db->where('gen_spay >=', $this->session->userdata('spay'));
+            $this->db->where('gen_epay <=', $this->session->userdata('epay'));
+        }
+        
         if ($this->input->post('tbl_generation_gen_id') != '') {
             $gen_id = $this->input->post('tbl_generation_gen_id');
             $this->db->like('tbl_generation_gen_id', $gen_id);
 //            $this->getAcademic($gen_id);
+        }else{
+            $gen_id=NULL;
         }
         $this->db->group_by('pd.spd_sp_id');
         $this->db->limit($num_row, $from_row);
@@ -59,8 +66,8 @@ class M_Student_payment extends CI_Model {
 //            $this->db->where('sp_status', $this->session->userdata('sp_status'));
 //        }
         $payMent = $this->db->get();
-        if ($payMent->num_rows() > 0) {
-            $this->db->from(TABLE_PREFIX . 'generationd gen');
+//        if ($payMent->num_rows() > 0) {
+            $this->db->from(TABLE_PREFIX . 'generation gen');
             $this->db->where('gen_id', $gen_id);
             $gen_info = $this->db->get();
             if ($gen_info->num_rows() > 0) {
@@ -69,12 +76,12 @@ class M_Student_payment extends CI_Model {
                     $this->session->set_userdata('epay', $row['gen_epay']);
                 }
             }
-        }
+//        }
         return $payMent;
     }
 
     function getAcademic($id = NULL) {
-        $this->db->from(TABLE_PREFIX . 'generation gen');
+        $this->db->from(TABLE_PREFIX . 'generationd gen');
         $this->db->where('gen_id', $id);
         $gen_info = $this->db->get();
         if ($gen_info->num_rows() > 0) {
