@@ -52,7 +52,7 @@ $user = $this->session->userdata('user');
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="<?php echo base_url(); ?>"><img id="logo" src="<?php echo base_url(); ?>images/logo-pn.png" title="UME" /> <span id="logo-title"></span></a>
+                    <a class="navbar-brand" href="<?php echo base_url(); ?>"><img id="logo" src="<?php echo base_url(); ?>images/logo.png" title="UME" /> <span id="logo-title"></span></a>
                     <!--<a class="navbar-brand" href="<?php echo base_url(); ?>"><img id="logo" src="<?php echo base_url(); ?>images/logo-pn.png" title="UME" /> <span id="logo-title">PNC</span></a>-->
                 </div>
                 <div class="navbar-collapse collapse">
