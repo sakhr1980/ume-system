@@ -47,7 +47,7 @@
             <li class="divider"></li>
             <li class="sidebar-header">Payment Management</li>
             <li class=""><a href="<?php echo site_url(); ?>payments/student_payment"><i class="glyphicon glyphicon-lock"></i> Manage Students Payment</a></li>
-            <li class=""><a href="<?php echo site_url(); ?>payments/teachers"><i class="glyphicon glyphicon-th-large"></i> Manage Teachers Payment </a></li>
+            <li class=""><a href="<?php echo site_url(); ?>teacher/payment"><i class="glyphicon glyphicon-th-large"></i> Manage Teachers Payment </a></li>
             <li class="divider"></li>  
             <?php } ?>      
     </ul>

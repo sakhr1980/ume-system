@@ -1,7 +1,7 @@
 <div class="toolbar col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
     <div class="left">
         <a href="<?php echo site_url('teacher/add/'.$this->uri->segment(4)); ?>" class="btn btn-sm btn-warning">
-			<i class="glyphicon glyphicon-plus-sign"></i> បង្កើត
+			<i class="glyphicon glyphicon-plus-sign"></i> Create
 		</a>
     </div>
     <div class="right">
