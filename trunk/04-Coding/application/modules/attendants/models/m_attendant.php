@@ -10,12 +10,14 @@ class m_attendant extends CI_Model {
     public function m_attendant() {
         $this->user = $this->session->userdata('user');
     }
-    
-    
-    public function getAttendants(){
-        $this->db->from(TABLE_PREFIX.'attendants');
-        $this->db->join(TABLE_PREFIX.'classes','cla_id=att_classid');
-        $this->db->join(TABLE_PREFIX.'generation','gen_id=att_genid');
+
+    public function getAttendants() {
+        $this->db->from(TABLE_PREFIX . 'attendants');
+        $this->db->join(TABLE_PREFIX . 'classes', 'cla_id=att_classid');
+        $this->db->join(TABLE_PREFIX . 'generation', 'gen_id=att_genid');
+        if($this->input->post('cla_id')){
+            $this->db->where('att_classid', $this->input->post('cla_id'));
+        }
         return $this->db->get();
     }
 
@@ -75,7 +77,7 @@ class m_attendant extends CI_Model {
         $this->db->insert(TABLE_PREFIX . 'attendants', array(
             'att_classid' => $input['class'],
             'att_genid' => $input['academic_year'],
-            'att_date' => date('Y-m-d'),
+            'att_date' => $input['date'],
             'att_creater' => $this->user['use_id']
         ));
         $attendantid = $this->db->insert_id();
@@ -99,6 +101,79 @@ class m_attendant extends CI_Model {
             $this->db->trans_commit();
             return TRUE;
         }
+    }
+
+    /**
+     * 
+     * @param in $id
+     * @return dataSet
+     */
+    public function getAttendantById($id) {
+        $this->db->from(TABLE_PREFIX . 'attendants');
+        $this->db->join(TABLE_PREFIX . 'attendant_detail', 'att_id=atd_attendantid');
+        $this->db->join(TABLE_PREFIX . 'students', 'stu_id=atd_studentid');
+        $this->db->join(TABLE_PREFIX . 'classes', 'cla_id=att_classid');
+        $this->db->join(TABLE_PREFIX . 'generation', 'gen_id=att_genid');
+        $this->db->where('att_id', $id);
+        return $this->db->get();
+    }
+
+    /**
+     * 
+     * @return boolean
+     */
+    public function updateAttendants() {
+        
+        // start transaction
+        $this->db->trans_begin();
+
+        $input = $this->input->post();
+
+        $data = array();
+        foreach ($input['atd_id'] as $id) {
+            $data[] = array(
+                'atd_id' => $id,
+                'atd_attendant' => ((!empty($input['attendant_' . $id])) ? 1 : 0),
+                'atd_comment' => $input['comment_' . $id],
+            );
+        }
+        // Multi update
+        $this->db->update_batch(TABLE_PREFIX . 'attendant_detail', $data,'atd_id');// Where atd_id=?
+
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            return false;
+        } else {
+            // save data
+            $this->db->trans_commit();
+            return TRUE;
+        }
+        
+    }
+    
+    /**
+     * 
+     * @param int $id attendant id
+     * @return boolean
+     */
+    public function deleteAttendants($id) {
+        
+        // start transaction
+        $this->db->trans_begin();
+        $this->db->where('atd_attendantid', $id);
+        $this->db->delete(TABLE_PREFIX . 'attendant_detail');
+        $this->db->where('att_id', $id);
+        $this->db->delete(TABLE_PREFIX . 'attendants');
+
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            return false;
+        } else {
+            // save data
+            $this->db->trans_commit();
+            return TRUE;
+        }
+        
     }
 
 }

@@ -3,7 +3,7 @@
         <div class="left">
             <!--For icon: http://getbootstrap.com/components/-->
             <a href="<?php echo site_url(); ?>attendants/students/index/<?php echo $this->uri->segment(4); ?>" class="btn btn-sm btn-default"><i class="glyphicon glyphicon-arrow-left"></i> Back</a>
-            <button type="submit" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-ok-circle"></i> Save</button>
+            <button disabled="disabled" id="save" type="submit" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-ok-circle"></i> Save</button>
             <button type="reset" class="btn btn-sm btn-default"><i class="glyphicon glyphicon-ban-circle"></i> Reset</button>
         </div>
         <div class="right">
@@ -14,11 +14,15 @@
         <div class="filter form-inline">
             <div class="form-group">
                 <label class="sr-only" for="academic_year">Academic Year</label>
-                <?php echo form_dropdown('academic_year', array('' => '--Academic Year--')+$academic_year, set_value('academic_year', ''), 'class="form-control input-sm"') ?>
+                <?php echo form_dropdown('academic_year', array('' => '--Academic Year--') + $academic_year, set_value('academic_year', ''), 'class="form-control input-sm" required="required"'); ?>
             </div>
             <div class="form-group">
                 <label class="sr-only" for="class">Class</label>
-                <?php echo form_dropdown('class', array('' => '--Class--'), set_value('class', ''), 'class="form-control input-sm"') ?>
+                <?php echo form_dropdown('class', array('' => '--Class--'), set_value('class', ''), 'class="form-control input-sm" required="required"'); ?>
+            </div>
+            <div class="form-group">
+                <label class="sr-only" for="date">Select date</label>
+                <?php echo form_input(array('name' => 'date', 'data-provide' => 'datepicker', 'class' => 'form-control input-sm datepicker input-4', 'data-date-format' => 'yyyy-mm-dd', 'placeholder' => 'yyyy-mm-dd','required'=>'required')); ?>
             </div>
             <button type="button" id="student-filter" class="btn btn-<?php echo PRIMARY; ?> btn-sm" value="submit" name="submit"><i class="glyphicon glyphicon-filter"></i> Filter</button>
         </div>
@@ -29,15 +33,15 @@
             <div class="panel-body">
                 <table class="table table-hover">
                     <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Name[EN]</th>
-                        <th>Name[KH]</th>
-                        <th>Gender</th>
-                        <th>Class</th>
-                        <th>Attendant</th>
-                        <th>Comment</th>
-                    </tr>
+                        <tr>
+                            <th>No</th>
+                            <th>Name[EN]</th>
+                            <th>Name[KH]</th>
+                            <th>Gender</th>
+                            <th>Class</th>
+                            <th>Attendant</th>
+                            <th>Comment</th>
+                        </tr>
                     </thead>
                     <tbody id="student_list">
                         <tr>
@@ -51,44 +55,63 @@
     </div>
 </form>
 <script type="text/javascript">
-    $(function(){
-        $("[name='academic_year']").change(function(){
+    $(function() {
+        $('.datepicker').datepicker({
+            format: "yyyy-mm-dd",
+            startDate: "-15d",
+            endDate: "+0d",
+            todayBtn: true,
+            autoclose: true,
+            todayHighlight: true
+        })
+
+        $("[name='academic_year']").change(function() {
             $("[name='class']").html("<option>Loading...</option>");
             var request = $.ajax({
                 url: "<?php echo base_url(); ?>attendants/students/get_class",
                 type: "POST",
-                data: { gen_id : $("[name='academic_year']").val() },
+                data: {gen_id: $("[name='academic_year']").val()},
                 dataType: "html"
             });
             // Ajax done
             request.done(function(result) {
-              $("[name='class']").html(result);
-              $('#student-filter').click(function(){
-                  getStudentList();
-              });
+                $("[name='class']").html(result);
+                $('#student-filter').click(function() {
+                    getStudentList();
+                });
             });
             // Ajax faile
-            request.fail(function( jqXHR, textStatus ) {
+            request.fail(function(jqXHR, textStatus) {
+                $('#save').attr('disabled','disabled');
                 $("[name='class']").html("<option>Class cannot select, please change Academin Year again.</option>");
             });
         });
-        
-        function getStudentList(){
+
+        // get Ajax list attendant
+        function getStudentList() {
             $("#student_list").html('<tr><td colspan="7">Loading...</td></tr>');
             var request = $.ajax({
-                url: "<?php echo base_url(); ?>attendants/students/get_student_list",
+                url: "<?php echo base_url(); ?>attendants/students/ajax_add",
                 type: "POST",
-                data: { cla_id : $("[name='class']").val() },
+                data: {cla_id: $("[name='class']").val()},
                 dataType: "html"
             });
             // Ajax done
             request.done(function(result) {
-              $("#student_list").html(result);
-              
+                $("#student_list").html(result);
+                // if has student
+                if($('[name="studentid[]"]').length > 0){
+                    $('#save').removeAttr( "disabled" );
+                }
+                else{
+                    $('#save').attr('disabled','disabled');
+                }
+                
             });
-            
+
             // Ajax faile
-            request.fail(function( jqXHR, textStatus ) {
+            request.fail(function(jqXHR, textStatus) {
+                $('#save').attr('disabled','disabled');
                 $("#student_list").html('<tr><td colspan="7">Respond fail, please try again.</td></tr>');
             });
         }
