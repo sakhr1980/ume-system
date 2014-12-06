@@ -40,8 +40,8 @@ class m_attendant extends CI_Model {
 
     public function getStudentsByClassId($classId) {
         $this->db->from(TABLE_PREFIX . 'students');
-        $this->db->join(TABLE_PREFIX . 'student_class', 'stu_id=tbl_students_stu_id');
-        $this->db->join(TABLE_PREFIX . 'classes', 'cla_id=tbl_class_cla_id');
+        $this->db->join(TABLE_PREFIX . 'student_class', 'stu_id=stucla_stu_id');
+        $this->db->join(TABLE_PREFIX . 'classes', 'cla_id=stucla_cla_id');
         $this->db->where('cla_status', 1);
         $this->db->where('cla_id', $classId);
         return $this->db->get();
