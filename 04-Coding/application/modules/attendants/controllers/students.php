@@ -40,7 +40,8 @@ class Students extends CI_Controller {
 
         $this->data['academic_year'] = $this->m_attendant->getGeneration();
         $this->data['attendants'] = $this->m_attendant->getAttendants();
-
+//        $this->data['attendants2'] = $this->m_attendant->getStudentsByClassId(9);
+$this->data['attendants2'] = $this->m_attendant->getAttendants();
         $this->load->view(LAYOUT, $this->data);
     }
     /**
