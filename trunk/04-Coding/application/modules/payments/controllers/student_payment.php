@@ -8,7 +8,7 @@ if (!defined('BASEPATH'))
  *
  * @author OU Sophea  <ousopheal@gmail.com>
  */
-class Student_payment extends Auth_Controller {
+class Student_payment extends CI_Controller {
 
     /**
      * @var array

@@ -9,6 +9,7 @@
             <li class=""><a href="<?php echo site_url(); ?>students/registrations"><i class="glyphicon glyphicon-list"></i> Student List</a></li>
             <li class=""><a href="<?php echo site_url(); ?>students/registrations/add"><i class="glyphicon glyphicon-plus"></i> Student Registration</a></li>
             <li class=""><a href="<?php echo site_url(); ?>students/scores"><i class="glyphicon glyphicon-plus"></i> Score Management</a></li>
+              <li class=""><a href="<?php echo site_url(); ?>attendants/students"><i class="glyphicon glyphicon-plus"></i> Student attendant</a></li>
             <li class="divider"></li>
              <li class="sidebar-header">Teacher Management</li>
              <li class=""><a href="<?php echo site_url(); ?>staffs/lectures/"><i class="glyphicon glyphicon-list"></i> Manage Teacher</a></li>
